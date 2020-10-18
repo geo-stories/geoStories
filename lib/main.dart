@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-void main() {
-  debugPaintSizeEnabled = true;
+Future<void> main() async {
+  //debugPaintSizeEnabled = true;
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -79,6 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
+      /*
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
@@ -109,6 +114,29 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
+      */
+
+
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance.collection('usuarios').snapshots(),
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (!snapshot.hasData) {
+            return Center(child: CircularProgressIndicator(),);
+          }
+          List<DocumentSnapshot> docs = snapshot.data.docs;
+          return ListView.builder(
+            itemCount: docs.length,
+            itemBuilder: (context, index) {
+              Map<String, dynamic> data = docs[index].data();
+              return ListTile(
+                title: Text("Nombre: " + data['nombre'] + " " + "Apellido: " + data['apellido']),
+              );
+            }
+          );
+        }
+      ),
+
+
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
