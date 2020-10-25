@@ -1,12 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:geo_stories/services/marker.service.dart';
 import 'package:latlong/latlong.dart';
 
 class MapPage extends StatelessWidget {
+
+  Future<void> createMarker() async {
+    await MarkerService.createMarker();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return FlutterMap(
+    return new RaisedButton(
+        color: Colors.indigo,
+        textColor: Colors.white,
+        onPressed: () { this.createMarker(); },
+        child: Text(
+        "IZQUIERDA",
+        style: TextStyle(
+        fontSize: 20.0,
+    )));
+
+    /*FlutterMap(
       options: MapOptions(
         minZoom: 2,
         maxZoom: 18,
@@ -36,6 +52,6 @@ class MapPage extends StatelessWidget {
           ],
         ),
       ],
-    );
+    );*/
   }
 }
