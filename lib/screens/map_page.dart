@@ -8,12 +8,14 @@ class MapPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlutterMap(
       options: MapOptions(
+        minZoom: 2,
         maxZoom: 18,
         center: LatLng(-34.6001014, -58.3824443),
         zoom: 13.0,
       ),
       layers: [
         TileLayerOptions(
+            minZoom: 2,
             maxZoom: 18,
             urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
             subdomains: ['a', 'b', 'c']),
