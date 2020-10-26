@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:geo_stories/services/marker.service.dart';
+import 'package:geo_stories/services/marker_service.dart';
 import 'package:latlong/latlong.dart';
 
 class MapPage extends StatelessWidget {
 
+<<<<<<< HEAD
 
 
   @override
@@ -13,6 +14,15 @@ class MapPage extends StatelessWidget {
     return
 
       FlutterMap(
+=======
+  Future<void> createMarker() async {
+    await MarkerService.createMarker('Titulo de Marcador', 'Descripcion de Marcador', 60.000, 54.235);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new FlutterMap(
+>>>>>>> 92a7de85af547d0328eec95746c0a22319c81843
       options: MapOptions(
         minZoom: 2,
         maxZoom: 18,
@@ -43,5 +53,10 @@ class MapPage extends StatelessWidget {
         ),
       ],
     );
+<<<<<<< HEAD
+=======
+
+>>>>>>> 92a7de85af547d0328eec95746c0a22319c81843
   }
+
 }
