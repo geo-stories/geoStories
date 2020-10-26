@@ -1,24 +1,26 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:geo_stories/models/markerDTO.dart';
 
 class MarkerService {
   static final database = FirebaseFirestore.instance;
+  static final dto = MarkerDTO();
 
-  static Future<void> createMarker(String  nombre  , String  descripcion) async {
-    await database.collection("markers")
-          .doc()
-          .set({
-            'title': nombre,
-            'description': descripcion,
-            'longitude' : 49,
-            'latitude' : 420
-          });
 
-    // DocumentReference ref = await database.collection("marcadores");
-    //    .add({
-    //  'title': 'Flutter in Action',
-    //  'description': 'Complete Programming Guide to learn Flutter'
-    // });
+  static Future<void> createMarker(String  name  , String  description) async {
+     Marker newMarker = dto.createMarker(name, description);
+     await database.collection("markers")
+        .doc()
+        .set({
+      'name' : name,
+      'description' : name,
+      /*'heigh' : newMarker.height,
+      'width' : newMarker.width,
+      'point' : newMarker.point,
+
+       */
+     });
   }
 
 

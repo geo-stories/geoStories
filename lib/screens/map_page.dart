@@ -10,17 +10,9 @@ class MapPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new RaisedButton(
-        color: Colors.indigo,
-        textColor: Colors.white,
-        onPressed: () {  },
-        child: Text(
-        "IZQUIERDA",
-        style: TextStyle(
-        fontSize: 20.0,
-    )));
+    return
 
-    /*FlutterMap(
+      FlutterMap(
       options: MapOptions(
         minZoom: 2,
         maxZoom: 18,
@@ -50,6 +42,6 @@ class MapPage extends StatelessWidget {
           ],
         ),
       ],
-    );*/
+    );
   }
 }
