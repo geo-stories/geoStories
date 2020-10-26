@@ -1,20 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:geo_stories/screens/create_marker_page.dart';
-
-
-
 
 /// This is the stateless widget that the main application instantiates.
 class ButtonCreateMarker extends StatelessWidget {
-  ButtonCreateMarker({Key key}) : super(key: key);
+  final Function onPressed;
+  ButtonCreateMarker({this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-        onPressed: () {
-          // Add your onPressed code here!
-        },
+        onPressed: onPressed,
         child: Icon(Icons.add_location_outlined),
         backgroundColor: Colors.orange,
     );

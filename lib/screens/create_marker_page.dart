@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:geo_stories/services/marker.service.dart';
+import 'package:geo_stories/services/marker_service.dart';
 import 'package:latlong/latlong.dart';
 
 import '../main.dart';
@@ -18,11 +18,11 @@ class CreateMarkerPage extends StatefulWidget{
 }
 class MarkerPage extends State<CreateMarkerPage> {
   LatLng point;
-   TextEditingController nameTextController ;
-   TextEditingController descriptTextController ;
+   TextEditingController nameTextController;
+   TextEditingController descriptTextController;
 
   MarkerPage(LatLng point){
-    this.point=point;
+    this.point = point;
   }
 
   @override
@@ -49,7 +49,7 @@ class MarkerPage extends State<CreateMarkerPage> {
           RaisedButton(
               child: Text("Guardar Marker"),
               onPressed: (){
-                _tocoElVoton(context);
+                _crearMarker(context);
               }
           )
         ],
@@ -57,11 +57,10 @@ class MarkerPage extends State<CreateMarkerPage> {
     )
     );
   }
-  void _tocoElVoton(BuildContext context){
+  void _crearMarker(BuildContext context){
     MarkerService.createMarker(nameTextController.text,descriptTextController.text,point);
     nameTextController.clear();
     descriptTextController.clear();
-    print(point);
     Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => MyApp()));

@@ -1,8 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:geo_stories/screens/create_marker_page.dart';
-import 'package:geo_stories/components/btn_createmarker.dart';
 import 'package:geo_stories/screens/map_page.dart';
 
 Future<void> main() async {
@@ -35,15 +32,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
 
-      home: Scaffold(
-      body:
-      Stack(
-          children: [MapPage()]),
-          floatingActionButton: ButtonCreateMarker()
-        )
-
-
-
+      home: MapPage(),
     );
   }
 }
