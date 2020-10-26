@@ -3,27 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geo_stories/services/marker_service.dart';
 import 'package:latlong/latlong.dart';
+import 'package:geo_stories/screens/create_marker_page.dart';
 
 class MapPage extends StatelessWidget {
+  MarkerPage form;
+//  @override
+// Widget build(BuildContext context) {
+//    return
 
-<<<<<<< HEAD
-
-
-  @override
-  Widget build(BuildContext context) {
-    return
-
-      FlutterMap(
-=======
-  Future<void> createMarker() async {
-    await MarkerService.createMarker('Titulo de Marcador', 'Descripcion de Marcador', 60.000, 54.235);
-  }
+//      FlutterMap(
+//  Future<void> createMarker() async {
+//    await MarkerService.createMarker('Titulo de Marcador', 'Descripcion de Marcador', 60.000, 54.235);
+//  }, options: null,;
 
   @override
   Widget build(BuildContext context) {
     return new FlutterMap(
->>>>>>> 92a7de85af547d0328eec95746c0a22319c81843
       options: MapOptions(
+        onTap: (point){
+          Navigator.push(context, MaterialPageRoute(builder: (context){
+            return CreateMarkerPage(point);
+          }));
+        },
         minZoom: 2,
         maxZoom: 18,
         center: LatLng(-34.6001014, -58.3824443),
@@ -53,10 +54,6 @@ class MapPage extends StatelessWidget {
         ),
       ],
     );
-<<<<<<< HEAD
-=======
-
->>>>>>> 92a7de85af547d0328eec95746c0a22319c81843
   }
 
 }

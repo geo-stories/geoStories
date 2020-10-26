@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
       body:
       Stack(
           children: [MapPage()]),
-      floatingActionButton: ButtonCreateMarker()
+          floatingActionButton: ButtonCreateMarker()
         )
 
 

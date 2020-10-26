@@ -1,18 +1,29 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:geo_stories/services/marker.service.dart';
+import 'package:latlong/latlong.dart';
 
-import 'map_page.dart';
+import '../main.dart';
 
 class CreateMarkerPage extends StatefulWidget{
+  LatLng point;
+  CreateMarkerPage(LatLng point){
+    this.point = point;
+  }
+
   @override
-  _CreateMarkerPage createState() => _CreateMarkerPage();
+  MarkerPage createState() => MarkerPage(point);
 
 }
-class _CreateMarkerPage extends State<CreateMarkerPage> {
+class MarkerPage extends State<CreateMarkerPage> {
+  LatLng point;
    TextEditingController nameTextController ;
    TextEditingController descriptTextController ;
 
+  MarkerPage(LatLng point){
+    this.point=point;
+  }
 
   @override
   Widget build(BuildContext context){
@@ -47,12 +58,13 @@ class _CreateMarkerPage extends State<CreateMarkerPage> {
     );
   }
   void _tocoElVoton(BuildContext context){
-    MarkerService.createMarker(nameTextController.text,descriptTextController.text);
+    MarkerService.createMarker(nameTextController.text,descriptTextController.text,point);
     nameTextController.clear();
     descriptTextController.clear();
+    print(point);
     Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => MapPage()));
+        MaterialPageRoute(builder: (context) => MyApp()));
 
   }
   @override
