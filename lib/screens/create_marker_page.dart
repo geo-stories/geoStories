@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:geo_stories/screens/map_page.dart';
 import 'package:geo_stories/services/marker_service.dart';
 import 'package:latlong/latlong.dart';
 
@@ -63,7 +64,7 @@ class MarkerPage extends State<CreateMarkerPage> {
     descriptTextController.clear();
     Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => MyApp()));
+        MaterialPageRoute(builder: (context) => MapPage()));
 
   }
   @override
