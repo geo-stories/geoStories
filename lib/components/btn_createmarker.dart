@@ -1,26 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:geo_stories/services/marker_service.dart';
-import 'package:latlong/latlong.dart';
 
 
-class MapPage extends StatelessWidget {
 
-  Future<void> createMarker() async {
-    await MarkerService.createMarker('Titulo de Marcador', 'Descripcion de Marcador', 60.000, 54.235);
-  }
+
+/// This is the stateless widget that the main application instantiates.
+class ButtonCreateMarker extends StatelessWidget {
+  ButtonCreateMarker({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return new RaisedButton(
-        color: Colors.indigo,
-        textColor: Colors.white,
-        onPressed: () { this.createMarker(); },
-        child: Text(
-            "BOTON",
-            style: TextStyle(
-              fontSize: 20.0,
-            )));
+    return FloatingActionButton(
+        onPressed: () {
+          // Add your onPressed code here!
+        },
+        child: Icon(Icons.add_location_outlined),
+        backgroundColor: Colors.orange,
+    );
   }
 }
+

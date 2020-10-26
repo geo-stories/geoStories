@@ -43,5 +43,7 @@ class MapPage extends StatelessWidget {
         ),
       ],
     );
+
   }
+
 }
