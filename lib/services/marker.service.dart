@@ -4,12 +4,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class MarkerService {
   static final database = FirebaseFirestore.instance;
 
-  static Future<void> createMarker() async {
-    await database.collection("marcadores")
-          .doc("1")
+  static Future<void> createMarker(String  nombre  , String  descripcion) async {
+    await database.collection("markers")
+          .doc()
           .set({
-            'titulo': 'Mastering Flutter',
-            'descripcion': 'Programming Guide for Dart'
+            'title': nombre,
+            'description': descripcion,
+            'longitude' : 49,
+            'latitude' : 420
           });
 
     // DocumentReference ref = await database.collection("marcadores");

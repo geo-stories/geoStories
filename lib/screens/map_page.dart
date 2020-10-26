@@ -6,16 +6,14 @@ import 'package:latlong/latlong.dart';
 
 class MapPage extends StatelessWidget {
 
-  Future<void> createMarker() async {
-    await MarkerService.createMarker();
-  }
+
 
   @override
   Widget build(BuildContext context) {
     return new RaisedButton(
         color: Colors.indigo,
         textColor: Colors.white,
-        onPressed: () { this.createMarker(); },
+        onPressed: () {  },
         child: Text(
         "IZQUIERDA",
         style: TextStyle(
