@@ -9,7 +9,6 @@ install:
   - ./flutter/bin/flutter doctor
 script:
   - ./flutter/bin/flutter test --coverage
-  - pub run dart_codecov_generator
 cache:
   directories:
     - $HOME/.pub-cache
