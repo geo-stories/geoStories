@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geo_stories/components/btn_createmarker.dart';
+import 'package:geo_stories/components/marker_icon.dart';
 import 'package:geo_stories/models/marker_dto.dart';
 import 'package:geo_stories/services/marker_service.dart';
 import 'package:latlong/latlong.dart';
@@ -45,11 +46,7 @@ class _MapPageState extends State<MapPage> {
         width: 60.0,
         height: 60.0,
         point: LatLng(markerDto.latitude, markerDto.longitude),
-        builder: (ctx) => Icon(
-          Icons.location_on,
-          color: Colors.red,
-          size: 60,
-        ),
+        builder: (ctx) => MarkerIcon(),
       );
     }).toList();
   }
