@@ -41,16 +41,14 @@ class _MapPageState extends State<MapPage> {
   List<Marker> _markers(List<MarkerDTO> markerDtos) {
     return markerDtos.map((markerDto) {
       return Marker(
-        width: 80.0,
-        height: 80.0,
+        anchorPos: AnchorPos.align(AnchorAlign.top),
+        width: 60.0,
+        height: 60.0,
         point: LatLng(markerDto.latitude, markerDto.longitude),
-        builder: (ctx) => Padding(
-          padding: const EdgeInsets.only(bottom: 80),
-          child: Icon(
-            Icons.location_on,
-            color: Colors.red,
-            size: 80,
-          ),
+        builder: (ctx) => Icon(
+          Icons.location_on,
+          color: Colors.red,
+          size: 60,
         ),
       );
     }).toList();
@@ -59,6 +57,10 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: _modoCreacion
+          ? AppBar(title: Text('Toca el mapa para crear un marcador'),)
+          : null,
       floatingActionButton: ButtonCreateMarker(onPressed: _activarModoCreacion,),
       body: FutureBuilder<List<MarkerDTO>>(
         future: futureMarkers,
