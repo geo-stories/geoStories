@@ -58,7 +58,7 @@ class _MapPageState extends State<MapPage> {
       appBar: _modoCreacion
           ? AppBar(title: Text('Toca el mapa para crear un marcador'),)
           : null,
-      floatingActionButton: ButtonCreateMarker(onPressed: _activarModoCreacion,),
+      floatingActionButton: ButtonCreateMarker(onPressed: _activarModoCreacion),
       body: FutureBuilder<List<MarkerDTO>>(
         future: futureMarkers,
         builder: (context, snapshot) {
