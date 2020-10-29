@@ -19,7 +19,7 @@ class CreateMarkerPage extends StatefulWidget{
 }
 class MarkerPage extends State<CreateMarkerPage> {
   LatLng point;
-   TextEditingController nameTextController;
+   TextEditingController titleTextController;
    TextEditingController descriptTextController;
 
   MarkerPage(LatLng point){
@@ -37,10 +37,10 @@ class MarkerPage extends State<CreateMarkerPage> {
       child : Column(
         children: <Widget>[
           TextField(
-            decoration: InputDecoration (labelText: "Nombre del marker",
+            decoration: InputDecoration (labelText: "Titulo del marker",
               hintText: "Un identificador del marker"
             ),
-            controller: nameTextController,
+            controller: titleTextController,
           ),
           TextField(
             decoration: InputDecoration(labelText: "Descripción del marker",
@@ -59,8 +59,8 @@ class MarkerPage extends State<CreateMarkerPage> {
     );
   }
   void _crearMarker(BuildContext context){
-    MarkerService.createMarker(nameTextController.text,descriptTextController.text,point);
-    nameTextController.clear();
+    MarkerService.createMarker(titleTextController.text,descriptTextController.text,point);
+    titleTextController.clear();
     descriptTextController.clear();
     Navigator.push(
         context,
@@ -69,13 +69,13 @@ class MarkerPage extends State<CreateMarkerPage> {
   }
   @override
   void initState() {
-    nameTextController = TextEditingController();
+    titleTextController = TextEditingController();
     descriptTextController = TextEditingController();
     super.initState();
   }
   @override
   void dispose() {
-    nameTextController.dispose();
+    titleTextController.dispose();
     descriptTextController.dispose();
     super.dispose();
   }
