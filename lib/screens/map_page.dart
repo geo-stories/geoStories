@@ -45,7 +45,7 @@ class _MapPageState extends State<MapPage> {
         anchorPos: AnchorPos.align(AnchorAlign.top),
         width: 60.0,
         height: 60.0,
-        point: LatLng(markerDto.latitude, markerDto.longitude),
+        point: LatLng(markerDto.latitude , markerDto.longitude),
         builder: (ctx) => MarkerIcon(),
       );
     }).toList();
