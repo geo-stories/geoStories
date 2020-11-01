@@ -5,6 +5,7 @@ import 'package:geo_stories/components/btn_createmarker.dart';
 import 'package:geo_stories/components/marker_icon.dart';
 import 'package:geo_stories/models/marker_dto.dart';
 import 'package:geo_stories/services/marker_service.dart';
+import 'package:geo_stories/services/user_service.dart';
 import 'package:latlong/latlong.dart';
 import 'package:geo_stories/screens/create_marker_page.dart';
 
