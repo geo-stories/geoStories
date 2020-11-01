@@ -40,12 +40,19 @@ class MarkerPage extends State<CreateMarkerPage> {
             decoration: InputDecoration (labelText: "Título",
               hintText: "Ingrese un título"
             ),
+<<<<<<< HEAD
             controller: titleTextController,
+=======
+            controller: nameTextController,
+            key: ValueKey("field1"),
+>>>>>>> test corregidos
           ),
+
           TextField(
             decoration: InputDecoration(labelText: "Descripción",
             hintText: "Ingrese una breve descripción"),
             controller: descriptTextController,
+            key: ValueKey("field2"),
           ),
           RaisedButton(
               child: Text("Guardar Marker"),
