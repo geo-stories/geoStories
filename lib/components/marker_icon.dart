@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:geo_stories/models/marker_dto.dart';
 
 class MarkerIcon extends StatelessWidget {
-  //final String titulo = "Test";
+  final String titulo;
+  final String descripcion;
 
   const MarkerIcon({
-    Key key, String titulo,
+    Key key, this.titulo, this.descripcion
   }) : super(key: key);
 
   @override
@@ -25,8 +26,8 @@ class MarkerIcon extends StatelessWidget {
         context: context,
         child: new AlertDialog(
           backgroundColor: Colors.white70,
-          title: Text('titulo'),
-          content: Text('Completar con datos del marcador'),
+          title: Text(this.titulo),
+          content: Text(this.descripcion),
           actions: [
             IconButton(
                 icon: Icon(Icons.delete),

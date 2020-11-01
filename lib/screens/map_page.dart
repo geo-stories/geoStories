@@ -46,7 +46,7 @@ class _MapPageState extends State<MapPage> {
         width: 60.0,
         height: 60.0,
         point: LatLng(markerDto.latitude , markerDto.longitude),
-        builder: (ctx) => MarkerIcon(),
+        builder: (ctx) => MarkerIcon(titulo: markerDto.name, descripcion: markerDto.description),
       );
     }).toList();
   }
