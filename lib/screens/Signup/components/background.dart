@@ -13,7 +13,6 @@ class Background extends StatelessWidget {
     return Container(
       height: size.height,
       width: double.infinity,
-      // Here i can use size.width but use double.infinity because both work as a same
       child: Stack(
         alignment: Alignment.center,
         children: <Widget>[
@@ -22,6 +21,7 @@ class Background extends StatelessWidget {
             left: 0,
             child: Image.asset(
               "assets/images/signup_top.png",
+              color: Colors.lightBlue,
               width: size.width * 0.35,
             ),
           ),
@@ -30,6 +30,7 @@ class Background extends StatelessWidget {
             left: 0,
             child: Image.asset(
               "assets/images/main_bottom.png",
+              color: Colors.lightBlue,
               width: size.width * 0.25,
             ),
           ),
