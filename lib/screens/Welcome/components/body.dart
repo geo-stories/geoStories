@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:geo_stories/Screens/Login/login_screen.dart';
-import 'package:geo_stories/Screens/Signup/signup_screen.dart';
-import 'package:geo_stories/Screens/Welcome/components/background.dart';
 import 'package:geo_stories/components/rounded_button.dart';
 import 'package:geo_stories/constants.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:geo_stories/screens/Login/login_screen.dart';
 
 import '../../map_page.dart';
+import 'background.dart';
 
 class Body extends StatelessWidget {
   @override
