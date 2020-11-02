@@ -19,6 +19,7 @@ class UserService {
         email: email,
         password: password
     );
+    return UserCredential;
   }
 
   static Future<void> register() async{
