@@ -7,7 +7,7 @@ class UserDTO {
   factory UserDTO.fromJSON(Map<String, dynamic> json) {
     return UserDTO(
         username: json['username'],
-        avatarUrl: json['avatar']
+        avatarUrl: json['avatarUrl']
     );
   }
 }

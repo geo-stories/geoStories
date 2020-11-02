@@ -26,7 +26,7 @@ class UserService {
         .doc(userID)
         .set({
           'username': userName,
-          'avatar': ''
+          'avatarUrl': ''
         });
 
     return userID;
