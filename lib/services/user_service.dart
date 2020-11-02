@@ -6,15 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 class UserService {
   static FirebaseAuth auth = FirebaseAuth.instance;
   static FirebaseFirestore database = FirebaseFirestore.instance;
-/*FirebaseAuth.instance
-  .authStateChanges()
-  .listen((User user) {
-    if (user == null) {
-      print('User is currently signed out!');
-    } else {
-      print('User is signed in!');
-    }
-  });*/
 
   static Future<void> login(String email, String password) async{
     UserCredential userCredential = await auth.signInWithEmailAndPassword(
