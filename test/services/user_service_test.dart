@@ -8,6 +8,7 @@ import 'package:cloud_firestore_mocks/cloud_firestore_mocks.dart';
 import 'package:geo_stories/services/marker_service.dart';
 import 'package:geo_stories/services/user_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -17,17 +18,19 @@ void main() {
 
   setUp(() async {
     instance = MockFirestoreInstance();
-    Firebase.initializeApp();
-    UserService.auth = FirebaseAuth.instance;
-
-    /*instance = MockFirebaseAuth();
     MarkerService.database = instance;
-    auth = FirebaseAuth.instance;
-    Firebase.initializeApp()*/
+    auth = MockFirebaseAuth();
+    Firebase.initializeApp();
   });
 
 
   test('un usuario puede loguearse', () async {
+    final auth = MockFirebaseAuth();
+    final result = UserService.login("test@geostories.com", "UNQpassword");
+    final user = await result.user;
+    print(user.displayName);
+
+
     User localUser;
 
     UserService.login("barry.allen@example.com", "SuperSecretPassword!");
