@@ -68,9 +68,10 @@ void main() {
     
     await tester.tap(find.byType(RaisedButton));
     await tester.pumpWidget(widget);
+    await tester.pumpAndSettle();
 
 
 
-    expect(find.byWidget(widget),findsOneWidget);
+    expect(find.byType(MapPage),findsOneWidget);
   });
 }
