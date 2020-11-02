@@ -43,10 +43,10 @@ class _MapPageState extends State<MapPage> {
     return markerDtos.map((markerDto) {
       return Marker(
         anchorPos: AnchorPos.align(AnchorAlign.top),
-        width: 60.0,
-        height: 60.0,
+        width: 50.0,
+        height: 50.0,
         point: LatLng(markerDto.latitude , markerDto.longitude),
-        builder: (ctx) => MarkerIcon(titulo: markerDto.name, descripcion: markerDto.description),
+        builder: (ctx) => MarkerIcon(titulo: markerDto.title, descripcion: markerDto.description),
       );
     }).toList();
   }
