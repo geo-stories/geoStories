@@ -21,6 +21,7 @@ class Background extends StatelessWidget {
             left: 0,
             child: Image.asset(
               "assets/images/main_top.png",
+              color: Colors.lightBlue,
               width: size.width * 0.3,
             ),
           ),
@@ -29,6 +30,7 @@ class Background extends StatelessWidget {
             left: 0,
             child: Image.asset(
               "assets/images/main_bottom.png",
+              color: Colors.lightBlue,
               width: size.width * 0.2,
             ),
           ),

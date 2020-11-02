@@ -6,6 +6,8 @@ import 'package:geo_stories/components/rounded_button.dart';
 import 'package:geo_stories/constants.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../map_page.dart';
+
 class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -17,17 +19,17 @@ class Body extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "WELCOME TO EDU",
+              "GeoStories",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: size.height * 0.05),
             SvgPicture.asset(
-              "assets/icons/chat.svg",
+              "assets/icons/geostories-logo.svg",
               height: size.height * 0.45,
             ),
             SizedBox(height: size.height * 0.05),
             RoundedButton(
-              text: "LOGIN",
+              text: "Iniciar sesión",
               press: () {
                 Navigator.push(
                   context,
@@ -40,7 +42,23 @@ class Body extends StatelessWidget {
               },
             ),
             RoundedButton(
-              text: "SIGN UP",
+              text: "Anónimo",
+              color: Colors.black,
+              textColor: Colors.white,
+              press: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return MapPage();
+                    },
+                  ),
+                );
+              },
+            ),
+            /*
+            RoundedButton(
+              text: "Regístrate",
               color: kPrimaryLightColor,
               textColor: Colors.black,
               press: () {
@@ -54,6 +72,7 @@ class Body extends StatelessWidget {
                 );
               },
             ),
+            */
           ],
         ),
       ),
