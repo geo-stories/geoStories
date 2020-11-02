@@ -1,13 +1,13 @@
 class UserDTO {
-  final String name;
-  final String lastname;
+  final String username;
+  final String avatarUrl;
 
-  UserDTO({this.name, this.lastname});
+  UserDTO({this.username, this.avatarUrl});
 
   factory UserDTO.fromJSON(Map<String, dynamic> json) {
     return UserDTO(
-        name: json['nombre'],
-        lastname: json['apellido']
+        username: json['username'],
+        avatarUrl: json['avatar']
     );
   }
 }

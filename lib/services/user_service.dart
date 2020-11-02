@@ -1,6 +1,5 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:geo_stories/models/user_dto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class UserService {
