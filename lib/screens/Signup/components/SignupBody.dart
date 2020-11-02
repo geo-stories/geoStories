@@ -8,7 +8,7 @@ import 'package:geo_stories/screens/Login/login_screen.dart';
 
 import 'background.dart';
 
-class Body extends StatelessWidget {
+class SignupBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -17,10 +17,6 @@ class Body extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              "Regístrate",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
             SizedBox(height: size.height * 0.03),
             SvgPicture.asset(
               "assets/icons/geostories-logo.svg",

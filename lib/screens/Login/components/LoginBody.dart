@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geo_stories/components/already_have_an_account_acheck.dart';
 import 'package:geo_stories/components/rounded_button.dart';
@@ -5,14 +6,23 @@ import 'package:geo_stories/components/rounded_input_field.dart';
 import 'package:geo_stories/components/rounded_password_field.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geo_stories/screens/Signup/signup_screen.dart';
+import 'package:geo_stories/services/user_service.dart';
 
 import '../../map_page.dart';
 import 'background.dart';
 
-class Body extends StatelessWidget {
-  const Body({
+class LoginBody extends StatefulWidget {
+  @override
+  LoginWidget createState() => LoginWidget();
+
+  const LoginBody({
     Key key,
   }) : super(key: key);
+}
+
+class LoginWidget extends State<LoginBody> {
+  String email;
+  String password;
 
   @override
   Widget build(BuildContext context) {
@@ -30,22 +40,28 @@ class Body extends StatelessWidget {
             SizedBox(height: size.height * 0.03),
             RoundedInputField(
               hintText: "Tu Email",
-              onChanged: (value) {},
+              onChanged: (value) {
+                this.email = value;
+              },
             ),
             RoundedPasswordField(
-              onChanged: (value) {},
+              onChanged: (value) {
+                this.password = value;
+              },
             ),
             RoundedButton(
               text: "Iniciar sesión",
               press: () {
-                Navigator.push(
-                context,
-                MaterialPageRoute(
-                builder: (context) {
-                  return MapPage();
-                  },
-                ),
-                );
+                UserService.login(email, password).then((UserCredential userCredential) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return MapPage();
+                        },
+                      ),
+                    );
+                });
               },
             ),
             SizedBox(height: size.height * 0.03),

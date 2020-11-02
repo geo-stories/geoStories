@@ -7,7 +7,7 @@ import 'package:geo_stories/screens/Login/login_screen.dart';
 import '../../map_page.dart';
 import 'background.dart';
 
-class Body extends StatelessWidget {
+class WelcomeBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -17,14 +17,10 @@ class Body extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              "GeoStories",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
             SizedBox(height: size.height * 0.05),
             SvgPicture.asset(
               "assets/icons/geostories-logo.svg",
-              height: size.height * 0.45,
+              height: size.height * 0.36,
             ),
             SizedBox(height: size.height * 0.05),
             RoundedButton(
@@ -41,7 +37,7 @@ class Body extends StatelessWidget {
               },
             ),
             RoundedButton(
-              text: "Anónimo",
+              text: "Ingresar como Anónimo",
               color: Colors.black,
               textColor: Colors.white,
               press: () {
