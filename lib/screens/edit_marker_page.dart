@@ -9,12 +9,9 @@ import 'package:latlong/latlong.dart';
 import '../main.dart';
 
 class EditMarker extends StatefulWidget{
-  String currentName;
-  String currentDescription;
   MarkerDTO dto;
 
   EditMarker(MarkerDTO dto){
-
     this.dto = dto;
   }
 
@@ -44,7 +41,7 @@ class EditMarkerPage extends State<EditMarker> {
             children: <Widget>[
               TextField(
                 decoration: InputDecoration (labelText: "Título",
-                    hintText: this.currentName
+                    hintText: dto.title
                 ),
                 controller: titleTextController,
                 key: ValueKey("field1"),
@@ -54,15 +51,15 @@ class EditMarkerPage extends State<EditMarker> {
 
               TextField(
                 decoration: InputDecoration(labelText: "Descripción",
-                    hintText: this.currentDescription),
+                    hintText: dto.description),
                 controller: descriptTextController,
                 key: ValueKey("field2"),
               ),
               RaisedButton(
-                  child: Text("Guardar Edicion"),
+                  child: Text("Guardar"),
                   onPressed: () {
-                    if (titleTextController.value.text != "" || descriptTextController.value.text != "") {
-                      _crearMarker(context);
+                    if (titleTextController.value.text != "" && descriptTextController.value.text != "") {
+                      _updateMarker(context);
                     } else {
                       showDialog(context: context, child:
                       new AlertDialog(
@@ -78,25 +75,39 @@ class EditMarkerPage extends State<EditMarker> {
                       ));
                     }
                   }
+              ),
+              RaisedButton(
+                child: Text("Cancelar"),
+                onPressed: () {
+                  _navigateToMap(context);
+                }
               )
             ],
           ),
         )
     );
   }
-  void _crearMarker(BuildContext context){
-    MarkerService.createMarker(titleTextController.text,descriptTextController.text,point);
-    titleTextController.clear();
-    descriptTextController.clear();
-    Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => MapPage()));
+  void _updateMarker(BuildContext context){
+   // MarkerService.updateMarker(titleTextController.value.text, descriptTextController.value.text, dto);
+    _navigateToMap(context);
 
   }
+
+  void _navigateToMap(BuildContext context){
+      titleTextController.clear();
+      descriptTextController.clear();
+      Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MapPage()));
+  }
+
+
+
+
   @override
   void initState() {
-    titleTextController = TextEditingController();
-    descriptTextController = TextEditingController();
+    titleTextController = new TextEditingController(text: dto.title);
+    descriptTextController = new TextEditingController(text: dto.description);
     super.initState();
   }
   @override

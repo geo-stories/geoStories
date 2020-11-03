@@ -53,7 +53,7 @@ class MarkerPage extends State<CreateMarkerPage> {
           RaisedButton(
               child: Text("Guardar Marker"),
               onPressed: () {
-                if (titleTextController.value.text != "" || descriptTextController.value.text != "") {
+                if (titleTextController.value.text != "" && descriptTextController.value.text != "") {
                   _crearMarker(context);
                 } else {
                   showDialog(context: context, child:
