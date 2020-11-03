@@ -20,8 +20,7 @@ class MarkerService {
       }
   }
 
-  static Future<List<MarkerDTO>> getMarkers() async {
-    final query = await database.collection("markers").get();
-    return query.docs.map((marker) => MarkerDTO.fromJSON(marker.data())).toList();
+  static Stream<QuerySnapshot> getMarkerSnapshots() {
+    return database.collection("markers").snapshots();
   }
 }
