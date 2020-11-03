@@ -42,6 +42,7 @@ class MarkerIcon extends StatelessWidget {
                 Navigator.push(context, MaterialPageRoute(builder: (context){
                   return EditMarker(markerDTO);
                 }));
+
               },
             )
           ],

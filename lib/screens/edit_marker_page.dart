@@ -41,7 +41,8 @@ class EditMarkerPage extends State<EditMarker> {
             children: <Widget>[
               TextField(
                 decoration: InputDecoration (labelText: "Título",
-                    hintText: dto.title
+                    hintText: dto.title,
+                  border: OutlineInputBorder(),
                 ),
                 controller: titleTextController,
                 key: ValueKey("field1"),
@@ -51,10 +52,12 @@ class EditMarkerPage extends State<EditMarker> {
 
               TextField(
                 decoration: InputDecoration(labelText: "Descripción",
-                    hintText: dto.description),
+                    hintText: dto.description,
+                  border: OutlineInputBorder(),),
                 controller: descriptTextController,
                 key: ValueKey("field2"),
               ),
+              const SizedBox(height: 30),
               RaisedButton(
                   child: Text("Guardar"),
                   onPressed: () {
@@ -76,8 +79,10 @@ class EditMarkerPage extends State<EditMarker> {
                     }
                   }
               ),
+              const SizedBox(height: 30),
               RaisedButton(
                 child: Text("Cancelar"),
+
                 onPressed: () {
                   _navigateToMap(context);
                 }
@@ -88,7 +93,7 @@ class EditMarkerPage extends State<EditMarker> {
     );
   }
   void _updateMarker(BuildContext context){
-   // MarkerService.updateMarker(titleTextController.value.text, descriptTextController.value.text, dto);
+   MarkerService.updateMarker(titleTextController.value.text, descriptTextController.value.text, dto);
     _navigateToMap(context);
 
   }
