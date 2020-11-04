@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -16,12 +17,10 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   MarkerPage form;
   bool _modoCreacion = false;
-  Future<List<MarkerDTO>> futureMarkers;
 
   @override
   void initState() {
     super.initState();
-    futureMarkers = MarkerService.getMarkers();
   }
 
   void _activarModoCreacion() {
@@ -39,7 +38,8 @@ class _MapPageState extends State<MapPage> {
     }));
   }
 
-  List<Marker> _markers(List<MarkerDTO> markerDtos) {
+  List<Marker> _markers(List<QueryDocumentSnapshot> documents) {
+    final markerDtos = documents.map((document) => MarkerDTO.fromJSON(document.data(), document.id)).toList();
     return markerDtos.map((markerDto) {
       return Marker(
         anchorPos: AnchorPos.align(AnchorAlign.top),
@@ -58,10 +58,12 @@ class _MapPageState extends State<MapPage> {
       appBar: _modoCreacion
           ? AppBar(title: Text('Toca el mapa para crear un marcador'),)
           : null,
-      floatingActionButton: ButtonCreateMarker(onPressed: _activarModoCreacion),
-      body: FutureBuilder<List<MarkerDTO>>(
-        future: futureMarkers,
-        builder: (context, snapshot) {
+
+      floatingActionButton: ButtonCreateMarker(onPressed: _activarModoCreacion,),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: MarkerService.getMarkerSnapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+
           if (snapshot.hasData) {
             return FlutterMap(
               options: MapOptions(
@@ -78,7 +80,7 @@ class _MapPageState extends State<MapPage> {
                     urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                     subdomains: ['a', 'b', 'c']),
                 MarkerLayerOptions(
-                  markers: _markers(snapshot.data),
+                  markers: _markers(snapshot.data.docs),
                 ),
               ],
             );

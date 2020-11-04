@@ -44,7 +44,6 @@ void main() {
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
 
-    print(find.byKey(ValueKey("field2")).first);
 
     await tester.enterText(find.byKey(ValueKey("field2")), "");
 
@@ -83,7 +82,6 @@ void main() {
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
 
-    print(find.byType(AlertDialog));
 
     expect(find.byType(MapPage), findsOneWidget);
   });
