@@ -53,15 +53,15 @@ class MarkerPage extends State<CreateMarkerPage> {
             key: ValueKey("field2"),
             maxLines: null,
             keyboardType: TextInputType.multiline,
+
           ),
 
           RaisedButton(
 
               child: Text("Guardar Marker"),
-
-
               onPressed: () {
                 if (titleTextController.value.text != "" && descriptTextController.value.text != "") {
+
                   _crearMarker(context);
                 } else {
                   showDialog(context: context, child:

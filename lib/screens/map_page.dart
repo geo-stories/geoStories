@@ -39,6 +39,7 @@ class _MapPageState extends State<MapPage> {
   }
 
   List<Marker> _markers(List<QueryDocumentSnapshot> documents) {
+
     final markerDtos = documents.map((document) => MarkerDTO.fromJSON(document.data(), document.id)).toList();
     return markerDtos.map((markerDto) {
       return Marker(
