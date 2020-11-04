@@ -11,3 +11,4 @@
 ### Informes
 
 * **Sprint 1**: https://docs.google.com/document/d/1gF7l_T8rrb8M-n4duH2qHMfCfFK0AaRIc70nlrUpOsw/edit
+* **Sprint 2**: https://docs.google.com/document/d/198F0zsGsEYA89TwzKVI3RGbtwCMUx4-_KWP5ZYzrw_g/edit
