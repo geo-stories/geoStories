@@ -39,7 +39,8 @@ class _MapPageState extends State<MapPage> {
   }
 
   List<Marker> _markers(List<QueryDocumentSnapshot> documents) {
-    final markerDtos = documents.map((document) => MarkerDTO.fromJSON(document.data())).toList();
+
+    final markerDtos = documents.map((document) => MarkerDTO.fromJSON(document.data(), document.id)).toList();
     return markerDtos.map((markerDto) {
       return Marker(
         anchorPos: AnchorPos.align(AnchorAlign.top),
@@ -58,6 +59,7 @@ class _MapPageState extends State<MapPage> {
       appBar: _modoCreacion
           ? AppBar(title: Text('Toca el mapa para crear un marcador'),)
           : null,
+
       floatingActionButton: ButtonCreateMarker(onPressed: _activarModoCreacion,),
       body: StreamBuilder<QuerySnapshot>(
         stream: MarkerService.getMarkerSnapshots(),
@@ -84,6 +86,7 @@ class _MapPageState extends State<MapPage> {
               ],
             );
           }
+
           return Container();
         },
       ),

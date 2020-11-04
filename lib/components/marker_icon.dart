@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geo_stories/models/marker_dto.dart';
+import 'package:geo_stories/screens/edit_marker_page.dart';
 
 class MarkerIcon extends StatelessWidget {
   final MarkerDTO markerDTO;
@@ -29,11 +30,23 @@ class MarkerIcon extends StatelessWidget {
           content: Text(this.markerDTO.description),
           actions: [
             IconButton(
+                key: ValueKey("DeleteButton"),
                 icon: Icon(Icons.delete),
                 color: Colors.red,
                 onPressed: () {
                   //BORRAR EL MARCADOR
                 }),
+            IconButton(
+              key: ValueKey("EditButton"),
+              icon : Icon(Icons.edit_outlined),
+              color: Colors.black,
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return EditMarker(markerDTO);
+                }));
+
+              },
+            )
           ],
         )
       );

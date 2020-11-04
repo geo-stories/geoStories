@@ -71,7 +71,6 @@ void main() {
     await tester.pumpAndSettle();
 
 
-
     expect(find.byType(MapPage),findsOneWidget);
   });
 }
