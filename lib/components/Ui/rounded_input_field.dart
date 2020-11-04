@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:geo_stories/components/text_field_container.dart';
+import 'package:geo_stories/components/Ui/text_field_container.dart';
 import 'package:geo_stories/constants.dart';
 
 class RoundedInputField extends StatelessWidget {
@@ -18,11 +18,11 @@ class RoundedInputField extends StatelessWidget {
     return TextFieldContainer(
       child: TextField(
         onChanged: onChanged,
-        cursorColor: kPrimaryColor,
+        cursorColor: kColorOrange,
         decoration: InputDecoration(
           icon: Icon(
             icon,
-            color: kPrimaryColor,
+            color: kColorOrange,
           ),
           hintText: hintText,
           border: InputBorder.none,

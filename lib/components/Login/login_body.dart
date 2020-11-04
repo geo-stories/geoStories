@@ -1,15 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geo_stories/components/already_have_an_account_acheck.dart';
-import 'package:geo_stories/components/rounded_button.dart';
-import 'package:geo_stories/components/rounded_input_field.dart';
-import 'package:geo_stories/components/rounded_password_field.dart';
+import 'package:geo_stories/components/Ui/rounded_button.dart';
+import 'package:geo_stories/components/Ui/rounded_input_field.dart';
+import 'package:geo_stories/components/Ui/rounded_password_field.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:geo_stories/screens/Signup/signup_screen.dart';
+import 'package:geo_stories/screens/map_page.dart';
+import 'package:geo_stories/screens/signup_page.dart';
 import 'package:geo_stories/services/user_service.dart';
 
-import '../../map_page.dart';
-import 'background.dart';
+import 'login_background.dart';
 
 class LoginBody extends StatefulWidget {
   @override
@@ -27,7 +27,7 @@ class LoginWidget extends State<LoginBody> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Background(
+    return LoginBackground(
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -39,12 +39,13 @@ class LoginWidget extends State<LoginBody> {
             ),
             SizedBox(height: size.height * 0.03),
             RoundedInputField(
-              hintText: "Tu Email",
+              hintText: "Tu E-mail",
               onChanged: (value) {
                 this.email = value;
               },
             ),
             RoundedPasswordField(
+              hintText: "Tu contraseña",
               onChanged: (value) {
                 this.password = value;
               },
@@ -71,7 +72,7 @@ class LoginWidget extends State<LoginBody> {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return SignUpScreen();
+                      return SignUpPage();
                     },
                   ),
                 );

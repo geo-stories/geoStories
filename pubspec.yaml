@@ -32,10 +32,7 @@ dependencies:
   firebase_auth: "^0.18.1+2"
   cloud_firestore: "^0.14.1+3"
   cloud_firestore_mocks: ^0.5.0+1
-<<<<<<< HEAD
   firebase_auth_mocks: ^0.3.2
-=======
->>>>>>> fe476d59e3b0f21b2e49de76eac114065880001a
   flutter_svg: ^0.19.1
 
 dev_dependencies:

@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:geo_stories/components/rounded_button.dart';
-import 'package:geo_stories/constants.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:geo_stories/screens/Login/login_screen.dart';
+import 'package:geo_stories/components/Welcome/welcome_background.dart';
+import 'package:geo_stories/components/Ui/rounded_button.dart';
+import 'package:geo_stories/screens/login_page.dart';
+import 'map_page.dart';
 
-import '../../map_page.dart';
-import 'background.dart';
-
-class WelcomeBody extends StatelessWidget {
+class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     // This size provide us total height and width of our screen
-    return Background(
+    return WelcomeBackground(
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -30,7 +28,7 @@ class WelcomeBody extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return LoginScreen();
+                      return LoginPage();
                     },
                   ),
                 );
@@ -52,22 +50,22 @@ class WelcomeBody extends StatelessWidget {
               },
             ),
             /*
-            RoundedButton(
-              text: "Regístrate",
-              color: kPrimaryLightColor,
-              textColor: Colors.black,
-              press: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return SignUpScreen();
-                    },
-                  ),
-                );
-              },
-            ),
-            */
+              RoundedButton(
+                text: "Regístrate",
+                color: kPrimaryLightColor,
+                textColor: Colors.black,
+                press: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return SignUpScreen();
+                      },
+                    ),
+                  );
+                },
+              ),
+              */
           ],
         ),
       ),

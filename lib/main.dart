@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:geo_stories/screens/Welcome/welcome_screen.dart';
+import 'package:geo_stories/screens/welcome_page.dart';
 
 Future<void> main() async {
   //debugPaintSizeEnabled = true;
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
 
-      home: WelcomeScreen(),
+      home: WelcomePage(),
     );
   }
 }
