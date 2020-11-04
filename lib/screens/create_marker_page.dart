@@ -66,7 +66,7 @@ class MarkerPage extends State<CreateMarkerPage> {
                 } else {
                   showDialog(context: context, child:
                   new AlertDialog(
-                    title: new Text("Por favor, ingrese un título o una descripción."),
+                    title: new Text("Por favor, ingrese un título y una descripción."),
                       actions: [
                         FlatButton(
                         child: Text('Ok'),
