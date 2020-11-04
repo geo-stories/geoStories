@@ -57,6 +57,7 @@ void main() {
     expect(alertFinder, findsOneWidget);
   });
 
+
   testWidgets('Al editar un marcador con con todos los campos completos, vuelvo al MapPage', (WidgetTester tester) async {
     await instance.collection('markers')
         .add({
@@ -87,6 +88,7 @@ void main() {
     expect(find.byType(MapPage), findsOneWidget);
   });
 
+
   testWidgets('Cambio el markador en la base de datos', (WidgetTester tester) async {
     await instance.collection('markers')
         .add({
@@ -104,6 +106,7 @@ void main() {
     await tester.tap(find.byKey(ValueKey("EditButton")));
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
+
     final description = "estoy cambiando la descripcion";
     await tester.enterText(find.byKey(ValueKey("field2")), description);
     await tester.pumpWidget(widget);
@@ -115,6 +118,39 @@ void main() {
     final newDescripcion = (query.docs.first.data()['description']);
 
     expect(newDescripcion, description);
+  });
+
+
+  testWidgets('cancelo el cambio de la descripcion del marcador y no se me guarda la nueva descripcion', (WidgetTester tester) async {
+    final oldDescription = "description";
+    await instance.collection('markers')
+        .add({
+      'latitude': -34.6001014,
+      'longitude': -58.3824443,
+      'title' : "prueba",
+      'description' : oldDescription,
+    });
+    await tester.pumpWidget(widget);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byType(MarkerIcon));
+    await tester.pumpWidget(widget);
+
+    await tester.tap(find.byKey(ValueKey("EditButton")));
+    await tester.pumpWidget(widget);
+    await tester.pumpAndSettle();
+
+    final description = "estoy cambiando la descripcion";
+    await tester.enterText(find.byKey(ValueKey("field2")), description);
+    await tester.pumpWidget(widget);
+
+    await tester.tap(find.byKey(ValueKey("CancelButton")));
+    await tester.pumpWidget(widget);
+    await tester.pumpAndSettle();
+    final query = await instance.collection('markers').get();
+    final newDescripcion = (query.docs.first.data()['description']);
+
+    expect(newDescripcion, oldDescription);
   });
 
 }

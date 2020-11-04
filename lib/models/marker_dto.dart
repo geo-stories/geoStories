@@ -13,7 +13,7 @@ class MarkerDTO {
       description: json['description'],
       latitude: json['latitude'],
       longitude: json['longitude'],
-        id: id
+      id: id
     );
   }
 }
