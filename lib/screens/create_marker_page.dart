@@ -37,20 +37,38 @@ class MarkerPage extends State<CreateMarkerPage> {
       child : Column(
         children: <Widget>[
           TextField(
-            decoration: InputDecoration (labelText: "Titulo del marker",
-              hintText: "Un identificador del marker"
+            decoration: InputDecoration (labelText: "Título",
+              hintText: "Ingrese un título"
             ),
             controller: titleTextController,
+            key: ValueKey("field1"),
           ),
+
           TextField(
-            decoration: InputDecoration(labelText: "Descripción del marker",
-            hintText: "Algo que describa el market"),
+            decoration: InputDecoration(labelText: "Descripción",
+            hintText: "Ingrese una breve descripción"),
             controller: descriptTextController,
+            key: ValueKey("field2"),
           ),
           RaisedButton(
               child: Text("Guardar Marker"),
-              onPressed: (){
-                _crearMarker(context);
+              onPressed: () {
+                if (titleTextController.value.text != "" || descriptTextController.value.text != "") {
+                  _crearMarker(context);
+                } else {
+                  showDialog(context: context, child:
+                  new AlertDialog(
+                    title: new Text("Por favor, ingrese un título o una descripción."),
+                      actions: [
+                        FlatButton(
+                        child: Text('Ok'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        )
+                      ]
+                  ));
+                }
               }
           )
         ],

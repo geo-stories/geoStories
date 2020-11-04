@@ -62,6 +62,7 @@ class _MapPageState extends State<MapPage> {
       body: StreamBuilder<QuerySnapshot>(
         stream: MarkerService.getMarkerSnapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+
           if (snapshot.hasData) {
             return FlutterMap(
               options: MapOptions(
