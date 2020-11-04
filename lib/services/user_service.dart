@@ -6,12 +6,12 @@ class UserService {
   static FirebaseAuth auth = FirebaseAuth.instance;
   static FirebaseFirestore database = FirebaseFirestore.instance;
 
-  static Future<void> login(String email, String password) async{
+  static Future<UserCredential> login(String email, String password) async{
     UserCredential userCredential = await auth.signInWithEmailAndPassword(
         email: email,
         password: password
     );
-    return UserCredential;
+    return userCredential;
   }
 
   static Future<void> register(String email, String password, String userName) async{
