@@ -70,8 +70,6 @@ void main() {
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
 
-
-
     expect(find.byType(MapPage),findsOneWidget);
   });
 }

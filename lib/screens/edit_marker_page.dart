@@ -60,6 +60,7 @@ class EditMarkerPage extends State<EditMarker> {
               const SizedBox(height: 30),
               RaisedButton(
                   child: Text("Guardar"),
+                  key: ValueKey("GuardarButton"),
                   onPressed: () {
                     if (titleTextController.value.text != "" && descriptTextController.value.text != "") {
                       _updateMarker(context);
@@ -82,8 +83,8 @@ class EditMarkerPage extends State<EditMarker> {
               const SizedBox(height: 30),
               RaisedButton(
                 child: Text("Cancelar"),
-
-                onPressed: () {
+                  key: ValueKey("CancelButton"),
+                  onPressed: () {
                   _navigateToMap(context);
                 }
               )
@@ -94,7 +95,7 @@ class EditMarkerPage extends State<EditMarker> {
   }
   void _updateMarker(BuildContext context){
    MarkerService.updateMarker(titleTextController.value.text, descriptTextController.value.text, dto);
-    _navigateToMap(context);
+   _navigateToMap(context);
 
   }
 

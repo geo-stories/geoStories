@@ -30,12 +30,14 @@ class MarkerIcon extends StatelessWidget {
           content: Text(this.markerDTO.description),
           actions: [
             IconButton(
+                key: ValueKey("DeleteButton"),
                 icon: Icon(Icons.delete),
                 color: Colors.red,
                 onPressed: () {
                   //BORRAR EL MARCADOR
                 }),
             IconButton(
+              key: ValueKey("EditButton"),
               icon : Icon(Icons.edit),
               color: Colors.black,
               onPressed: (){
