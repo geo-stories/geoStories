@@ -38,7 +38,7 @@ class MarkerIcon extends StatelessWidget {
                 }),
             IconButton(
               key: ValueKey("EditButton"),
-              icon : Icon(Icons.edit),
+              icon : Icon(Icons.edit_outlined),
               color: Colors.black,
               onPressed: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context){

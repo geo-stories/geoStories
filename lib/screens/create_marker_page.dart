@@ -42,6 +42,8 @@ class MarkerPage extends State<CreateMarkerPage> {
             ),
             controller: titleTextController,
             key: ValueKey("field1"),
+            maxLines: null,
+            keyboardType: TextInputType.multiline,
           ),
 
           TextField(
@@ -49,9 +51,15 @@ class MarkerPage extends State<CreateMarkerPage> {
             hintText: "Ingrese una breve descripción"),
             controller: descriptTextController,
             key: ValueKey("field2"),
+            maxLines: null,
+            keyboardType: TextInputType.multiline,
           ),
+
           RaisedButton(
+
               child: Text("Guardar Marker"),
+
+
               onPressed: () {
                 if (titleTextController.value.text != "" && descriptTextController.value.text != "") {
                   _crearMarker(context);

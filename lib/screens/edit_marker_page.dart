@@ -31,6 +31,7 @@ class EditMarkerPage extends State<EditMarker> {
 
   @override
   Widget build(BuildContext context){
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
           title: Text("Editar un nuevo marker "),
@@ -46,9 +47,12 @@ class EditMarkerPage extends State<EditMarker> {
                 ),
                 controller: titleTextController,
                 key: ValueKey("field1"),
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
 
 
               ),
+              SizedBox(height: size.height * 0.03),
 
               TextField(
                 decoration: InputDecoration(labelText: "Descripción",
@@ -56,38 +60,65 @@ class EditMarkerPage extends State<EditMarker> {
                   border: OutlineInputBorder(),),
                 controller: descriptTextController,
                 key: ValueKey("field2"),
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
               ),
-              const SizedBox(height: 30),
-              RaisedButton(
-                  child: Text("Guardar"),
-                  key: ValueKey("GuardarButton"),
-                  onPressed: () {
-                    if (titleTextController.value.text != "" && descriptTextController.value.text != "") {
-                      _updateMarker(context);
-                    } else {
-                      showDialog(context: context, child:
-                      new AlertDialog(
-                          title: new Text("Por favor, ingrese un título o una descripción."),
-                          actions: [
-                            FlatButton(
-                              child: Text('Ok'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            )
-                          ]
-                      ));
-                    }
-                  }
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Container(
+                    alignment: Alignment.bottomLeft,
+                    child: new RaisedButton(
+                        key: ValueKey("GuardarButton") ,
+
+                        child: Text(
+                            "Guardar",
+                            style: TextStyle(color: Colors.white),
+                            ),
+                        color: Colors.orange,
+
+                        onPressed: () {
+                          if (titleTextController.value.text != "" && descriptTextController.value.text != "") {
+                            _updateMarker(context);
+                          } else {
+                            showDialog(context: context, child:
+                            new AlertDialog(
+                                title: new Text("Por favor, ingrese un título o una descripción."),
+                                actions: [
+                                  FlatButton(
+                                    child: Text('Ok'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  )
+                                ]
+                            ));
+                          }
+                        }
+
+                    ),
+
+                  ),
+
+                  Container(
+                    key: ValueKey("CancelButton"),
+                    alignment: Alignment.bottomRight,
+                    child: new RaisedButton(
+                        child: Text("Cancelar",
+                            style: TextStyle(color: Colors.white)
+                        ),
+                        color: Colors.orange,
+
+                        onPressed: () {
+                          _navigateToMap(context);
+                        }
+                    ),
+                  )
+                ],
               ),
-              const SizedBox(height: 30),
-              RaisedButton(
-                child: Text("Cancelar"),
-                  key: ValueKey("CancelButton"),
-                  onPressed: () {
-                  _navigateToMap(context);
-                }
-              )
+
+
             ],
           ),
         )
@@ -95,7 +126,7 @@ class EditMarkerPage extends State<EditMarker> {
   }
   void _updateMarker(BuildContext context){
    MarkerService.updateMarker(titleTextController.value.text, descriptTextController.value.text, dto);
-   _navigateToMap(context);
+    _navigateToMap(context);
 
   }
 
