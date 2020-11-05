@@ -3,11 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geo_stories/components/btn_createmarker.dart';
+import 'package:geo_stories/components/main_drawer.dart';
 import 'package:geo_stories/components/marker_icon.dart';
 import 'package:geo_stories/models/marker_dto.dart';
 import 'package:geo_stories/services/marker_service.dart';
 import 'package:latlong/latlong.dart';
 import 'package:geo_stories/screens/create_marker_page.dart';
+import '../constants.dart';
 
 class MapPage extends StatefulWidget {
 
@@ -16,26 +18,30 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   MarkerPage form;
-  bool _modoCreacion = false;
+  String _modo = "Explorar";
 
   @override
   void initState() {
     super.initState();
   }
 
-  void _activarModoCreacion() {
+  void _toggleModo() {
     setState(() {
-      _modoCreacion = !_modoCreacion;
+      if (_modo == 'Explorar') {
+        _modo = 'Toca el mapa para crear un marcador';
+      } else {
+        _modo = 'Explorar';
+      }
     });
   }
 
   void _onTap(LatLng point) {
-    if (!_modoCreacion) {
-      return;
+    if (_modo != 'Explorar') {
+      _toggleModo();
+      Navigator.push(context, MaterialPageRoute(builder: (context){
+        return CreateMarkerPage(point);
+      }));
     }
-    Navigator.push(context, MaterialPageRoute(builder: (context){
-      return CreateMarkerPage(point);
-    }));
   }
 
   List<Marker> _markers(List<QueryDocumentSnapshot> documents) {
@@ -55,12 +61,10 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: MainDrawer(),
       extendBodyBehindAppBar: true,
-      appBar: _modoCreacion
-          ? AppBar(title: Text('Toca el mapa para crear un marcador'),)
-          : null,
-
-      floatingActionButton: ButtonCreateMarker(onPressed: _activarModoCreacion,),
+      appBar: AppBar(title: Text(_modo), backgroundColor: kColorLightblue),
+      floatingActionButton: ButtonCreateMarker(onPressed: _toggleModo),
       body: StreamBuilder<QuerySnapshot>(
         stream: MarkerService.getMarkerSnapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
