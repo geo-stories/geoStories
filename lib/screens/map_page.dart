@@ -10,6 +10,7 @@ import 'package:geo_stories/services/marker_service.dart';
 import 'package:latlong/latlong.dart';
 import 'package:geo_stories/screens/create_marker_page.dart';
 import '../constants.dart';
+import '../enums.dart';
 
 class MapPage extends StatefulWidget {
 
@@ -18,7 +19,8 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   MarkerPage form;
-  String _modo = "Explorar";
+  MapModo _modo = MapModo.explorar;
+  String _modoHeaderTitle = MapModo.explorar.name;
 
   @override
   void initState() {
@@ -27,16 +29,18 @@ class _MapPageState extends State<MapPage> {
 
   void _toggleModo() {
     setState(() {
-      if (_modo == 'Explorar') {
-        _modo = 'Toca el mapa para crear un marcador';
+      if (_modo == MapModo.explorar) {
+        _modo = MapModo.crearMarker;
+        _modoHeaderTitle = _modo.name;
       } else {
-        _modo = 'Explorar';
+        _modo = MapModo.explorar;
+        _modoHeaderTitle = _modo.name;
       }
     });
   }
 
   void _onTap(LatLng point) {
-    if (_modo != 'Explorar') {
+    if (_modo != MapModo.explorar) {
       _toggleModo();
       Navigator.push(context, MaterialPageRoute(builder: (context){
         return CreateMarkerPage(point);
@@ -63,7 +67,7 @@ class _MapPageState extends State<MapPage> {
     return Scaffold(
       drawer: MainDrawer(),
       extendBodyBehindAppBar: true,
-      appBar: AppBar(title: Text(_modo), backgroundColor: kColorLightblue),
+      appBar: AppBar(title: Text(_modoHeaderTitle), backgroundColor: kColorLightblue),
       floatingActionButton: ButtonCreateMarker(onPressed: _toggleModo),
       body: StreamBuilder<QuerySnapshot>(
         stream: MarkerService.getMarkerSnapshots(),
