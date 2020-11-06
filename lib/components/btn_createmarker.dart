@@ -9,6 +9,7 @@ class ButtonCreateMarker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
+        key: Key('boton-crear-marker'),
         onPressed: onPressed,
         child: Icon(Icons.add_location_outlined),
         backgroundColor: Colors.orange,

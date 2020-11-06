@@ -35,6 +35,7 @@ class WelcomePage extends StatelessWidget {
               },
             ),
             RoundedButton(
+              key: Key('ingresar-anonimo'),
               text: "Ingresar como Anónimo",
               color: Colors.black,
               textColor: Colors.white,
