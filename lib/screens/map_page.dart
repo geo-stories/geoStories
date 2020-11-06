@@ -13,7 +13,6 @@ import '../constants.dart';
 import '../enums.dart';
 
 class MapPage extends StatefulWidget {
-
   _MapPageState createState() => _MapPageState();
 }
 
@@ -49,7 +48,6 @@ class _MapPageState extends State<MapPage> {
   }
 
   List<Marker> _markers(List<QueryDocumentSnapshot> documents) {
-
     final markerDtos = documents.map((document) => MarkerDTO.fromJSON(document.data(), document.id)).toList();
     return markerDtos.map((markerDto) {
       return Marker(

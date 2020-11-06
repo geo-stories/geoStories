@@ -1,5 +1,9 @@
 
 import 'package:flutter/material.dart';
+import 'package:geo_stories/models/user_dto.dart';
+import 'package:geo_stories/screens/edit_marker_page.dart';
+import 'package:geo_stories/screens/edit_user_page.dart';
+import 'package:geo_stories/screens/login_page.dart';
 
 import '../constants.dart';
 import 'Ui/user_circle_avatar.dart';
@@ -36,11 +40,19 @@ class _MainDrawerState extends State<MainDrawer> {
                     fit: BoxFit.fill,
                     image: AssetImage(''))),
           ),
+
           ListTile(
-            leading: Icon(Icons.forward),
-            title: Text('Example Element'),
-            onTap: () => {},
-          )
+            leading: Icon(Icons.edit),
+            title: Transform(
+              transform: Matrix4.translationValues(-10, 0.0, 0.0),
+              child: Text("Configuración",
+                  style: TextStyle(fontSize: 18)),
+            ),
+            onTap: () => {
+              Navigator.push(context, MaterialPageRoute(builder: (context){
+              return FormEditUserScreen(new UserDTO(username: 'Pepe',avatarUrl: 'asd'));
+              }))},
+          ),
         ],
       ),
     );
