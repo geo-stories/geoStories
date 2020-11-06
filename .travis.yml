@@ -2,21 +2,22 @@ jobs:
   include:
 
 #    - stage: Unit Testing
-#      language: generic
-#      os: linux
-#      env: running unit and widget tests with code coverage
-#      before_script:
-#        - sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
-#
-#        # install pre-compiled flutter
+#      language: dart
+#      dist: xenial
+#      addons:
+#        apt:
+#          packages:
+#            - lib32stdc++6
+#      install:
 #        - git clone https://github.com/flutter/flutter.git -b stable
-#        - export PATH="$PATH":"$HOME/.pub-cache/bin"
-#        - export PATH=$PWD/flutter/bin:$PWD/flutter/bin/cache/dart-sdk/bin:$PATH
-#        - flutter doctor -v
-#
-#        - pub global activate coverage
-#      script: flutter test --coverage
-#      after_success: bash <(curl -s https://codecov.io/bash) -f coverage/lcov.info
+#        - ./flutter/bin/flutter doctor
+#      script:
+#        - ./flutter/bin/flutter test --coverage
+#      after_success:
+#        - bash <(curl -s https://codecov.io/bash)
+#      cache:
+#        directories:
+#          - $HOME/.pub-cache
 
     - &integration-test-stage
       stage: Integration Testing
@@ -56,7 +57,9 @@ jobs:
         - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader &
 
         # install pre-compiled flutter
-        - git clone https://github.com/flutter/flutter.git -b stable
+        - FLUTTER_CHANNEL=stable
+        - FLUTTER_VERSION=1.22.2-${FLUTTER_CHANNEL}
+        - wget --quiet --output-document=flutter.tar.xz https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/linux/flutter_linux_${FLUTTER_VERSION}.tar.xz && tar xf flutter.tar.xz > /dev/null && rm flutter.tar.xz
         - export PATH="$PATH":"$HOME/.pub-cache/bin"
         - export PATH=$PWD/flutter/bin:$PWD/flutter/bin/cache/dart-sdk/bin:$PATH
         - flutter doctor -v
