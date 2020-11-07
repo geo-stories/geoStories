@@ -43,7 +43,7 @@ jobs:
         # Accept licenses before installing components, no need to echo y for each component
         - yes | sdkmanager --licenses
         # Platform tools
-        - sdkmanager "emulator" "tools" "platform-tools" > /dev/null
+#        - sdkmanager "emulator" "tools" "platform-tools" > /dev/null
         - sdkmanager --list | head -15
         # install older packages (for emulator)
         - sdkmanager "build-tools;25.0.2" "platforms;android-25" > /dev/null
@@ -65,7 +65,7 @@ jobs:
         - flutter doctor -v
 
         # Wait for emulator to finish startup.
-        - android-wait-for-emulator
+        - ./script/android-wait-for-emulator.sh
         - adb shell input keyevent 82
         - flutter devices
       script: travis_retry flutter driver test_driver/main.dart --flavor integration
