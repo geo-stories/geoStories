@@ -35,26 +35,37 @@ class _MainDrawerState extends State<MainDrawer> {
                   ],
                 ),
             decoration: BoxDecoration(
-                color: kColorLightblue,
+                color: kColorLightOrange,
                 image: DecorationImage(
                     fit: BoxFit.fill,
                     image: AssetImage(''))),
           ),
-
-          ListTile(
-            leading: Icon(Icons.edit),
-            title: Transform(
-              transform: Matrix4.translationValues(-10, 0.0, 0.0),
-              child: Text("Configuración",
-                  style: TextStyle(fontSize: 18)),
-            ),
-            onTap: () => {
-              Navigator.push(context, MaterialPageRoute(builder: (context){
-              return FormEditUserScreen(new UserDTO(username: 'Pepe',avatarUrl: 'asd'));
-              }))},
-          ),
+          _buildConfig(context),
         ],
       ),
     );
+  }
+
+  ListTile _buildConfig(BuildContext context) {
+    if(false/*_userConected()*/){
+      return ListTile();
+    }
+    else {
+      return ListTile(
+        leading: Icon(Icons.edit,),
+        title: Transform(
+          transform: Matrix4.translationValues(-20, 0.0, 0.0),
+          child: Text("Configuración",
+              style: TextStyle(fontSize: 18)),
+        ),
+        trailing: Icon(Icons.keyboard_arrow_right),
+        onTap: () =>
+        {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return FormEditUserScreen(new UserDTO(username: 'Pepe',
+                avatarUrl: 'https://i.postimg.cc/rz6rd0K1/fox-flutter.png'));
+          }))},
+      );
+    }
   }
 }

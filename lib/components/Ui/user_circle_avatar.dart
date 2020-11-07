@@ -21,7 +21,7 @@ class _UserCircleAvatarState extends State<UserCircleAvatar> {
       backgroundColor: Colors.white,
       child: CircleAvatar(
         radius: super.widget.radius,
-        backgroundImage: AssetImage('assets/images/user.jpg'),
+        backgroundImage: AssetImage('assets/images/user_gst.jpg'),
       )
     );
   }
