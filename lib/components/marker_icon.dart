@@ -1,32 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:geo_stories/models/marker_dto.dart';
 import 'package:geo_stories/screens/edit_marker_page.dart';
+import 'package:like_button/like_button.dart';
 
-class MarkerIcon extends StatefulWidget {
-  MarkerDTO markerDTO;
+class MarkerIcon extends StatelessWidget {
+  final MarkerDTO markerDTO;
 
-  MarkerIcon(MarkerDTO markerDTO){
-      this.markerDTO = markerDTO;
-  }
-
-  @override
-  State<StatefulWidget> createState() {
-    return _MarkerIconState(markerDTO);
-  }
-
-}
-
-class _MarkerIconState extends State<MarkerIcon> {
-  MarkerDTO markerDTO;
-  String idUser;
-  bool _likes;
-
-  _MarkerIconState(MarkerDTO markerDTO) {
-    this.markerDTO = markerDTO;
-    this.idUser = markerDTO.id;
-    this._likes = true;
-  }
-
+  const MarkerIcon({
+    Key key, this.markerDTO
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,16 +21,7 @@ class _MarkerIconState extends State<MarkerIcon> {
       },
     );
   }
-/*IconButton(
-   onPressed: () {
-       setState(() {
-           _likes[index] = !_likes[index];
-       });
-       }
-   },
-   icon: Icon(Constants.crownIcon, color: _likes[index] ? Constants.orangeColor :
-Constants.ligthGreyColor, size: 15.0),
-),*/
+
   void _MarkerModalInfo(BuildContext context) {
     showDialog(
         context: context,
@@ -57,19 +30,22 @@ Constants.ligthGreyColor, size: 15.0),
           title: Text(this.markerDTO.title),
           content: Text(this.markerDTO.description),
           actions: [
-            IconButton(
-              key: ValueKey("LikeButton"),
-                icon: Icon(Icons.favorite_rounded, color: _likes ? Colors.red :
-                Colors.black, size: 15.0),
-                  onPressed: () {
-                    setState(() {
-                    _likes = !_likes;
-                    });
-                  }
+            LikeButton(
+              circleColor:
+              CircleColor(start: Color(0xffffeb3b), end: Color(0xffb71c1c)),
+              bubblesColor: BubblesColor(
+                dotPrimaryColor: Color(0xffffeb3b),
+                dotSecondaryColor: Color(0xffb71c1c),
+              ),
+              likeBuilder: (bool isLiked) {
+                return Icon(
+                  Icons.favorite_rounded,
+                  color: isLiked ? Colors.red[800] : Colors.grey,
+                );
+              },
+              likeCount: markerDTO.likes.length,
+              isLiked: _userLikedIt(),
             ),
-
-            //TODO: aplicar lo del conntainer!!!
-
             IconButton(
                 key: ValueKey("DeleteButton"),
                 icon: Icon(Icons.delete),
@@ -88,24 +64,12 @@ Constants.ligthGreyColor, size: 15.0),
 
               },
             )
-
           ],
         )
-      );
-  }
-
-
-  Icon _isLiked(){
-    if(_likes){
-      return Icon(Icons.favorite_rounded , color: Colors.red);
-    }
-    else {
-      return Icon(Icons.favorite_border_rounded , color: Colors.black);
-    }
-  }
-
-  bool _userLikedIt() {
-    return true;
+    );
   }
 }
 
+bool _userLikedIt() {
+  return true;
+}
