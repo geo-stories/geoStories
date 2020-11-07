@@ -23,7 +23,7 @@ jobs:
       stage: Integration Testing
       os: osx
       # use oldest flutter supported version of xcode
-      osx_image: xcode8.0
+      osx_image: xcode11
       env: running driver on simulator
       # Run integration tests on ios
       before_install:
