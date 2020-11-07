@@ -54,7 +54,7 @@ jobs:
         - sdkmanager "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI" > /dev/null
         - sdkmanager --list | head -15
         - echo no | avdmanager create avd --force -n test -k "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI"
-        - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader &
+        - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader -cpu-delay 0 -no-boot-anim -qemu [N|auto] &
 
         # install pre-compiled flutter
         - FLUTTER_CHANNEL=stable
