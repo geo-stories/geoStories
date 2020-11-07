@@ -1,71 +1,16 @@
-jobs:
-  include:
-
-#    - stage: Unit Testing
-#      language: dart
-#      dist: xenial
-#      addons:
-#        apt:
-#          packages:
-#            - lib32stdc++6
-#      install:
-#        - git clone https://github.com/flutter/flutter.git -b stable
-#        - ./flutter/bin/flutter doctor
-#      script:
-#        - ./flutter/bin/flutter test --coverage
-#      after_success:
-#        - bash <(curl -s https://codecov.io/bash)
-#      cache:
-#        directories:
-#          - $HOME/.pub-cache
-
-    - &integration-test-stage
-      stage: Integration Testing
-      sudo: true
-      dist: trusty
-      language: generic
-      os: linux
-      env: running driver on emulator
-      # Run integration tests on android
-      before_install:
-        - sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
-        # Install the Android SDK Dependency.
-        - export ANDROID_HOME=/opt/android-sdk-linux
-        - cd /opt
-        - wget -q https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip -O android-sdk-tools.zip
-        - unzip -q android-sdk-tools.zip -d ${ANDROID_HOME}
-        - rm android-sdk-tools.zip
-        - cd -
-        - PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
-        # Silence warning.
-        - mkdir -p ~/.android
-        - touch ~/.android/repositories.cfg
-        # Accept licenses before installing components, no need to echo y for each component
-        - yes | sdkmanager --licenses
-        # Platform tools
-#        - sdkmanager "emulator" "tools" "platform-tools" > /dev/null
-        - sdkmanager --list | head -15
-        # install older packages (for emulator)
-        - sdkmanager "build-tools;25.0.2" "platforms;android-25" > /dev/null
-
-        # Create and start emulator.
-        - EMULATOR_API_LEVEL=22
-        - ANDROID_ABI="default;armeabi-v7a"
-        - sdkmanager "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI" > /dev/null
-        - sdkmanager --list | head -15
-        - echo no | avdmanager create avd --force -n test -k "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI"
-        - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader &
-
-        # install pre-compiled flutter
-        - FLUTTER_CHANNEL=stable
-        - FLUTTER_VERSION=1.22.2-${FLUTTER_CHANNEL}
-        - wget --quiet --output-document=flutter.tar.xz https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/linux/flutter_linux_${FLUTTER_VERSION}.tar.xz && tar xf flutter.tar.xz > /dev/null && rm flutter.tar.xz
-        - export PATH="$PATH":"$HOME/.pub-cache/bin"
-        - export PATH=$PWD/flutter/bin:$PWD/flutter/bin/cache/dart-sdk/bin:$PATH
-        - flutter doctor -v
-
-        # Wait for emulator to finish startup.
-        - ./script/android-wait-for-emulator.sh
-        - adb shell input keyevent 82
-        - flutter devices
-      script: travis_retry flutter driver test_driver/main.dart --flavor integration
+language: dart
+dist: xenial
+addons:
+  apt:
+    packages:
+      - lib32stdc++6
+install:
+  - git clone https://github.com/flutter/flutter.git -b stable
+  - ./flutter/bin/flutter doctor
+script:
+  - ./flutter/bin/flutter test --coverage --flavor integration
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+cache:
+  directories:
+    - $HOME/.pub-cache
