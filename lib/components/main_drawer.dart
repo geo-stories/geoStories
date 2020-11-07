@@ -52,7 +52,7 @@ class _MainDrawerState extends State<MainDrawer> {
     }
     else {
       return ListTile(
-        leading: Icon(Icons.edit,),
+        leading: Icon(Icons.settings_rounded,),
         title: Transform(
           transform: Matrix4.translationValues(-20, 0.0, 0.0),
           child: Text("Configuración",
