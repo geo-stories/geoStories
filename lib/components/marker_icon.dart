@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geo_stories/models/marker_dto.dart';
 import 'package:geo_stories/screens/edit_marker_page.dart';
+import 'package:geo_stories/services/user_service.dart';
 import 'package:like_button/like_button.dart';
 
 class MarkerIcon extends StatelessWidget {
@@ -68,8 +69,10 @@ class MarkerIcon extends StatelessWidget {
         )
     );
   }
-}
-
-bool _userLikedIt() {
-  return true;
+  bool _userLikedIt() {
+    String uid = UserService.getCurrentUser().uid;
+    print(uid);
+    print(markerDTO.likes.contains("asd1"));
+    return markerDTO.likes.contains(uid);
+  }
 }
