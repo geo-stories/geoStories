@@ -11,6 +11,14 @@ class UserService {
         email: email,
         password: password
     );
+    auth.authStateChanges().listen((User user) {
+      if (user == null) {
+        print('User is currently signed out!');
+      } else {
+        print('User is signed in!');
+        print('the user is' + user.toString());
+      }
+    });
     return userCredential;
   }
 

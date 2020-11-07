@@ -2,12 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:geo_stories/models/marker_dto.dart';
 import 'package:geo_stories/screens/edit_marker_page.dart';
 
-class MarkerIcon extends StatelessWidget {
-  final MarkerDTO markerDTO;
+class MarkerIcon extends StatefulWidget {
+  MarkerDTO markerDTO;
 
-  const MarkerIcon({
-    Key key, this.markerDTO
-  }) : super(key: key);
+  MarkerIcon(MarkerDTO markerDTO){
+      this.markerDTO = markerDTO;
+  }
+
+  @override
+  State<StatefulWidget> createState() {
+    return _MarkerIconState(markerDTO);
+  }
+
+}
+
+class _MarkerIconState extends State<MarkerIcon> {
+  MarkerDTO markerDTO;
+  String idUser;
+  bool _likes;
+
+  _MarkerIconState(MarkerDTO markerDTO) {
+    this.markerDTO = markerDTO;
+    this.idUser = markerDTO.id;
+    this._likes = true;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +39,16 @@ class MarkerIcon extends StatelessWidget {
       },
     );
   }
-
+/*IconButton(
+   onPressed: () {
+       setState(() {
+           _likes[index] = !_likes[index];
+       });
+       }
+   },
+   icon: Icon(Constants.crownIcon, color: _likes[index] ? Constants.orangeColor :
+Constants.ligthGreyColor, size: 15.0),
+),*/
   void _MarkerModalInfo(BuildContext context) {
     showDialog(
         context: context,
@@ -29,6 +57,19 @@ class MarkerIcon extends StatelessWidget {
           title: Text(this.markerDTO.title),
           content: Text(this.markerDTO.description),
           actions: [
+            IconButton(
+              key: ValueKey("LikeButton"),
+                icon: Icon(Icons.favorite_rounded, color: _likes ? Colors.red :
+                Colors.black, size: 15.0),
+                  onPressed: () {
+                    setState(() {
+                    _likes = !_likes;
+                    });
+                  }
+            ),
+
+            //TODO: aplicar lo del conntainer!!!
+
             IconButton(
                 key: ValueKey("DeleteButton"),
                 icon: Icon(Icons.delete),
@@ -47,8 +88,24 @@ class MarkerIcon extends StatelessWidget {
 
               },
             )
+
           ],
         )
       );
   }
+
+
+  Icon _isLiked(){
+    if(_likes){
+      return Icon(Icons.favorite_rounded , color: Colors.red);
+    }
+    else {
+      return Icon(Icons.favorite_border_rounded , color: Colors.black);
+    }
+  }
+
+  bool _userLikedIt() {
+    return true;
+  }
 }
+
