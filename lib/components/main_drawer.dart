@@ -14,10 +14,26 @@ class _MainDrawerState extends State<MainDrawer> {
   User user;
   bool userIsAuthenticated;
   String userName;
+  String avatarURL;
 
   @override
   void initState() {
     super.initState();
+    cargarDatos();
+  }
+
+  void cargarDatos() {
+    if (UserService.getCurrentUser() != null) {
+      this.userIsAuthenticated = true;
+      this.user = UserService.getCurrentUser();
+      this.userName = user.displayName;
+      this.avatarURL = user.photoURL;
+    }
+    else{
+      this.userIsAuthenticated = false;
+      this.userName = "Anónimo";
+      this.avatarURL = kAvatarNotUser;
+    }
     UserService.getCurrentUser() == null ? this.userIsAuthenticated = false : this.user = UserService.getCurrentUser();
     this.user != null ? this.userName = user.displayName : this.userName = "Anónimo";
   }
@@ -28,20 +44,21 @@ class _MainDrawerState extends State<MainDrawer> {
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          _buildAvatar(userName),
+          _buildAvatar(userName, avatarURL),
           _buildConfig(context, userIsAuthenticated),
         ],
       ),
     );
   }
 
-  DrawerHeader _buildAvatar(String _name) {
+  DrawerHeader _buildAvatar(String _name, String _avatarURL) {
     return DrawerHeader(
           child: Column(
                 children: <Widget>[
                   Center(
                       child: UserCircleAvatar(
-                        radius: 50
+                        radius: 50,
+                        avatarURL: _avatarURL,
                       ),
                     ),
                   SizedBox(height: 5),
@@ -51,11 +68,7 @@ class _MainDrawerState extends State<MainDrawer> {
                   )
                 ],
               ),
-          decoration: BoxDecoration(
-              color: kColorLightOrange,
-              image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: AssetImage(''))),
+          decoration: BoxDecoration( color: kColorLightOrange),
         );
   }
 
