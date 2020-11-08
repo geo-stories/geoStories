@@ -6,7 +6,17 @@ class MarkerService {
   static FirebaseFirestore database = FirebaseFirestore.instance;
 
 
+  static Future<void> addLike(String markerId, String uid) async {
+    database.collection("markers").doc(markerId).update({
+      'likes' : FieldValue.arrayUnion([uid]),
+    });
+  }
 
+  static Future<void> removeLike(String markerId, String uid) async {
+    database.collection("markers").doc(markerId).update({
+      'likes' : FieldValue.arrayRemove([uid]),
+    });
+  }
 
   static Future<void> createMarker(String title, String description, LatLng point) async {
     try{
