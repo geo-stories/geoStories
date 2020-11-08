@@ -44,7 +44,7 @@ class MarkerIcon extends StatelessWidget {
                   color: isLiked ? Colors.red[800] : Colors.grey,
                 );
               },
-              likeCount: markerDTO.likes.length,
+              likeCount: markerDTO.likes?.length,
               isLiked: _userLikedIt(),
             ),
             IconButton(
