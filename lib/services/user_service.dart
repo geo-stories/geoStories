@@ -31,4 +31,8 @@ class UserService {
 
     return userID;
   }
+
+  static User getCurrentUser() {
+    return auth.currentUser;
+  }
 }
