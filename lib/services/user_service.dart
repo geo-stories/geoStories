@@ -1,6 +1,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:geo_stories/models/user_dto.dart';
 
 class UserService {
   static FirebaseAuth auth = FirebaseAuth.instance;
@@ -33,16 +34,41 @@ class UserService {
     await database.collection("users")
         .doc(userID)
         .set({
-          'username': userName,
-          'avatarUrl': ''
+          'username': userName
         });
 
+    await userCredential.user.updateProfile(displayName: userName, photoURL: null);
+    await userCredential.user.reload();
     return userID;
   }
 
-  static User getCurrentUser(){
-    return auth.currentUser;
+
+  static Future<void> updateCurrentUserProfile(UserDTO userUpdate) async {
+    final User user = auth.currentUser;
+    String updateAvatarUrl;
+    String updateUsername;
+
+    if (userUpdate.username != null) {
+      updateUsername = userUpdate.username;
+    } else {
+      updateUsername = user.displayName;
+    }
+
+    if (userUpdate.avatarUrl != null) {
+      updateAvatarUrl = userUpdate.avatarUrl;
+    } else {
+      updateAvatarUrl = user.photoURL;
+    }
+
+    await user.updateProfile(
+      displayName: updateUsername,
+      photoURL: updateAvatarUrl
+    );
+
+    await user.reload();
   }
 
-
+  static User getCurrentUser() {
+    return auth.currentUser;
+  }
 }
