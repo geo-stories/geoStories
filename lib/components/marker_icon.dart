@@ -81,7 +81,7 @@ class MarkerIcon extends StatelessWidget {
 
   Future<bool> onLikeButtonTapped(bool isLiked) async{
     String uid = UserService.getCurrentUser().uid;
-    MarkerService.addLike(markerDTO.id, uid);
+    MarkerService.refreshLikes(markerDTO.id, uid, isLiked);
 
     return !isLiked;
   }
