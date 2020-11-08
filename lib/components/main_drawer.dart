@@ -19,12 +19,7 @@ class _MainDrawerState extends State<MainDrawer> {
   void initState() {
     super.initState();
     UserService.getCurrentUser() == null ? this.userIsAuthenticated = false : this.user = UserService.getCurrentUser();
-    if (user != null) {
-      this.userName = user.displayName;
-    }
-    else {
-      this.userName = "Anónimo";
-    }
+    this.user != null ? this.userName = user.displayName : this.userName = "Anónimo";
   }
 
   @override
