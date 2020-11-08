@@ -26,16 +26,14 @@ class _MainDrawerState extends State<MainDrawer> {
     if (UserService.getCurrentUser() != null) {
       this.userIsAuthenticated = true;
       this.user = UserService.getCurrentUser();
-      this.userName = user.displayName;
-      this.avatarURL = user.photoURL;
+      user.displayName != null ? this.userName = user.displayName : this.userName = "New User";
+      user.photoURL != null ? this.avatarURL = user.photoURL : this.avatarURL = kAvatarNotUser;
     }
     else{
       this.userIsAuthenticated = false;
       this.userName = "Anónimo";
       this.avatarURL = kAvatarNotUser;
     }
-    UserService.getCurrentUser() == null ? this.userIsAuthenticated = false : this.user = UserService.getCurrentUser();
-    this.user != null ? this.userName = user.displayName : this.userName = "Anónimo";
   }
 
   @override
@@ -85,8 +83,7 @@ class _MainDrawerState extends State<MainDrawer> {
       onTap: () =>
       {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return FormEditUserScreen(new UserDTO(username: 'Pepe',
-              avatarUrl: 'https://i.postimg.cc/rz6rd0K1/fox-flutter.png'));
+          return FormEditUserScreen(new UserDTO(username: this.userName, avatarUrl: this.avatarURL));
         }))},
     );
   }

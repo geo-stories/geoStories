@@ -23,6 +23,7 @@ class FormEditUserScreenState extends State<FormEditUserScreen> {
   UserDTO userDTO;
   String _username;
   String _avatar;
+  bool _avatarTypeAsset;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -30,6 +31,7 @@ class FormEditUserScreenState extends State<FormEditUserScreen> {
     this.userDTO = userDTO;
     this._username = userDTO.username;
     this._avatar = userDTO.avatarUrl;
+    _avatar.startsWith('assets') ? this._avatarTypeAsset = true : _avatarTypeAsset = false;
   }
 
   @override
@@ -68,7 +70,7 @@ class FormEditUserScreenState extends State<FormEditUserScreen> {
 
   Widget _buildAvatar() {
     return CircleAvatar(
-        backgroundImage: NetworkImage(userDTO.avatarUrl),
+        backgroundImage: _avatarTypeAsset ? AssetImage(userDTO.avatarUrl) : NetworkImage(userDTO.avatarUrl),
         radius: 50,
         child: IconButton(
           icon: Icon(Icons.edit),
