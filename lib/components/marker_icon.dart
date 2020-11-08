@@ -70,9 +70,7 @@ class MarkerIcon extends StatelessWidget {
     );
   }
   bool _userLikedIt() {
-    String uid = UserService.getCurrentUser().uid;
-    print(uid);
-    print(markerDTO.likes.contains("asd1"));
-    return markerDTO.likes.contains(uid);
+    final user = UserService.getCurrentUser();
+    return user != null &&  markerDTO.likes?.contains(user.uid);
   }
 }
