@@ -70,4 +70,9 @@ class UserService {
   static User getCurrentUser() {
     return auth.currentUser;
   }
+
+  static bool isAnonymousUser(){
+    return getCurrentUser() != null;
+  }
+
 }
