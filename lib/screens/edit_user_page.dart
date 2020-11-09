@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:geo_stories/components/Ui/rounded_button.dart';
-import 'package:geo_stories/components/Ui/user_circle_avatar.dart';
 import 'package:geo_stories/models/user_dto.dart';
+import 'package:geo_stories/services/user_service.dart';
 
 import '../constants.dart';
 
@@ -24,6 +24,7 @@ class FormEditUserScreenState extends State<FormEditUserScreen> {
   String _username;
   String _avatar;
   bool _avatarTypeAsset;
+  bool isLoading;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -32,10 +33,13 @@ class FormEditUserScreenState extends State<FormEditUserScreen> {
     this._username = userDTO.username;
     this._avatar = userDTO.avatarUrl;
     _avatar.startsWith('assets') ? this._avatarTypeAsset = true : _avatarTypeAsset = false;
+    this.isLoading = false;
   }
 
   @override
   Widget build(BuildContext context) {
+    print(isLoading);
+
     return Scaffold(
       appBar: AppBar(title: Text("Configuración de Usuario"), backgroundColor: kColorLightOrange,),
       body: Container(
@@ -50,15 +54,29 @@ class FormEditUserScreenState extends State<FormEditUserScreen> {
                 SizedBox(height: 20),
                 _buildName(),
                 SizedBox(height: 100),
+                Container(
+                  child: isLoading ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(kColorOrange)),
+                                      Text("Aplicando cambios")],
+                  ) :
                 RoundedButton(
                   text: "Guardar",
                   width: 0.4,
-                  press: () {
+                  press: () async {
                     if (!_formKey.currentState.validate()) {
                       return;
                     }
                     _formKey.currentState.save();
+                    setState(() {
+                      isLoading = true;
+                    });
+                    await UserService.updateCurrentUserProfile(new UserDTO(username: _username, avatarUrl: _avatar));
+                    Navigator.pop(context);
+                    Navigator.pop(context);
                   },
+                ),
                 ),
               ],
             ),
@@ -70,7 +88,7 @@ class FormEditUserScreenState extends State<FormEditUserScreen> {
 
   Widget _buildAvatar() {
     return CircleAvatar(
-        backgroundImage: _avatarTypeAsset ? AssetImage(userDTO.avatarUrl) : NetworkImage(userDTO.avatarUrl),
+        backgroundImage: _avatarTypeAsset ? AssetImage(_avatar) : NetworkImage(_avatar),
         radius: 50,
         child: IconButton(
           icon: Icon(Icons.edit),
@@ -91,10 +109,11 @@ class FormEditUserScreenState extends State<FormEditUserScreen> {
           title: Text("Cambiar Imagen"),
           content: TextFormField(
               decoration: InputDecoration(labelText: 'URL'),
-              initialValue: _avatar,
-              onSaved: (String value) {
+              initialValue: _avatarTypeAsset ? '' : _avatar,
+              onChanged: (String value) {
                 _avatar = value;
-              }
+                _avatar.startsWith('assets') ? this._avatarTypeAsset = true : _avatarTypeAsset = false;
+              },
           ),
         )
     );
@@ -117,4 +136,7 @@ class FormEditUserScreenState extends State<FormEditUserScreen> {
     );
   }
 }
+
+
+
 

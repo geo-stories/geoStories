@@ -41,7 +41,6 @@ class UserService {
     return userID;
   }
 
-
   static Future<void> updateCurrentUserProfile(UserDTO userUpdate) async {
     final User user = auth.currentUser;
     String updateAvatarUrl;
