@@ -8,6 +8,7 @@ import 'package:like_button/like_button.dart';
 class MarkerIcon extends StatelessWidget {
   final MarkerDTO markerDTO;
 
+
   const MarkerIcon({
     Key key, this.markerDTO
   }) : super(key: key);
@@ -74,14 +75,23 @@ class MarkerIcon extends StatelessWidget {
   }
   bool _userLikedIt() {
     final user = UserService.getCurrentUser();
-    return user != null &&  markerDTO.likes?.contains(user.uid);
+    return user != null &&  markerDTO.likes.contains(user.uid);
   }
 
   Future<bool> onLikeButtonTapped(bool isLiked) async{
-    String uid = UserService.getCurrentUser().uid;
-    MarkerService.refreshLikes(markerDTO.id, uid, isLiked);
+    final bool isUserAnon = UserService.isAnonymousUser();
+    if(isUserAnon) {
+      String uid = UserService
+          .getCurrentUser()
+          .uid;
+      MarkerService.refreshLikes(markerDTO.id, uid, isLiked);
+      return !isLiked;
+    }
+    else{
+      return isLiked;
+    }
 
-    return !isLiked;
+
   }
 
 

@@ -39,18 +39,21 @@ class LoginWidget extends State<LoginBody> {
             ),
             SizedBox(height: size.height * 0.03),
             RoundedInputField(
+              key: ValueKey("Mail"),
               hintText: "Tu E-mail",
               onChanged: (value) {
                 this.email = value;
               },
             ),
             RoundedPasswordField(
+              key: ValueKey("PW"),
               hintText: "Tu contraseña",
               onChanged: (value) {
                 this.password = value;
               },
             ),
             RoundedButton(
+              key: ValueKey("Boton"),
               text: "Iniciar sesión",
               press: () {
                 UserService.login(email, password).then((UserCredential userCredential) {

@@ -34,14 +34,12 @@ class UserService {
     await database.collection("users")
         .doc(userID)
         .set({
-          'username': userName
+          'username': userName,
+          'avatarUrl': ''
         });
 
-    await userCredential.user.updateProfile(displayName: userName, photoURL: null);
-    await userCredential.user.reload();
     return userID;
   }
-
 
   static Future<void> updateCurrentUserProfile(UserDTO userUpdate) async {
     final User user = auth.currentUser;
@@ -71,4 +69,9 @@ class UserService {
   static User getCurrentUser() {
     return auth.currentUser;
   }
+
+  static bool isAnonymousUser(){
+    return getCurrentUser() != null;
+  }
+
 }

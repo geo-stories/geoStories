@@ -14,6 +14,7 @@ class MarkerService {
           'longitude': point.longitude,
           'title' : title,
           'description' : description,
+          'likes' : [],
         });
       }
       catch(e){
