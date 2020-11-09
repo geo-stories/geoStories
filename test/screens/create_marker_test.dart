@@ -1,18 +1,8 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_map/flutter_map.dart';
-// import 'package:flutter_test/flutter_test.dart';
-// import 'package:cloud_firestore_mocks/cloud_firestore_mocks.dart';
-// import 'package:geo_stories/components/btn_createmarker.dart';
-// import 'package:geo_stories/screens/map_page.dart';
-// import 'package:geo_stories/services/marker_service.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_mocks/cloud_firestore_mocks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:geo_stories/screens/create_marker_page.dart';
 import 'package:geo_stories/screens/map_page.dart';
 import 'package:geo_stories/services/marker_service.dart';
 
