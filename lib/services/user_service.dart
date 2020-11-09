@@ -32,6 +32,31 @@ class UserService {
     return userID;
   }
 
+  static Future<void> updateCurrentUserProfile(UserDTO userUpdate) async {
+    final User user = auth.currentUser;
+    String updateAvatarUrl;
+    String updateUsername;
+
+    if (userUpdate.username != null) {
+      updateUsername = userUpdate.username;
+    } else {
+      updateUsername = user.displayName;
+    }
+
+    if (userUpdate.avatarUrl != null) {
+      updateAvatarUrl = userUpdate.avatarUrl;
+    } else {
+      updateAvatarUrl = user.photoURL;
+    }
+
+    await user.updateProfile(
+      displayName: updateUsername,
+      photoURL: updateAvatarUrl
+    );
+
+    await user.reload();
+  }
+
   static User getCurrentUser() {
     return auth.currentUser;
   }
