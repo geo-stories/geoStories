@@ -12,6 +12,14 @@ class UserService {
         email: email,
         password: password
     );
+    auth.authStateChanges().listen((User user) {
+      if (user == null) {
+        print('User is currently signed out!');
+      } else {
+        print('User is signed in!');
+        print('the user is' + user.toString());
+      }
+    });
     return userCredential;
   }
 
@@ -32,6 +40,7 @@ class UserService {
 
     return userID;
   }
+
 
   static Future<void> updateCurrentUserProfile(UserDTO userUpdate) async {
     final User user = auth.currentUser;

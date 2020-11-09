@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:geo_stories/models/marker_dto.dart';
 import 'package:geo_stories/screens/edit_marker_page.dart';
+import 'package:geo_stories/services/user_service.dart';
+import 'package:like_button/like_button.dart';
 
 class MarkerIcon extends StatelessWidget {
   final MarkerDTO markerDTO;
@@ -29,6 +31,22 @@ class MarkerIcon extends StatelessWidget {
           title: Text(this.markerDTO.title),
           content: Text(this.markerDTO.description),
           actions: [
+            LikeButton(
+              circleColor:
+              CircleColor(start: Color(0xffffeb3b), end: Color(0xffb71c1c)),
+              bubblesColor: BubblesColor(
+                dotPrimaryColor: Color(0xffffeb3b),
+                dotSecondaryColor: Color(0xffb71c1c),
+              ),
+              likeBuilder: (bool isLiked) {
+                return Icon(
+                  Icons.favorite_rounded,
+                  color: isLiked ? Colors.red[800] : Colors.grey,
+                );
+              },
+              likeCount: markerDTO.likes?.length,
+              isLiked: _userLikedIt(),
+            ),
             IconButton(
                 key: ValueKey("DeleteButton"),
                 icon: Icon(Icons.delete),
@@ -49,6 +67,10 @@ class MarkerIcon extends StatelessWidget {
             )
           ],
         )
-      );
+    );
+  }
+  bool _userLikedIt() {
+    final user = UserService.getCurrentUser();
+    return user != null &&  markerDTO.likes?.contains(user.uid);
   }
 }
