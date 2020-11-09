@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:geo_stories/components/Welcome/welcome_background.dart';
 import 'package:geo_stories/components/Ui/rounded_button.dart';
 import 'package:geo_stories/screens/login_page.dart';
+import 'package:geo_stories/services/user_service.dart';
 import 'map_page.dart';
 
 class WelcomePage extends StatelessWidget {
@@ -39,6 +40,7 @@ class WelcomePage extends StatelessWidget {
               color: Colors.black,
               textColor: Colors.white,
               press: () {
+                UserService.disconnect();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
