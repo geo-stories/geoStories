@@ -26,8 +26,8 @@ class _MainDrawerState extends State<MainDrawer> {
     if (UserService.isAnonymousUser()) {
       this.userIsAuthenticated = true;
       this.user = UserService.getCurrentUser();
-      user.displayName != null ? this.userName = user.displayName : this.userName = "New User";
-      user.photoURL != null ? this.avatarURL = user.photoURL : this.avatarURL = kAvatarNotUser;
+      this.userName = user.displayName ?? "New User";
+      this.avatarURL = user.photoURL ?? kAvatarNotUser;
     }
     else{
       this.userIsAuthenticated = false;

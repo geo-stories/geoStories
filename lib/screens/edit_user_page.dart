@@ -38,8 +38,6 @@ class FormEditUserScreenState extends State<FormEditUserScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(isLoading);
-
     return Scaffold(
       appBar: AppBar(title: Text("Configuración de Usuario"), backgroundColor: kColorLightOrange,),
       body: Container(
