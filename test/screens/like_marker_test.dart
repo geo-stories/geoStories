@@ -71,4 +71,49 @@ void main() {
 
     expect(snapshot.docs.first.data()['likes'].toString() != "[]",true);
   });
+
+  testWidgets('Usuario registrado like se persiste', (WidgetTester tester) async {
+    await instance.collection('markers')
+        .add({
+      'latitude': -34.6001014,
+      'longitude': -58.3824443,
+      'title' : "prueba",
+      'description' : "description",
+      'likes' : [],
+    });
+
+
+    await tester.pumpWidget(widget);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(ValueKey("Iniciar Sesion")));
+    await tester.pumpWidget(widget);
+    await tester.pumpAndSettle();
+
+    await tester.enterText(find.byKey(ValueKey("Mail")), "test@geostories.com");
+    await tester.enterText(find.byKey(ValueKey("PW")), "UNQpassword");
+    await tester.tap(find.byType(RoundedButton));
+    await tester.pumpWidget(widget);
+    await tester.pumpAndSettle();
+
+
+    await tester.tap(find.byType(MarkerIcon));
+    await tester.pumpWidget(widget);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byType(LikeButton));
+    await tester.pumpWidget(widget);
+    await tester.pumpAndSettle();
+
+
+    final snapshot = await instance.collection('markers').get();
+
+
+    expect(snapshot.docs.first.data()['likes'].toString() != "[]",true);
+  });
+
+
+
+
+
 }
