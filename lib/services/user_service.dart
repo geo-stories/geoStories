@@ -1,6 +1,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:geo_stories/models/user_dto.dart';
 
 class UserService {
   static FirebaseAuth auth = FirebaseAuth.instance;
