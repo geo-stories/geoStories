@@ -7,8 +7,6 @@ import 'package:like_button/like_button.dart';
 
 class MarkerIcon extends StatelessWidget {
   final MarkerDTO markerDTO;
-
-
   const MarkerIcon({
     Key key, this.markerDTO
   }) : super(key: key);
@@ -49,7 +47,6 @@ class MarkerIcon extends StatelessWidget {
               likeCount: markerDTO.likes?.length,
               isLiked: _userLikedIt(),
               onTap: onLikeButtonTapped,
-
             ),
             IconButton(
                 key: ValueKey("DeleteButton"),
@@ -90,9 +87,5 @@ class MarkerIcon extends StatelessWidget {
     else{
       return isLiked;
     }
-
   }
-
-
-
 }

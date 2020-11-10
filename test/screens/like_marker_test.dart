@@ -16,8 +16,6 @@ void main() {
     home: WelcomePage(),
   );
 
-
-
   FirebaseFirestore instance;
   FirebaseAuth auth;
 
@@ -28,8 +26,7 @@ void main() {
     UserService.auth = auth;
   });
 
-
-  testWidgets('Usuario registrado like se persiste', (WidgetTester tester) async {
+  testWidgets('Cuando un usuario que inicio sesion da like, se logra persistir en la base de datos', (WidgetTester tester) async {
     await instance.collection('markers')
         .add({
       'latitude': -34.6001014,
@@ -38,7 +35,6 @@ void main() {
       'description' : "description",
       'likes' : [],
     });
-
 
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
@@ -53,7 +49,6 @@ void main() {
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
 
-
     await tester.tap(find.byType(MarkerIcon));
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
@@ -62,10 +57,7 @@ void main() {
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
 
-
     final snapshot = await instance.collection('markers').get();
-
-
     expect(snapshot.docs.first.data()['likes'].toString() != "[]",true);
   });
 
@@ -78,7 +70,6 @@ void main() {
       'description' : "description",
       'likes' : [],
     });
-
 
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
@@ -95,10 +86,7 @@ void main() {
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
 
-
     final snapshot = await instance.collection('markers').get();
-
-
     expect(snapshot.docs.first.data()['likes'].toString() == "[]",true);
   });
 
@@ -113,7 +101,6 @@ void main() {
       'likes' : [],
     });
 
-
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
 
@@ -126,7 +113,6 @@ void main() {
     await tester.tap(find.byType(RoundedButton));
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
-
 
     await tester.tap(find.byType(MarkerIcon));
     await tester.pumpWidget(widget);
@@ -142,13 +128,7 @@ void main() {
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
 
-
     final snapshot = await instance.collection('markers').get();
-
-
     expect(snapshot.docs.first.data()['likes'].toString() == "[]",true);
   });
-
-
-
 }
