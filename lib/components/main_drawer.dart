@@ -45,6 +45,7 @@ class _MainDrawerState extends State<MainDrawer> {
         children: <Widget>[
           _buildAvatar(userName, avatarURL),
           _buildConfig(context, userIsAuthenticated),
+          _changePassword(context, userIsAuthenticated),
         ],
       ),
     );
@@ -93,8 +94,7 @@ class _MainDrawerState extends State<MainDrawer> {
   ListTile _changePassword(BuildContext context, bool _enableEdit) {
     return ListTile(
       enabled: _enableEdit,
-      leading: Icon(Icons.vpn_key_outlined,),
-      key: ValueKey("EditPassword"),
+      leading: Icon(Icons.vpn_key_outlined,key: ValueKey("EditPassword"),),
       title: Transform(
         transform: Matrix4.translationValues(-20, 0.0, 0.0),
         child: Text("Cambiar contraseña",

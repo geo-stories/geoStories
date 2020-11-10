@@ -44,9 +44,7 @@ void main() {
 
     // MapPage
     await tester.dragFrom(tester.getTopLeft(find.byType(MaterialApp)), Offset(300, 0));
-    await tester.drag(find.byType(MaterialApp), Offset(300, 0));
     await tester.pumpAndSettle();
-
     await tester.tap(find.byKey(ValueKey("EditPassword")));
     await tester.pumpAndSettle();
 
