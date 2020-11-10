@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geo_stories/models/user_dto.dart';
+import 'package:geo_stories/screens/edit_password_page.dart';
 import 'package:geo_stories/screens/edit_user_page.dart';
 import 'package:geo_stories/services/user_service.dart';
 import '../constants.dart';
@@ -85,6 +86,29 @@ class _MainDrawerState extends State<MainDrawer> {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return FormEditUserScreen(new UserDTO(username: this.userName, avatarUrl: this.avatarURL));
         }))},
+
+    );
+  }
+
+  ListTile _changePassword(BuildContext context, bool _enableEdit) {
+    return ListTile(
+      enabled: _enableEdit,
+      leading: Icon(Icons.vpn_key_outlined,),
+      key: ValueKey("EditPassword"),
+      title: Transform(
+        transform: Matrix4.translationValues(-20, 0.0, 0.0),
+        child: Text("Cambiar contraseña",
+            style: TextStyle(fontSize: 18)),
+      ),
+      trailing: Icon(Icons.keyboard_arrow_right),
+      onTap: () =>
+      {
+      Navigator.push(
+      context, MaterialPageRoute(builder: (context) {
+      return PasswordEditPage();
+      })
+      )},
+
     );
   }
 }

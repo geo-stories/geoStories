@@ -45,6 +45,7 @@ class LoginWidget extends State<LoginBody> {
             ),
             SizedBox(height: size.height * 0.03),
             RoundedInputField(
+              key: ValueKey("Mail"),
               hintText: "Tu E-mail",
               onChanged: (value) {
                 this.email = value;
@@ -52,6 +53,7 @@ class LoginWidget extends State<LoginBody> {
             ),
             Text("E-mail invalido", textScaleFactor: 0.85, style: TextStyle(color: _ValidEmail ? Colors.white : Colors.red)),
             RoundedPasswordField(
+              key: ValueKey("PW"),
               hintText: "Tu contraseña",
               onChanged: (value) {
                 this.password = value;
@@ -67,6 +69,7 @@ class LoginWidget extends State<LoginBody> {
               ) :
             RoundedButton(
               text: "Iniciar sesión",
+              key: ValueKey("login"),
               press: () async {
                 if(ValidarCampos()) {
                   setState(() {
