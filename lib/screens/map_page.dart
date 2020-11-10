@@ -65,7 +65,7 @@ class _MapPageState extends State<MapPage> {
     return Scaffold(
       drawer: MainDrawer(),
       extendBodyBehindAppBar: true,
-      appBar: AppBar(title: Text(_modoHeaderTitle), backgroundColor: kColorLightblue),
+      appBar: AppBar(title: Text(_modoHeaderTitle), backgroundColor: kColorLightOrange),
       floatingActionButton: ButtonCreateMarker(onPressed: _toggleModo),
       body: StreamBuilder<QuerySnapshot>(
         stream: MarkerService.getMarkerSnapshots(),

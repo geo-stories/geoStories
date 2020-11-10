@@ -7,20 +7,29 @@ class UserService {
   static FirebaseAuth auth = FirebaseAuth.instance;
   static FirebaseFirestore database = FirebaseFirestore.instance;
 
-  static Future<UserCredential> login(String email, String password) async{
-    UserCredential userCredential = await auth.signInWithEmailAndPassword(
-        email: email,
-        password: password
-    );
-    auth.authStateChanges().listen((User user) {
-      if (user == null) {
-        print('User is currently signed out!');
-      } else {
-        print('User is signed in!');
-        print('the user is' + user.toString());
+  static Future<String> login(String email, String password) async{
+    String errorMessage;
+
+    try{
+      await auth.signInWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException catch  (e) {
+      switch (e.code){
+        case "invalid-email":
+          errorMessage = "Tu email esta mal formado. 😥";
+          break;
+        case "user-not-found":
+          errorMessage = "Usuario no encontrado. 😥";
+          break;
+        case "wrong-password":
+          errorMessage = "La contraseña no es valida. 😥";
+          break;
+        default:
+          errorMessage = "Hubo un error inesperado: + ${e.code}";
+          print('Failed with error code: ${e.code}');
+          print(e.message);
       }
-    });
-    return userCredential;
+    }
+    return errorMessage;
   }
 
   static Future<void> register(String email, String password, String userName) async{
@@ -72,6 +81,10 @@ class UserService {
 
   static bool isAnonymousUser(){
     return getCurrentUser() != null;
+  }
+
+  static void disconnect(){
+    auth.signOut();
   }
 
 }

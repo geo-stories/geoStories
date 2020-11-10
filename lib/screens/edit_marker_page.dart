@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:geo_stories/constants.dart';
 import 'package:geo_stories/models/marker_dto.dart';
 import 'package:geo_stories/screens/map_page.dart';
 import 'package:geo_stories/services/marker_service.dart';
@@ -35,6 +36,7 @@ class EditMarkerPage extends State<EditMarker> {
     return Scaffold(
         appBar: AppBar(
           title: Text("Editar un nuevo marker "),
+          backgroundColor: kColorLightOrange,
         ),
         body:Padding(
           padding: const EdgeInsets.all(16.0),
@@ -68,6 +70,20 @@ class EditMarkerPage extends State<EditMarker> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Container(
+                    key: ValueKey("CancelButton"),
+                    alignment: Alignment.bottomRight,
+                    child: new RaisedButton(
+                        child: Text("Cancelar",
+                            style: TextStyle(color: Colors.white)
+                        ),
+                        color: Colors.red,
+
+                        onPressed: () {
+                          _navigateToMap(context);
+                        }
+                    ),
+                  ),
+                  Container(
                     alignment: Alignment.bottomLeft,
                     child: new RaisedButton(
                         key: ValueKey("GuardarButton") ,
@@ -76,7 +92,7 @@ class EditMarkerPage extends State<EditMarker> {
                             "Guardar",
                             style: TextStyle(color: Colors.white),
                             ),
-                        color: Colors.orange,
+                        color: kColorOrange,
 
                         onPressed: () {
                           if (titleTextController.value.text != "" && descriptTextController.value.text != "") {
@@ -101,20 +117,6 @@ class EditMarkerPage extends State<EditMarker> {
 
                   ),
 
-                  Container(
-                    key: ValueKey("CancelButton"),
-                    alignment: Alignment.bottomRight,
-                    child: new RaisedButton(
-                        child: Text("Cancelar",
-                            style: TextStyle(color: Colors.white)
-                        ),
-                        color: Colors.orange,
-
-                        onPressed: () {
-                          _navigateToMap(context);
-                        }
-                    ),
-                  )
                 ],
               ),
 
