@@ -80,11 +80,14 @@ class UserService {
   }
 
   static bool isAnonymousUser(){
-    return getCurrentUser() != null;
+    return getCurrentUser() == null;
   }
 
   static void disconnect(){
     auth.signOut();
   }
 
+  static String GetUsername(){
+    return getCurrentUser().displayName;
+  }
 }
