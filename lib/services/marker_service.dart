@@ -5,10 +5,7 @@ import 'package:latlong/latlong.dart';
 class MarkerService {
   static FirebaseFirestore database = FirebaseFirestore.instance;
 
-
-
-
-  static Future<void> createMarker(String title, String description, LatLng point) async {
+  static Future<void> createMarker(String title, String description, LatLng point, String owner) async {
     try{
         await database.collection("markers")
             .add({
@@ -16,6 +13,8 @@ class MarkerService {
           'longitude': point.longitude,
           'title' : title,
           'description' : description,
+          'likes' : new List<String>(),
+          'owner' : owner
         });
       }
       catch(e){

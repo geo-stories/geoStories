@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:geo_stories/models/marker_dto.dart';
 import 'package:geo_stories/screens/edit_marker_page.dart';
 import 'package:geo_stories/services/user_service.dart';
 import 'package:like_button/like_button.dart';
+
+import '../constants.dart';
 
 class MarkerIcon extends StatelessWidget {
   final MarkerDTO markerDTO;
@@ -28,8 +32,15 @@ class MarkerIcon extends StatelessWidget {
         context: context,
         child: new AlertDialog(
           backgroundColor: Colors.white70,
-          title: Text(this.markerDTO.title),
-          content: Text(this.markerDTO.description),
+          title: Text(markerDTO.title, textAlign: TextAlign.center,),
+          content: RichText(
+            text: TextSpan(
+                children: <TextSpan>[
+                  TextSpan(text: ' •' + markerDTO.owner + '• ', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                  TextSpan(text: markerDTO.description, style: TextStyle(color: Colors.grey[900])),
+                ],
+              ),
+            ),
           actions: [
             LikeButton(
               circleColor:
@@ -52,7 +63,7 @@ class MarkerIcon extends StatelessWidget {
                 icon: Icon(Icons.delete),
                 color: Colors.red,
                 onPressed: () {
-                  //BORRAR EL MARCADOR
+                  //TODO BORRAR EL MARCADOR
                 }),
             IconButton(
               key: ValueKey("EditButton"),
