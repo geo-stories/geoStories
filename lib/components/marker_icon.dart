@@ -80,7 +80,7 @@ class MarkerIcon extends StatelessWidget {
 
   Future<bool> onLikeButtonTapped(bool isLiked) async{
     final bool isUserAnon = UserService.isAnonymousUser();
-    if(isUserAnon) {
+    if(!isUserAnon) {
       String uid = UserService
           .getCurrentUser()
           .uid;
@@ -90,7 +90,6 @@ class MarkerIcon extends StatelessWidget {
     else{
       return isLiked;
     }
-
 
   }
 
