@@ -1,11 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:geo_stories/screens/welcome_page.dart';
 
 Future<void> main() async {
   //debugPaintSizeEnabled = true;
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await precachePicture(ExactAssetPicture(SvgPicture.svgStringDecoder, 'assets/icons/geostories-logo.svg'), null);
   runApp(MyApp());
 }
 
