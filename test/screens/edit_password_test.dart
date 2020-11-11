@@ -29,9 +29,6 @@ void main() {
 
   testWidgets('Dado un usuario que inicia sesión, al cambiar su contraseña completando '
       'todos los campos, logra cambiarla y vuelve a la pagina ppal', (WidgetTester tester) async {
-    /*
-    //TODO Arreglar test
-
     // WelcomePage, Login
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
@@ -42,7 +39,7 @@ void main() {
     await tester.enterText(find.byKey(ValueKey("Mail")), "test@geostories.com");
     await tester.enterText(find.byKey(ValueKey("PW")), "UNQpassword");
 
-    await tester.tap(find.byKey(ValueKey("Boton")));
+    await tester.tap(find.byKey(ValueKey("Iniciar Sesion")));
     await tester.pumpAndSettle();
 
     // MapPage
@@ -50,6 +47,7 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(ValueKey("EditPassword")));
     await tester.pumpAndSettle();
+    await tester.pumpWidget(widget);
 
     await tester.enterText(find.byKey(ValueKey("PasswordFirstField")), "unqpassword");
     await tester.enterText(find.byKey(ValueKey("PasswordSecondField")), "unqpassword");
@@ -62,6 +60,5 @@ void main() {
 
     final map = find.byType(MapPage);
     expect(map, findsOneWidget);
-    */
   });
 }
