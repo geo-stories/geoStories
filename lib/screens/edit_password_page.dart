@@ -50,7 +50,6 @@ class PasswordEditPageState extends State<PasswordEditPage> {
       body: Container(
         height: MediaQuery.of(context).size.height,
         margin: EdgeInsets.all(24),
-        // child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             _buildChangePassword(),
@@ -68,8 +67,7 @@ class PasswordEditPageState extends State<PasswordEditPage> {
                         UserService.updatePassword(this.passwordText1);
                         Navigator.push(context, MaterialPageRoute(builder: (context) {
                           return MapPage();
-                        })
-                        );
+                        }));
                       } else {
                         showDialog(
                             context: context,
@@ -94,7 +92,6 @@ class PasswordEditPageState extends State<PasswordEditPage> {
           ],
         ),
       ),
-      // ),
     );
   }
 }

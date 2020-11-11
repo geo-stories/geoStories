@@ -79,15 +79,13 @@ class _MainDrawerState extends State<MainDrawer> {
       title: Transform(
         transform: Matrix4.translationValues(-20, 0.0, 0.0),
         child: Text("Configuración",
-            style: TextStyle(fontSize: 18)),
+        style: TextStyle(fontSize: 18)),
       ),
       trailing: Icon(Icons.keyboard_arrow_right),
-      onTap: () =>
-      {
+      onTap: () => {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return FormEditUserScreen(new UserDTO(username: this.userName, avatarUrl: this.avatarURL));
         }))},
-
     );
   }
 
@@ -101,14 +99,12 @@ class _MainDrawerState extends State<MainDrawer> {
             style: TextStyle(fontSize: 18)),
       ),
       trailing: Icon(Icons.keyboard_arrow_right),
-      onTap: () =>
-      {
+      onTap: () => {
       Navigator.push(
-      context, MaterialPageRoute(builder: (context) {
-      return PasswordEditPage();
-      })
+        context, MaterialPageRoute(builder: (context) {
+          return PasswordEditPage();
+        })
       )},
-
     );
   }
 }

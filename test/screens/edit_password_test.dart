@@ -57,9 +57,7 @@ void main() {
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
 
-
     final map = find.byType(MapPage);
-    print(find.byType(MapPage));
     expect(map, findsOneWidget);
   });
 }
