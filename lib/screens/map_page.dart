@@ -7,6 +7,7 @@ import 'package:geo_stories/components/main_drawer.dart';
 import 'package:geo_stories/components/marker_icon.dart';
 import 'package:geo_stories/models/marker_dto.dart';
 import 'package:geo_stories/services/marker_service.dart';
+import 'package:geo_stories/services/user_service.dart';
 import 'package:latlong/latlong.dart';
 import 'package:geo_stories/screens/create_marker_page.dart';
 import '../constants.dart';
@@ -20,6 +21,7 @@ class _MapPageState extends State<MapPage> {
   MarkerPage form;
   MapModo _modo = MapModo.explorar;
   String _modoHeaderTitle = MapModo.explorar.name;
+  bool _isAnonymousUser = UserService.isAnonymousUser();
 
   @override
   void initState() {
@@ -66,7 +68,7 @@ class _MapPageState extends State<MapPage> {
       drawer: MainDrawer(),
       extendBodyBehindAppBar: true,
       appBar: AppBar(title: Text(_modoHeaderTitle), backgroundColor: kColorLightOrange),
-      floatingActionButton: ButtonCreateMarker(onPressed: _toggleModo),
+      floatingActionButton: ButtonCreateMarker(onPressed: _toggleModo, isAnonymousUser: _isAnonymousUser,),
       body: StreamBuilder<QuerySnapshot>(
         stream: MarkerService.getMarkerSnapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geo_stories/screens/map_page.dart';
 import 'package:geo_stories/services/marker_service.dart';
+import 'package:geo_stories/services/user_service.dart';
 import 'package:latlong/latlong.dart';
 
 import '../main.dart';
@@ -19,8 +20,9 @@ class CreateMarkerPage extends StatefulWidget{
 }
 class MarkerPage extends State<CreateMarkerPage> {
   LatLng point;
-   TextEditingController titleTextController;
-   TextEditingController descriptTextController;
+  TextEditingController titleTextController;
+  TextEditingController descriptTextController;
+  String _userName = UserService.GetUsername();
 
   MarkerPage(LatLng point){
     this.point = point;
@@ -85,7 +87,7 @@ class MarkerPage extends State<CreateMarkerPage> {
     );
   }
   void _crearMarker(BuildContext context){
-    MarkerService.createMarker(titleTextController.text,descriptTextController.text,point);
+    MarkerService.createMarker(titleTextController.text,descriptTextController.text,point, _userName);
     titleTextController.clear();
     descriptTextController.clear();
     Navigator.push(

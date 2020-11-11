@@ -92,4 +92,7 @@ class UserService {
     await user.reload();
   }
 
+  static String GetUsername(){
+    return getCurrentUser().displayName;
+  }
 }

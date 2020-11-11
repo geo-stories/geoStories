@@ -34,6 +34,7 @@ void main() {
       'title' : "prueba",
       'description' : "description",
       'likes' : [],
+      'owner' : 'Sarasa',
     });
 
     await tester.pumpWidget(widget);
@@ -69,6 +70,7 @@ void main() {
       'title' : "prueba",
       'description' : "description",
       'likes' : [],
+      'owner' : 'Sarasa',
     });
 
     await tester.pumpWidget(widget);
@@ -99,6 +101,7 @@ void main() {
       'title' : "prueba",
       'description' : "description",
       'likes' : [],
+      'owner' : 'Sarasa',
     });
 
     await tester.pumpWidget(widget);
