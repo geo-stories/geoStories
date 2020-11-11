@@ -25,7 +25,6 @@ class WelcomePage extends StatelessWidget {
             RoundedButton(
               key: ValueKey("Iniciar Sesion"),
               text: "Iniciar sesión",
-              key: ValueKey("Boton iniciar sesion"),
               press: () {
                 Navigator.push(
                   context,
