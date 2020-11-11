@@ -23,7 +23,9 @@ class WelcomePage extends StatelessWidget {
             ),
             SizedBox(height: size.height * 0.05),
             RoundedButton(
+              key: ValueKey("Iniciar Sesion"),
               text: "Iniciar sesión",
+              key: ValueKey("Boton iniciar sesion"),
               press: () {
                 Navigator.push(
                   context,
@@ -37,6 +39,7 @@ class WelcomePage extends StatelessWidget {
             ),
             RoundedButton(
               text: "Ingresar como Anónimo",
+              key: ValueKey("Ingresar como Anon"),
               color: Colors.black,
               textColor: Colors.white,
               press: () {
