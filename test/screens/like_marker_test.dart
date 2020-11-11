@@ -58,6 +58,7 @@ void main() {
     await tester.pumpAndSettle();
 
     final snapshot = await instance.collection('markers').get();
+    print("hola" + snapshot.docs.first.data()['likes'].toString());
     expect(snapshot.docs.first.data()['likes'].toString() != "[]",true);
   });
 
