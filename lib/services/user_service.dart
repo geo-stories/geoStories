@@ -86,5 +86,10 @@ class UserService {
   static void disconnect(){
     auth.signOut();
   }
+  static Future<void> updatePassword(String newPassword) async {
+    final User user = auth.currentUser;
+    await user.updatePassword(newPassword);
+    await user.reload();
+  }
 
 }

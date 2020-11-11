@@ -70,6 +70,7 @@ class LoginWidget extends State<LoginBody> {
             RoundedButton(
               key: ValueKey("Boton"),
               text: "Iniciar sesión",
+              key: ValueKey("login"),
               press: () async {
                 if(ValidarCampos()) {
                   setState(() {
