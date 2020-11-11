@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:geo_stories/models/marker_dto.dart';
 import 'package:geo_stories/screens/edit_marker_page.dart';
+import 'package:geo_stories/services/marker_service.dart';
 import 'package:geo_stories/services/user_service.dart';
 import 'package:like_button/like_button.dart';
 
 class MarkerIcon extends StatelessWidget {
   final MarkerDTO markerDTO;
-
   const MarkerIcon({
     Key key, this.markerDTO
   }) : super(key: key);
@@ -46,6 +46,7 @@ class MarkerIcon extends StatelessWidget {
               },
               likeCount: markerDTO.likes?.length,
               isLiked: _userLikedIt(),
+              onTap: onLikeButtonTapped,
             ),
             IconButton(
                 key: ValueKey("DeleteButton"),
@@ -70,7 +71,22 @@ class MarkerIcon extends StatelessWidget {
     );
   }
   bool _userLikedIt() {
+    final bool isUserAnon = UserService.isAnonymousUser();
     final user = UserService.getCurrentUser();
-    return user != null &&  markerDTO.likes?.contains(user.uid);
+    return !isUserAnon && markerDTO.likes.contains(user.uid);
+  }
+
+  Future<bool> onLikeButtonTapped(bool isLiked) async{
+    final bool isUserAnon = UserService.isAnonymousUser();
+    if(!isUserAnon) {
+      String uid = UserService
+          .getCurrentUser()
+          .uid;
+      MarkerService.refreshLikes(markerDTO.id, uid, isLiked);
+      return !isLiked;
+    }
+    else{
+      return isLiked;
+    }
   }
 }

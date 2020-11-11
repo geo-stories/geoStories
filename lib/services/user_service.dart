@@ -80,7 +80,7 @@ class UserService {
   }
 
   static bool isAnonymousUser(){
-    return getCurrentUser() != null;
+    return getCurrentUser() == null;
   }
 
   static void disconnect(){
