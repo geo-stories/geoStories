@@ -36,6 +36,8 @@ void main() {
           'longitude': -58.3824443,
           'title' : "prueba",
           'description' : "description",
+          'likes': [],
+          'owner': 'Sarasa',
         });
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
@@ -68,6 +70,8 @@ void main() {
       'longitude': -58.3824443,
       'title' : "prueba",
       'description' : "description",
+      'likes': [],
+      'owner': 'Sarasa',
     });
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
@@ -98,6 +102,8 @@ void main() {
       'longitude': -58.3824443,
       'title' : "prueba",
       'description' : "description",
+      'likes': [],
+      'owner': 'Sarasa',
     });
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
@@ -131,6 +137,8 @@ void main() {
       'longitude': -58.3824443,
       'title' : "prueba",
       'description' : oldDescription,
+      'likes': [],
+      'owner': 'Sarasa',
     });
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
