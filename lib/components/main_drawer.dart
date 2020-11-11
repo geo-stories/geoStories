@@ -24,7 +24,7 @@ class _MainDrawerState extends State<MainDrawer> {
   }
 
   void cargarDatos() {
-    if (UserService.isAnonymousUser()) {
+    if (!UserService.isAnonymousUser()) {
       this.userIsAuthenticated = true;
       this.user = UserService.getCurrentUser();
       this.userName = user.displayName ?? "New User";
