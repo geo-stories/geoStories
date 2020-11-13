@@ -131,7 +131,7 @@ class _MainDrawerState extends State<MainDrawer> {
 
     ListTile _register(BuildContext context) {
     return ListTile(
-      leading: Icon(Icons.how_to_reg),
+      leading: Icon(Icons.how_to_reg),key: ValueKey("Register"),
       title: Transform(
         transform: Matrix4.translationValues(-20, 0.0, 0.0),
         child: Text("Registrarse",
@@ -147,7 +147,7 @@ class _MainDrawerState extends State<MainDrawer> {
 
   ListTile _logout(BuildContext context) {
     return ListTile(
-      leading: Icon(Icons.logout),
+      leading: Icon(Icons.logout),key: ValueKey("Logout"),
       title: Transform(
         transform: Matrix4.translationValues(-20, 0.0, 0.0),
         child: Text("Cerrar sesión",
