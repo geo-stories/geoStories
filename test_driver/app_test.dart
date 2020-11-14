@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('GeoStories App', () {
-    final ingresarAnonimoFinder = find.byValueKey('ingresar-anonimo');
+    final ingresarAnonimoFinder = find.byValueKey('Ingresar como Anon');
 
     FlutterDriver driver;
 
