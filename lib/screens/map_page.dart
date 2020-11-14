@@ -7,13 +7,13 @@ import 'package:geo_stories/components/main_drawer.dart';
 import 'package:geo_stories/components/marker_icon.dart';
 import 'package:geo_stories/models/marker_dto.dart';
 import 'package:geo_stories/services/marker_service.dart';
+import 'package:geo_stories/services/user_service.dart';
 import 'package:latlong/latlong.dart';
 import 'package:geo_stories/screens/create_marker_page.dart';
 import '../constants.dart';
 import '../enums.dart';
 
 class MapPage extends StatefulWidget {
-
   _MapPageState createState() => _MapPageState();
 }
 
@@ -21,6 +21,7 @@ class _MapPageState extends State<MapPage> {
   MarkerPage form;
   MapModo _modo = MapModo.explorar;
   String _modoHeaderTitle = MapModo.explorar.name;
+  bool _isAnonymousUser = UserService.isAnonymousUser();
 
   @override
   void initState() {
@@ -49,7 +50,6 @@ class _MapPageState extends State<MapPage> {
   }
 
   List<Marker> _markers(List<QueryDocumentSnapshot> documents) {
-
     final markerDtos = documents.map((document) => MarkerDTO.fromJSON(document.data(), document.id)).toList();
     return markerDtos.map((markerDto) {
       return Marker(
@@ -57,7 +57,7 @@ class _MapPageState extends State<MapPage> {
         width: 50.0,
         height: 50.0,
         point: LatLng(markerDto.latitude , markerDto.longitude),
-        builder: (ctx) => MarkerIcon(markerDTO: markerDto),
+        builder: (ctx) => MarkerIcon(markerDTO: markerDto,),
       );
     }).toList();
   }
@@ -67,8 +67,8 @@ class _MapPageState extends State<MapPage> {
     return Scaffold(
       drawer: MainDrawer(),
       extendBodyBehindAppBar: true,
-      appBar: AppBar(title: Text(_modoHeaderTitle), backgroundColor: kColorLightblue),
-      floatingActionButton: ButtonCreateMarker(onPressed: _toggleModo),
+      appBar: AppBar(title: Text(_modoHeaderTitle), backgroundColor: kColorLightOrange),
+      floatingActionButton: ButtonCreateMarker(onPressed: _toggleModo, isAnonymousUser: _isAnonymousUser,),
       body: StreamBuilder<QuerySnapshot>(
         stream: MarkerService.getMarkerSnapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {

@@ -1,10 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:geo_stories/models/marker_dto.dart';
 import 'package:geo_stories/screens/edit_marker_page.dart';
+import 'package:geo_stories/services/marker_service.dart';
+import 'package:geo_stories/services/user_service.dart';
+import 'package:like_button/like_button.dart';
+
+import '../constants.dart';
 
 class MarkerIcon extends StatelessWidget {
   final MarkerDTO markerDTO;
-
   const MarkerIcon({
     Key key, this.markerDTO
   }) : super(key: key);
@@ -26,15 +32,39 @@ class MarkerIcon extends StatelessWidget {
         context: context,
         child: new AlertDialog(
           backgroundColor: Colors.white70,
-          title: Text(this.markerDTO.title),
-          content: Text(this.markerDTO.description),
+          title: Text(markerDTO.title, textAlign: TextAlign.center,),
+          content: RichText(
+            text: TextSpan(
+                children: <TextSpan>[
+                  TextSpan(text: ' •' + markerDTO.owner + '• ', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                  TextSpan(text: markerDTO.description, style: TextStyle(color: Colors.grey[900])),
+                ],
+              ),
+            ),
           actions: [
+            LikeButton(
+              circleColor:
+              CircleColor(start: Color(0xffffeb3b), end: Color(0xffb71c1c)),
+              bubblesColor: BubblesColor(
+                dotPrimaryColor: Color(0xffffeb3b),
+                dotSecondaryColor: Color(0xffb71c1c),
+              ),
+              likeBuilder: (bool isLiked) {
+                return Icon(
+                  Icons.favorite_rounded,
+                  color: isLiked ? Colors.red[800] : Colors.grey,
+                );
+              },
+              likeCount: markerDTO.likes?.length,
+              isLiked: _userLikedIt(),
+              onTap: onLikeButtonTapped,
+            ),
             IconButton(
                 key: ValueKey("DeleteButton"),
                 icon: Icon(Icons.delete),
                 color: Colors.red,
                 onPressed: () {
-                  //BORRAR EL MARCADOR
+                  //TODO BORRAR EL MARCADOR
                 }),
             IconButton(
               key: ValueKey("EditButton"),
@@ -49,6 +79,25 @@ class MarkerIcon extends StatelessWidget {
             )
           ],
         )
-      );
+    );
+  }
+  bool _userLikedIt() {
+    final bool isUserAnon = UserService.isAnonymousUser();
+    final user = UserService.getCurrentUser();
+    return !isUserAnon && markerDTO.likes.contains(user.uid);
+  }
+
+  Future<bool> onLikeButtonTapped(bool isLiked) async{
+    final bool isUserAnon = UserService.isAnonymousUser();
+    if(!isUserAnon) {
+      String uid = UserService
+          .getCurrentUser()
+          .uid;
+      MarkerService.refreshLikes(markerDTO.id, uid, isLiked);
+      return !isLiked;
+    }
+    else{
+      return isLiked;
+    }
   }
 }
