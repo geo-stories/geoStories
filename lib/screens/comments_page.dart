@@ -22,23 +22,23 @@ class CommentsPage extends StatefulWidget{
 class CommentsPageState extends State<CommentsPage> {
   MarkerDTO markerDTO;
 
-  CommentsPageState(MarkerDTO markerDTO){
+  CommentsPageState(MarkerDTO markerDTO) {
     this.markerDTO = markerDTO;
   }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text(markerDTO.title),
         ),
-        body:Padding(
+        body: Padding(
           padding: const EdgeInsets.all(16.0),
-          child : Column(
+          child: Column(
             children: <Widget>[
-
             ],
           ),
         )
     );
   }
+}
