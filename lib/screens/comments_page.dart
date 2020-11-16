@@ -28,24 +28,58 @@ class CommentsPageState extends State<CommentsPage> {
     this.markerDTO = markerDTO;
   }
 
+  Future<AlertDialog> _NoAnonymousDialog() {
+    return showDialog(
+        context: context,
+        child: new AlertDialog(
+                title: new Text("Por favor, inicie sesión para comentar."),
+                actions: [
+                  FlatButton(
+                    child: Text('Ok'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    })
+                ]
+        ));
+  }
+
+  Future<AlertDialog> _NoCharactersDialog() {
+    return showDialog(
+        context: context,
+        child: new AlertDialog(
+            title: new Text("Por favor, ingrese un comentario válido."),
+            actions: [
+              FlatButton(
+                  child: Text('Ok'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  })
+            ]
+        ));
+  }
+
   Widget makeComment() {
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           RoundedTextboxField(
-              hintText: "Escribe una respuesta...",
+              hintText: _isAnonymousUser ? "Por favor, inicie sesión para comentar." : "Escribe una respuesta...",
               maxLength: 140,
               onChanged: (value) {
                 this.commentText = value;
-                print(this.commentText);
+                print(this.commentText.length);
               }),
           ActionIconButton(
-              icon: this.commentText.length > 0 ? Icon(Icons.send_rounded , color: kColorOrange, size: 35,)
-                  : Icon(Icons.send_rounded , color: Colors.grey, size: 35,),
+              icon: Icon(Icons.send_rounded , color: this.commentText.length > 0 ? kColorOrange : Colors.grey, size: 35),
               press: () {
                 if(!this._isAnonymousUser && this.commentText.length > 0) {
                   MarkerService.addComment(markerDTO.id, _userId, this.commentText);
+                } else if (this._isAnonymousUser) {
+                  _NoAnonymousDialog();
+                } else if (this.commentText.length > 0) {
+                  print("no chars");
+                  _NoCharactersDialog();
                 }
               })
         ],
