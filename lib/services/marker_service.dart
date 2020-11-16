@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geo_stories/models/marker_dto.dart';
+import 'package:geo_stories/services/utils_service.dart';
 import 'package:latlong/latlong.dart';
 
 class MarkerService {
@@ -54,5 +55,14 @@ class MarkerService {
     });
   }
 
-
+  static Future<void> addComment(String markerId, String uid, String text) async {
+    var commentId = UtilsService.generateFirestoreId();
+    database.collection("markers").doc(markerId).update({
+      'comments' : FieldValue.arrayUnion([{
+        'commentId': commentId,
+        'userId': uid,
+        'text': text
+      }]),
+    });
+  }
 }
