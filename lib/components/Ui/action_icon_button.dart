@@ -15,6 +15,7 @@ class ActionIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
+        padding:const EdgeInsets.all(0.0),
         key: ValueKey("CommentsButton"),
         icon : icon,
         onPressed: press

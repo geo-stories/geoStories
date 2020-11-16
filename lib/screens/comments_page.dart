@@ -36,8 +36,10 @@ class CommentsPageState extends State<CommentsPage> {
         child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-            RoundedTextboxField(hintText: "Escribe una respuesta..."),
-            ActionIconButton(icon: Icon(Icons.send_rounded , size: 30, color: kColorOrange),)
+            RoundedTextboxField(hintText: "Escribe una respuesta...", maxLength: 140),
+            ActionIconButton(
+                icon: Icon(Icons.send_rounded , color: kColorOrange, size: 35,),
+                press: () {})
         ],
         ),
   );
@@ -49,10 +51,12 @@ class CommentsPageState extends State<CommentsPage> {
         appBar: AppBar(
           title: Text(markerDTO.title),
         ),
-        persistentFooterButtons: [ makeComment ],
+        floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterFloat,
+        floatingActionButton: makeComment,
     );
   }
 
-  void _addComment(){}
+  void _addComment(){
+  }
 
 }
