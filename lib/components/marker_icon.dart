@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:geo_stories/models/marker_dto.dart';
+import 'package:geo_stories/screens/comments_page.dart';
 import 'package:geo_stories/screens/edit_marker_page.dart';
 import 'package:geo_stories/services/marker_service.dart';
 import 'package:geo_stories/services/user_service.dart';
@@ -74,7 +75,16 @@ class MarkerIcon extends StatelessWidget {
                 Navigator.push(context, MaterialPageRoute(builder: (context){
                   return EditMarker(markerDTO);
                 }));
-
+              },
+            ),
+            IconButton(
+              key: ValueKey("CommentsButton"),
+              icon : Icon(Icons.chat_bubble_outline_rounded),
+              color: Colors.black,
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return CommentsPage(markerDTO);
+                }));
               },
             )
           ],
