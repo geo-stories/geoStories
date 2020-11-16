@@ -25,10 +25,12 @@ void main() {
     MarkerService.database = instance;
     auth = MockFirebaseAuth();
     UserService.auth = auth;
+    UserService.database =instance;
   });
 
   testWidgets('Dado un usuario que inicia sesión, al cambiar su contraseña completando '
       'todos los campos, logra cambiarla y vuelve a la pagina ppal', (WidgetTester tester) async {
+
     // WelcomePage, Login
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
@@ -45,23 +47,21 @@ void main() {
     // MapPage
     await tester.dragFrom(tester.getTopLeft(find.byType(MaterialApp)), Offset(300, 0));
     await tester.pumpAndSettle();
-    await tester.tap(find.byKey(ValueKey("EditPassword")));
+    await tester.tap(find.byKey(ValueKey("editNick")));
     await tester.pumpAndSettle();
     await tester.pumpWidget(widget);
 
-    await tester.enterText(find.byKey(ValueKey("PasswordFirstField")), "unqpassword");
-    await tester.enterText(find.byKey(ValueKey("PasswordSecondField")), "unqpassword");
+    await tester.enterText(find.byKey(ValueKey("nombreUsuarioCampo")), "pruebaTest");
+    print(find.byKey(ValueKey("nombreUsuarioCampo")));
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byKey(ValueKey("Guardar PW")));
+    await tester.tap(find.byKey(ValueKey("Guardar Nuevo Nick")));
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
+    print(UserService.getCurrentUser().displayName);
 
-    await UserService.disconnect();
 
-
-    final map = find.byType(MapPage);
-    expect(map, findsOneWidget);
+    expect("UserService.getCurrentUser().displayName", "pruebaTest");
   });
 }
