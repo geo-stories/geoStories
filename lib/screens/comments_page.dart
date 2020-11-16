@@ -71,7 +71,7 @@ class CommentsPageState extends State<CommentsPage> {
                 });
               }),
           ActionIconButton(
-              icon: Icon(Icons.send_rounded , color: _sendCommentButtonColor, size: 35),
+              icon: Icon(Icons.send_rounded , color: _sendCommentButtonColor, size: 35, key: ValueKey('SendComment')),
               press: () {
                 if(!this._isAnonymousUser && !_commentTextIsEmpty()) {
                   MarkerService.addComment(markerDTO.id, _userId, this.commentText)
