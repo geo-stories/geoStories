@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geo_stories/components/btn_createmarker.dart';
+import 'package:geo_stories/components/btn_location.dart';
 import 'package:geo_stories/components/main_drawer.dart';
 import 'package:geo_stories/components/marker_icon.dart';
 import 'package:geo_stories/models/marker_dto.dart';
@@ -28,6 +29,9 @@ class _MapPageState extends State<MapPage> {
     super.initState();
   }
 
+  void onLocationGranted(){
+
+  }
   void _toggleModo() {
     setState(() {
       if (_modo == MapModo.explorar) {
@@ -68,7 +72,13 @@ class _MapPageState extends State<MapPage> {
       drawer: MainDrawer(),
       extendBodyBehindAppBar: true,
       appBar: AppBar(title: Text(_modoHeaderTitle), backgroundColor: kColorLightOrange),
-      floatingActionButton: ButtonCreateMarker(onPressed: _toggleModo, isAnonymousUser: _isAnonymousUser,),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          ButtonLocation(callback: onLocationGranted),
+          //ButtonCreateMarker(onPressed: _toggleModo, isAnonymousUser: _isAnonymousUser,),
+        ],
+      ),
       body: StreamBuilder<QuerySnapshot>(
         stream: MarkerService.getMarkerSnapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
