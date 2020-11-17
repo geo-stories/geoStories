@@ -15,7 +15,6 @@ import 'package:geo_stories/services/user_service.dart';
 
 
 void main() {
-
   Widget widget = MaterialApp(
     home: MapPage(),
   );
@@ -60,10 +59,10 @@ void main() {
     await tester.tap(find.byKey(ValueKey("SendComment")));
     await tester.pumpWidget(widget);
 
-
     final alertDialog = find.byKey(ValueKey("Por favor, inicie sesión para comentar."));
     expect(alertDialog, findsOneWidget);
   });
+
 
   testWidgets('cuando intento publicar algo vacio tira un AlertDialog', (WidgetTester tester) async {
     await instance.collection('markers')
@@ -179,11 +178,7 @@ void main() {
     final query = await instance.collection('markers').get();
     var queryMapResult = query.docs.first.data()['comments'].first;
     CommentDTO commentDTO = CommentDTO.fromJSON(queryMapResult);
-
-    var comentarioEsperado = "Esto es un comentario con mas de ciento cuarenta caracteres para los tests de firestore. Si este test tiene exito, este comentario se recort";
+    final comentarioEsperado = "Esto es un comentario con mas de ciento cuarenta caracteres para los tests de firestore. Si este test tiene exito, este comentario se recort";
     expect(commentDTO.text, comentarioEsperado);
   });
-
-
-
 }

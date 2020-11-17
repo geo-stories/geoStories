@@ -1,11 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geo_stories/components/Ui/action_icon_button.dart';
 import 'package:geo_stories/components/Ui/rounded_textbox_field.dart';
 import 'package:geo_stories/models/marker_dto.dart';
 import 'package:geo_stories/services/marker_service.dart';
 import 'package:geo_stories/services/user_service.dart';
-
 import '../constants.dart';
 
 class CommentsPage extends StatefulWidget{
@@ -16,8 +14,8 @@ class CommentsPage extends StatefulWidget{
 
   @override
   CommentsPageState createState() => CommentsPageState(markerDTO);
-
 }
+
 class CommentsPageState extends State<CommentsPage> {
   MarkerDTO markerDTO;
   String commentText = "";
