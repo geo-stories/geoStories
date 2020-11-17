@@ -29,7 +29,81 @@ void main() {
     auth = MockFirebaseAuth();
     UserService.auth = auth;
   });
-  testWidgets('Intentar editar un marcador un campo vacío muestra un AlertDialog', (WidgetTester tester) async {
+
+  testWidgets('cuando intento publicar con un anonimo tira un AlertDialog', (WidgetTester tester) async {
+    await instance.collection('markers')
+        .add({
+      'latitude': -34.6001014,
+      'longitude': -58.3824443,
+      'title' : "prueba",
+      'description' : "description",
+      'likes': [],
+      'owner': 'Sarasa',
+      'comments' : []
+    });
+
+    await tester.pumpWidget(widget);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byType(MarkerIcon));
+    await tester.pumpWidget(widget);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(ValueKey("CommentsButton")));
+    await tester.pumpWidget(widget);
+    await tester.pumpAndSettle();
+
+    final comment = "este es un comentario de prueba";
+    await tester.enterText(find.byType(RoundedTextboxField), comment);
+    await tester.pumpWidget(widget);
+
+    await tester.tap(find.byKey(ValueKey("SendComment")));
+    await tester.pumpWidget(widget);
+
+
+    final alertDialog = find.byKey(ValueKey("Por favor, inicie sesión para comentar."));
+    expect(alertDialog, findsOneWidget);
+  });
+
+  testWidgets('cuando intento publicar algo vacio tira un AlertDialog', (WidgetTester tester) async {
+    await instance.collection('markers')
+        .add({
+      'latitude': -34.6001014,
+      'longitude': -58.3824443,
+      'title' : "prueba",
+      'description' : "description",
+      'likes': [],
+      'owner': 'Sarasa',
+      'comments' : []
+    });
+    auth.createUserWithEmailAndPassword(email: "test@geostories.com",  password: "UNQpassword");
+    auth.signInWithEmailAndPassword(email: "test@geostories.com",  password: "UNQpassword");
+
+    await tester.pumpWidget(widget);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byType(MarkerIcon));
+    await tester.pumpWidget(widget);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(ValueKey("CommentsButton")));
+    await tester.pumpWidget(widget);
+    await tester.pumpAndSettle();
+
+    final comment = "";
+    await tester.enterText(find.byType(RoundedTextboxField), comment);
+    await tester.pumpWidget(widget);
+
+    await tester.tap(find.byKey(ValueKey("SendComment")));
+    await tester.pumpWidget(widget);
+
+
+    final alertFinder = find.byKey(ValueKey("Por favor, ingrese un comentario válido."));
+    expect(alertFinder, findsOneWidget);
+  });
+
+
+  testWidgets('cuando envio un comntario se publica', (WidgetTester tester) async {
     await instance.collection('markers')
         .add({
       'latitude': -34.6001014,
@@ -58,8 +132,7 @@ void main() {
     await tester.enterText(find.byType(RoundedTextboxField), comment);
     await tester.pumpWidget(widget);
 
-
-    await tester.tap(find.byKey(ValueKey("SendComment"))); //agregar la key
+    await tester.tap(find.byKey(ValueKey("SendComment")));
     await tester.pumpWidget(widget);
 
 
@@ -68,5 +141,49 @@ void main() {
     CommentDTO commentDTO = CommentDTO.fromJSON(queryMapResult);
     expect(commentDTO.text, comment);
   });
+
+
+  testWidgets('cuando intento pasarme de caracteres y publicar se publica un comentario recortado', (WidgetTester tester) async {
+    await instance.collection('markers')
+        .add({
+      'latitude': -34.6001014,
+      'longitude': -58.3824443,
+      'title' : "prueba",
+      'description' : "description",
+      'likes': [],
+      'owner': 'Sarasa',
+      'comments' : []
+    });
+    auth.createUserWithEmailAndPassword(email: "test@geostories.com",  password: "UNQpassword");
+    auth.signInWithEmailAndPassword(email: "test@geostories.com",  password: "UNQpassword");
+
+    await tester.pumpWidget(widget);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byType(MarkerIcon));
+    await tester.pumpWidget(widget);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(ValueKey("CommentsButton")));
+    await tester.pumpWidget(widget);
+    await tester.pumpAndSettle();
+
+    final comment = "Esto es un comentario con mas de ciento cuarenta caracteres para los tests de firestore. Si este test tiene exito, este comentario se recorta";
+    await tester.enterText(find.byType(RoundedTextboxField), comment);
+    await tester.pumpWidget(widget);
+
+    await tester.tap(find.byKey(ValueKey("SendComment")));
+    await tester.pumpWidget(widget);
+
+
+    final query = await instance.collection('markers').get();
+    var queryMapResult = query.docs.first.data()['comments'].first;
+    CommentDTO commentDTO = CommentDTO.fromJSON(queryMapResult);
+
+    var comentarioEsperado = "Esto es un comentario con mas de ciento cuarenta caracteres para los tests de firestore. Si este test tiene exito, este comentario se recort";
+    expect(commentDTO.text, comentarioEsperado);
+  });
+
+
 
 }

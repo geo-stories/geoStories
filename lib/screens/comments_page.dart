@@ -33,6 +33,7 @@ class CommentsPageState extends State<CommentsPage> {
     return showDialog(
         context: context,
         child: new AlertDialog(
+            key: ValueKey(alertText),
             title: new Text(alertText),
             actions: [
               FlatButton(
