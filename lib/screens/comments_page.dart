@@ -48,7 +48,6 @@ class CommentsPageState extends State<CommentsPage> {
   }
 
   void _resetCommentTextbox() {
-    this.commentText = "";
     setState(() {
       this.commentText = "";
     });
@@ -72,18 +71,8 @@ class CommentsPageState extends State<CommentsPage> {
           ActionIconButton(
               icon: Icon(Icons.send_rounded , color: _sendCommentButtonColor, size: 35),
               key: ValueKey('SendComment'),
-              press: () {
-                if(!this._isAnonymousUser && !_commentTextIsEmpty()) {
-                  MarkerService.addComment(markerDTO.id, _userId, this.commentText)
-                      .then((_) => _alertDialog("Comentario publicado con éxito!"))
-                      .then((_) => _resetCommentTextbox())
-                      .catchError((_) => _alertDialog("Ha ocurrido un error. Por favor, intente de nuevo más tarde."));
-                } else if (this._isAnonymousUser) {
-                  _alertDialog("Por favor, inicie sesión para comentar.");
-                } else if (_commentTextIsEmpty()) {
-                  _alertDialog("Por favor, ingrese un comentario válido.");
-                }
-              })
+              press: _publishComment
+          )
         ],
       ),
     );
@@ -100,4 +89,17 @@ class CommentsPageState extends State<CommentsPage> {
       floatingActionButton: makeComment(),
     );
   }
+
+  void _publishComment(){
+        if(!this._isAnonymousUser && !_commentTextIsEmpty()) {
+        MarkerService.addComment(markerDTO.id, _userId, this.commentText)
+            .then((_) => _alertDialog("Comentario publicado con éxito!"))
+            .then((_) => _resetCommentTextbox())
+            .catchError((_) => _alertDialog("Ha ocurrido un error. Por favor, intente de nuevo más tarde."));
+      } else if (this._isAnonymousUser) {
+        _alertDialog("Por favor, inicie sesión para comentar.");
+      } else if (_commentTextIsEmpty()) {
+        _alertDialog("Por favor, ingrese un comentario válido.");
+      }
+    }
 }

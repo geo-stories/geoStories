@@ -25,7 +25,7 @@ void main() {
   setUp(() async {
     instance = MockFirestoreInstance();
     MarkerService.database = instance;
-    auth = MockFirebaseAuth();
+    auth = MockFirebaseAuth(signedIn: true);
     UserService.auth = auth;
   });
 
@@ -40,6 +40,7 @@ void main() {
       'owner': 'Sarasa',
       'comments' : []
     });
+    auth.signOut();
 
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
@@ -75,8 +76,6 @@ void main() {
       'owner': 'Sarasa',
       'comments' : []
     });
-    auth.createUserWithEmailAndPassword(email: "test@geostories.com",  password: "UNQpassword");
-    auth.signInWithEmailAndPassword(email: "test@geostories.com",  password: "UNQpassword");
 
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
@@ -113,8 +112,6 @@ void main() {
       'owner': 'Sarasa',
       'comments' : []
     });
-    auth.createUserWithEmailAndPassword(email: "test@geostories.com",  password: "UNQpassword");
-    auth.signInWithEmailAndPassword(email: "test@geostories.com",  password: "UNQpassword");
 
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
@@ -153,8 +150,6 @@ void main() {
       'owner': 'Sarasa',
       'comments' : []
     });
-    auth.createUserWithEmailAndPassword(email: "test@geostories.com",  password: "UNQpassword");
-    auth.signInWithEmailAndPassword(email: "test@geostories.com",  password: "UNQpassword");
 
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
