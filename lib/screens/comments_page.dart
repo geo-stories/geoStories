@@ -21,6 +21,7 @@ class CommentsPage extends StatefulWidget{
 class CommentsPageState extends State<CommentsPage> {
   MarkerDTO markerDTO;
   String commentText = "";
+  Color _sendCommentButtonColor = Colors.grey;
   bool _isAnonymousUser = UserService.isAnonymousUser();
   String _userId = UserService.getCurrentUser()?.uid;
 
@@ -28,26 +29,11 @@ class CommentsPageState extends State<CommentsPage> {
     this.markerDTO = markerDTO;
   }
 
-  Future<AlertDialog> _NoAnonymousDialog() {
+  Future<AlertDialog> _alertDialog(String alertText) {
     return showDialog(
         context: context,
         child: new AlertDialog(
-                title: new Text("Por favor, inicie sesión para comentar."),
-                actions: [
-                  FlatButton(
-                    child: Text('Ok'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    })
-                ]
-        ));
-  }
-
-  Future<AlertDialog> _NoCharactersDialog() {
-    return showDialog(
-        context: context,
-        child: new AlertDialog(
-            title: new Text("Por favor, ingrese un comentario válido."),
+            title: new Text(alertText),
             actions: [
               FlatButton(
                   child: Text('Ok'),
@@ -56,6 +42,18 @@ class CommentsPageState extends State<CommentsPage> {
                   })
             ]
         ));
+  }
+
+  bool _commentTextIsEmpty() {
+    return commentText.trim().isEmpty;
+  }
+
+  void _resetCommentTextbox() {
+    this.commentText = "";
+    setState(() {
+      this.commentText = "";
+    });
+    FocusScope.of(context).unfocus();
   }
 
   Widget makeComment() {
@@ -68,18 +66,22 @@ class CommentsPageState extends State<CommentsPage> {
               maxLength: 140,
               onChanged: (value) {
                 this.commentText = value;
-                print(this.commentText.length);
+                setState(() {
+                  this._sendCommentButtonColor = (!_commentTextIsEmpty()) ? kColorOrange : Colors.grey;
+                });
               }),
           ActionIconButton(
-              icon: Icon(Icons.send_rounded , color: this.commentText.length > 0 ? kColorOrange : Colors.grey, size: 35),
+              icon: Icon(Icons.send_rounded , color: _sendCommentButtonColor, size: 35),
               press: () {
-                if(!this._isAnonymousUser && this.commentText.length > 0) {
-                  MarkerService.addComment(markerDTO.id, _userId, this.commentText);
+                if(!this._isAnonymousUser && !_commentTextIsEmpty()) {
+                  MarkerService.addComment(markerDTO.id, _userId, this.commentText)
+                      .then((_) => _alertDialog("Comentario publicado con éxito!"))
+                      .then((_) => _resetCommentTextbox())
+                      .catchError((_) => _alertDialog("Ha ocurrido un error. Por favor, intente de nuevo más tarde."));
                 } else if (this._isAnonymousUser) {
-                  _NoAnonymousDialog();
-                } else if (this.commentText.length > 0) {
-                  print("no chars");
-                  _NoCharactersDialog();
+                  _alertDialog("Por favor, inicie sesión para comentar.");
+                } else if (_commentTextIsEmpty()) {
+                  _alertDialog("Por favor, ingrese un comentario válido.");
                 }
               })
         ],
@@ -87,15 +89,15 @@ class CommentsPageState extends State<CommentsPage> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(markerDTO.title),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterFloat,
-        floatingActionButton: makeComment(),
+      backgroundColor: kColorBgLightgrey,
+      appBar: AppBar(
+        title: Text(markerDTO.title),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterFloat,
+      floatingActionButton: makeComment(),
     );
   }
 }
