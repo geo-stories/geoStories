@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_mocks/cloud_firestore_mocks.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -37,6 +39,8 @@ void main() {
       'owner': 'Sarasa',
       'comments' : []
     });
+    auth.createUserWithEmailAndPassword(email: "test@geostories.com",  password: "UNQpassword");
+    auth.signInWithEmailAndPassword(email: "test@geostories.com",  password: "UNQpassword");
 
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
@@ -53,12 +57,17 @@ void main() {
     await tester.enterText(find.byType(RoundedTextboxField), comment);
     await tester.pumpWidget(widget);
 
+
     await tester.tap(find.byKey(ValueKey("SendComment"))); //agregar la key
     await tester.pumpWidget(widget);
 
 
     final query = await instance.collection('markers').get();
-    final firstComment = (query.docs.first.data()['comments'].first);
+    var queryResult = query.docs.first.data()['comments'].first.toString();
+    print(queryResult);
+    var firstComment = json.decode(queryResult);
+    print (firstComment);
     expect(firstComment, comment);
   });
+
 }
