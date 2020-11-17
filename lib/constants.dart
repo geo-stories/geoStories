@@ -6,3 +6,4 @@ const kColorBgGrey = Color(0xFFDCDCDC);
 const kColorLightblue = Color(0xFF39A7E4);
 
 const kAvatarNotUser = 'assets/images/user_gst.jpg';
+const kErrorFlutter = 'assets/images/error_flutter_gst.png';
