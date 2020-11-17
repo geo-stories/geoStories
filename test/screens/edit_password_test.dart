@@ -58,10 +58,8 @@ void main() {
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
 
-    await UserService.disconnect();
-
-
     final map = find.byType(MapPage);
     expect(map, findsOneWidget);
+
   });
 }

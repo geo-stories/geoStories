@@ -25,7 +25,7 @@ void main() {
     MarkerService.database = instance;
     auth = MockFirebaseAuth();
     UserService.auth = auth;
-    UserService.database =instance;
+    UserService.database = instance;
   });
 
   testWidgets('Dado un usuario que inicia sesión, al cambiar su contraseña completando '
@@ -59,9 +59,9 @@ void main() {
     await tester.tap(find.byKey(ValueKey("Guardar Nuevo Nick")));
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
-    print(UserService.getCurrentUser().displayName);
 
+    final map = find.byType(MapPage);
+    expect(map, findsOneWidget);
 
-    expect("UserService.getCurrentUser().displayName", "pruebaTest");
   });
 }
