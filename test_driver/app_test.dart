@@ -17,6 +17,7 @@ void main() {
       }
     });
 
+    /*
     test('el texto de ingresar anónimo existe', () async {
       final textoIngresarAnonimoFinder = find.descendant(of: ingresarAnonimoFinder, matching: find.descendant(of: find.byType('FlatButton'), matching: find.byType('Text')));
 
@@ -30,6 +31,8 @@ void main() {
       expect(crearMarkerFinder, isNotNull);
     });
 
+
+     */
     test('Se logeo con un usuario y se crea un marker', () async {
 
       // WelcomePage, Login
@@ -53,11 +56,10 @@ void main() {
       await driver.tap(find.byValueKey("boton-crear-marker"));
 
       print("Toca el mapa para seleccionar el lugar");
-      await driver.tap(find.byType("MapPage"), timeout: Duration(seconds: 10));
+      await driver.tap(find.byType("FlutterMap"));
 
       print("Toco y completo el campo nombre");
       final textField1 = find.byValueKey('field1');
-      print(textField1);
       await driver.tap(textField1);
       await driver.enterText("Prueba");
 
@@ -72,7 +74,7 @@ void main() {
       print("Regreso al mapPage");
       final map = find.byType("MapPage");
       expect(map, isNotNull);
-      
+
     });
 
   });
