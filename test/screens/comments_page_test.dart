@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geo_stories/components/Ui/rounded_textbox_field.dart';
 import 'package:geo_stories/components/marker_icon.dart';
+import 'package:geo_stories/models/comment_dto.dart';
 import 'package:geo_stories/screens/map_page.dart';
 import 'package:geo_stories/services/marker_service.dart';
 import 'package:geo_stories/services/user_service.dart';
@@ -63,11 +64,9 @@ void main() {
 
 
     final query = await instance.collection('markers').get();
-    var queryResult = query.docs.first.data()['comments'].first.toString();
-    print(queryResult);
-    var firstComment = json.decode(queryResult);
-    print (firstComment);
-    expect(firstComment, comment);
+    var queryMapResult = query.docs.first.data()['comments'].first;
+    CommentDTO commentDTO = CommentDTO.fromJSON(queryMapResult);
+    expect(commentDTO.text, comment);
   });
 
 }
