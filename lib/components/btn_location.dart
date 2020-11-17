@@ -57,6 +57,13 @@ class _ButtonLocationState extends State<ButtonLocation> {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(onPressed: onTap);
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15.0),
+      child: FloatingActionButton(
+        onPressed: onTap,
+        heroTag: 'btn-location',
+        child: Icon(Icons.location_history),
+      ),
+    );
   }
 }

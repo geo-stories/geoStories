@@ -14,12 +14,14 @@ class ButtonCreateMarker extends StatelessWidget {
         onPressed: onPressed,
         child: Icon(Icons.add_location_outlined, size: 45),
         backgroundColor: Colors.orange,
+        heroTag: 'btn-create-marker',
       );
     }
     else{
       return FloatingActionButton(
         child: Icon(Icons.add_location_outlined),
-        backgroundColor: Colors.grey,
+        backgroundColor: Colors.grey, onPressed: () {  },
+        heroTag: 'btn-create-marker',
       );
     }
 
