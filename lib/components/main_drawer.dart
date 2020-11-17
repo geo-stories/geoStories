@@ -6,6 +6,8 @@ import 'package:geo_stories/screens/edit_user_page.dart';
 import 'package:geo_stories/screens/login_page.dart';
 import 'package:geo_stories/services/user_service.dart';
 import '../constants.dart';
+import '../screens/signup_page.dart';
+import '../screens/welcome_page.dart';
 import 'Ui/user_circle_avatar.dart';
 
 class MainDrawer extends StatefulWidget {
@@ -41,13 +43,31 @@ class _MainDrawerState extends State<MainDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
+      child: Column(
         children: <Widget>[
-          _buildAvatar(userName, avatarURL),
-          _buildConfig(context, userIsAuthenticated),
-          _changePassword(context, userIsAuthenticated),
-          _buildLogOut (context, userIsAuthenticated),
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                _buildAvatar(userName, avatarURL),
+                _buildConfig(context, userIsAuthenticated),
+                _changePassword(context, userIsAuthenticated),
+              ],
+            ),
+          ),
+          Container(
+              child: Align(
+                  alignment: FractionalOffset.bottomCenter,
+                  child: Container(
+                      child: Column(
+                        children: <Widget>[
+                          Divider(),
+                          userIsAuthenticated ? _logout(context) : _register(context),
+                        ],
+                      )
+                  )
+              )
+          )
         ],
       ),
     );
@@ -126,6 +146,39 @@ class _MainDrawerState extends State<MainDrawer> {
           return PasswordEditPage();
         })
       )},
+    );
+  }
+
+    ListTile _register(BuildContext context) {
+    return ListTile(
+      leading: Icon(Icons.how_to_reg),key: ValueKey("Register"),
+      title: Transform(
+        transform: Matrix4.translationValues(-20, 0.0, 0.0),
+        child: Text("Registrarse",
+            style: TextStyle(fontSize: 18)),
+      ),
+      trailing: Icon(Icons.keyboard_arrow_right),
+      onTap: () async => {
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return SignUpPage();
+        }))},
+    );
+  }
+
+  ListTile _logout(BuildContext context) {
+    return ListTile(
+      leading: Icon(Icons.logout),key: ValueKey("Logout"),
+      title: Transform(
+        transform: Matrix4.translationValues(-20, 0.0, 0.0),
+        child: Text("Cerrar sesión",
+            style: TextStyle(fontSize: 18)),
+      ),
+      trailing: Icon(Icons.keyboard_arrow_right),
+      onTap: () async => {
+        await UserService.disconnect(),
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return WelcomePage();
+        }))},
     );
   }
 }

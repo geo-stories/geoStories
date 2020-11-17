@@ -11,6 +11,7 @@ class ButtonCreateMarker extends StatelessWidget {
   Widget build(BuildContext context) {
     if(!isAnonymousUser){
       return FloatingActionButton(
+        key: Key('boton-crear-marker'),
         onPressed: onPressed,
         child: Icon(Icons.add_location_outlined, size: 45),
         backgroundColor: Colors.orange,

@@ -4,10 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:geo_stories/components/Ui/rounded_button.dart';
-import 'package:geo_stories/components/main_drawer.dart';
-import 'package:geo_stories/screens/map_page.dart';
-import 'package:geo_stories/screens/edit_password_page.dart';
 import 'package:geo_stories/screens/signup_page.dart';
 import 'package:geo_stories/screens/welcome_page.dart';
 import 'package:geo_stories/services/marker_service.dart';
@@ -28,40 +24,60 @@ void main() {
     UserService.auth = auth;
   });
 
-  testWidgets('Dado un usuario que inicia sesión, al cambiar su contraseña completando '
-      'todos los campos, logra cambiarla y vuelve a la pagina ppal', (WidgetTester tester) async {
-    // WelcomePage, Login
+  testWidgets('Dado un usuario anonimo, al abrir el drawer acciona sobre registrarse'
+      ' y se dirige a la pagina registrarse', (WidgetTester tester) async {
+
+    // WelcomePage
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
 
+    // Inicia como anonimo
+    await tester.tap(find.byKey(ValueKey("Ingresar como Anon")));
+    await tester.pumpAndSettle();
+
+    // MapPage - Drawer
+    await tester.dragFrom(tester.getTopLeft(find.byType(MaterialApp)), Offset(300, 0));
+    await tester.pumpAndSettle();
+
+    // Acciona sobre el registrarse
+    await tester.tap(find.byKey(ValueKey("Register")));
+    await tester.pumpAndSettle();
+
+    // Se redirige a la pagina de registro
+    final signUpPage = find.byType(SignUpPage);
+    expect(signUpPage, findsOneWidget);
+  });
+
+  testWidgets('Dado un usuario anonimo, al abrir el drawer acciona sobre Cerrar sesion, '
+      'se desconecta de su sesion y se redirige a la welcomePage', (WidgetTester tester) async {
+
+    // WelcomePage
+    await tester.pumpWidget(widget);
+    await tester.pumpAndSettle();
+
+    // Pantalla Login
     await tester.tap(find.byKey(ValueKey("Iniciar Sesion")));
     await tester.pumpAndSettle();
 
+    // Carga los datos del usuario para iniciar sesion
     await tester.enterText(find.byKey(ValueKey("Mail")), "test@geostories.com");
     await tester.enterText(find.byKey(ValueKey("PW")), "UNQpassword");
 
+    // Inicia sesion
     await tester.tap(find.byKey(ValueKey("Iniciar Sesion")));
     await tester.pumpAndSettle();
 
-    // MapPage
+    // MapPage - Drawer
     await tester.dragFrom(tester.getTopLeft(find.byType(MaterialApp)), Offset(300, 0));
     await tester.pumpAndSettle();
-    await tester.tap(find.byKey(ValueKey("EditPassword")));
-    await tester.pumpAndSettle();
-    await tester.pumpWidget(widget);
 
-    await tester.enterText(find.byKey(ValueKey("PasswordFirstField")), "unqpassword");
-    await tester.enterText(find.byKey(ValueKey("PasswordSecondField")), "unqpassword");
-    await tester.pumpWidget(widget);
+    // Acciona sobre Cerrar sesion
+    await tester.tap(find.byKey(ValueKey("Logout")));
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byKey(ValueKey("Guardar PW")));
-    await tester.pumpWidget(widget);
-    await tester.pumpAndSettle();
-
-    final map = find.byType(MapPage);
-    expect(map, findsOneWidget);
-
+    // Se redirige a la WelcomePage
+    final welcomePage = find.byType(WelcomePage);
+    expect(welcomePage, findsOneWidget);
   });
 
 }
