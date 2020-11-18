@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:geo_stories/components/btn_createmarker.dart';
+import 'package:geo_stories/components/Ui/action_button.dart';
 import 'package:geo_stories/components/main_drawer.dart';
 import 'package:geo_stories/components/marker_icon.dart';
 import 'package:geo_stories/models/marker_dto.dart';
@@ -68,7 +68,7 @@ class _MapPageState extends State<MapPage> {
       drawer: MainDrawer(),
       extendBodyBehindAppBar: true,
       appBar: AppBar(title: Text(_modoHeaderTitle), backgroundColor: kColorLightOrange),
-      floatingActionButton: ButtonCreateMarker(onPressed: _toggleModo, isAnonymousUser: _isAnonymousUser,),
+      floatingActionButton: ActionButton(onPressed: _toggleModo, isAnonymousUser: _isAnonymousUser, icon : Icon(Icons.add_location_outlined, size: 45)),
       body: StreamBuilder<QuerySnapshot>(
         stream: MarkerService.getMarkerSnapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
