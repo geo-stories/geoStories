@@ -17,8 +17,11 @@ void main() {
       }
     });
 
-    test('el texto de ingresar anónimo existe', () async {
-      final textoIngresarAnonimoFinder = find.descendant(of: ingresarAnonimoFinder, matching: find.descendant(of: find.byType('FlatButton'), matching: find.byType('Text')));
+  test('el texto de ingresar anónimo existe', () async {
+      final textoIngresarAnonimoFinder = find.descendant(
+          of: ingresarAnonimoFinder,
+          matching: find.descendant(
+              of: find.byType('FlatButton'), matching: find.byType('Text')));
 
       expect(await driver.getText(textoIngresarAnonimoFinder), "Ingresar como Anónimo");
     });
@@ -29,5 +32,6 @@ void main() {
       final crearMarkerFinder = find.byValueKey('boton-crear-marker');
       expect(crearMarkerFinder, isNotNull);
     });
+
   });
 }

@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geo_stories/components/already_have_an_account_acheck.dart';
 import 'package:geo_stories/components/Ui/rounded_button.dart';
@@ -115,6 +114,7 @@ class LoginWidget extends State<LoginBody> {
     );
   }
 
+  // ignore: non_constant_identifier_names
   bool ValidarCampos() {
     CleanValidator();
     if(!esEmailValido()){
