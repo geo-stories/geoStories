@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:geo_stories/models/marker_dto.dart';
 import 'package:geo_stories/screens/comments_page.dart';
@@ -10,11 +11,21 @@ import 'package:like_button/like_button.dart';
 
 import '../constants.dart';
 
-class MarkerIcon extends StatelessWidget {
+class MarkerIcon extends StatefulWidget  {
   final MarkerDTO markerDTO;
   const MarkerIcon({
     Key key, this.markerDTO
   }) : super(key: key);
+  @override
+  MarkerIconState createState() => MarkerIconState(markerDTO);
+  }
+class MarkerIconState extends State<MarkerIcon>{
+  MarkerDTO markerDTO;
+  int counterComents;
+  MarkerIconState(MarkerDTO markerDTO){
+    this.markerDTO=markerDTO;
+    this.counterComents= this.markerDTO.comments?.length;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +41,7 @@ class MarkerIcon extends StatelessWidget {
 
   void _MarkerModalInfo(BuildContext context) {
     showDialog(
+
         context: context,
         child: new AlertDialog(
           backgroundColor: Colors.white70,
@@ -77,16 +89,19 @@ class MarkerIcon extends StatelessWidget {
                 }));
               },
             ),
-            IconButton(
-              key: ValueKey("CommentsButton"),
-              icon : Icon(Icons.chat_bubble_outline_rounded),
-              color: Colors.black,
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return CommentsPage(markerDTO);
-                }));
-              },
-            )
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                      icon: Icon(Icons.chat_bubble_outline_rounded),
+                      padding: EdgeInsets.all(0.0),
+                      onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context){
+                        return CommentsPage(markerDTO);}));}),
+                  Text(this.counterComents.toString(),)
+                ],
+              ),
+            ),
           ],
         )
     );
@@ -110,4 +125,6 @@ class MarkerIcon extends StatelessWidget {
       return isLiked;
     }
   }
+
+
 }

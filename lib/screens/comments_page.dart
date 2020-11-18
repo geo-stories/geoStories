@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geo_stories/components/Ui/action_icon_button.dart';
 import 'package:geo_stories/components/Ui/rounded_textbox_field.dart';
+import 'package:geo_stories/models/comment_dto.dart';
 import 'package:geo_stories/models/marker_dto.dart';
 import 'package:geo_stories/services/marker_service.dart';
 import 'package:geo_stories/services/user_service.dart';
@@ -22,6 +24,7 @@ class CommentsPageState extends State<CommentsPage> {
   Color _sendCommentButtonColor = Colors.grey;
   bool _isAnonymousUser = UserService.isAnonymousUser();
   String _userId = UserService.getCurrentUser()?.uid;
+
 
   CommentsPageState(MarkerDTO markerDTO) {
     this.markerDTO = markerDTO;
@@ -93,7 +96,13 @@ class CommentsPageState extends State<CommentsPage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+      body: Center(
+        child: SingleChildScrollView(
+
+        ),
+      ),
       backgroundColor: kColorBgLightgrey,
       appBar: AppBar(
         title: Text(markerDTO.title),

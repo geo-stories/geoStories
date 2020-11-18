@@ -58,7 +58,7 @@ android {
     productFlavors {
         dev {
             dimension "default"
-            applicationIdSuffix ".dev"
+         //   applicationIdSuffix ".dev"
         }
         integration {
             dimension "default"
