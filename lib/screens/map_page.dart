@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:geo_stories/components/btn_location.dart';
 import 'package:geo_stories/components/Ui/action_button.dart';
 import 'package:geo_stories/components/main_drawer.dart';
 import 'package:geo_stories/components/marker_icon.dart';
@@ -18,14 +19,26 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
+  final MapController _mapController = MapController();
   MarkerPage form;
   MapModo _modo = MapModo.explorar;
   String _modoHeaderTitle = MapModo.explorar.name;
   bool _isAnonymousUser = UserService.isAnonymousUser();
+  Marker _markerUsuario;
+  LatLng _center = LatLng(-34.6001014, -58.3824443);
 
   @override
   void initState() {
     super.initState();
+  }
+
+  void onLocationGranted(Marker marker) {
+    setState(() {
+      _markerUsuario = marker;
+    });
+    if (marker != null) {
+      _mapController.move(marker.point, 13);
+    }
   }
 
   void _toggleModo() {
@@ -51,7 +64,7 @@ class _MapPageState extends State<MapPage> {
 
   List<Marker> _markers(List<QueryDocumentSnapshot> documents) {
     final markerDtos = documents.map((document) => MarkerDTO.fromJSON(document.data(), document.id)).toList();
-    return markerDtos.map((markerDto) {
+    final markers = markerDtos.map((markerDto) {
       return Marker(
         anchorPos: AnchorPos.align(AnchorAlign.top),
         width: 50.0,
@@ -60,6 +73,10 @@ class _MapPageState extends State<MapPage> {
         builder: (ctx) => MarkerIcon(markerDTO: markerDto,),
       );
     }).toList();
+    if (_markerUsuario != null) {
+      markers.add(_markerUsuario);
+    }
+    return markers;
   }
 
   @override
@@ -68,18 +85,25 @@ class _MapPageState extends State<MapPage> {
       drawer: MainDrawer(),
       extendBodyBehindAppBar: true,
       appBar: AppBar(title: Text(_modoHeaderTitle), backgroundColor: kColorLightOrange),
-      floatingActionButton: ActionButton(onPressed: _toggleModo, isAnonymousUser: _isAnonymousUser, icon : Icon(Icons.add_location_outlined, size: 45)),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          ButtonLocation(callback: onLocationGranted),
+          ActionButton(onPressed: _toggleModo, isAnonymousUser: _isAnonymousUser, icon : Icon(Icons.add_location_outlined, size: 45)),
+        ],
+      ),
       body: StreamBuilder<QuerySnapshot>(
         stream: MarkerService.getMarkerSnapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
 
           if (snapshot.hasData) {
             return FlutterMap(
+              mapController: _mapController,
               options: MapOptions(
                 onTap: _onTap,
                 minZoom: 2,
                 maxZoom: 18,
-                center: LatLng(-34.6001014, -58.3824443),
+                center: _center,
                 zoom: 13.0,
               ),
               layers: [

@@ -16,12 +16,14 @@ class ActionButton extends StatelessWidget {
         onPressed: onPressed,
         child: icon,
         backgroundColor: Colors.orange,
+        heroTag: 'action-button',
       );
     }
     else{
       return FloatingActionButton(
         child: icon,
         backgroundColor: Colors.grey,
+        heroTag: 'action-button',
       );
     }
 

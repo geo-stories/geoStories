@@ -32,7 +32,7 @@ void main() {
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byType(FloatingActionButton));
+    await tester.tap(find.byKey(Key('boton-crear-marker')));
     await tester.pumpWidget(widget);
 
     await tester.tap(find.byType(FlutterMap));
@@ -52,7 +52,7 @@ void main() {
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byType(FloatingActionButton));
+    await tester.tap(find.byKey(Key('boton-crear-marker')));
     await tester.pumpWidget(widget);
 
     await tester.tap(find.byType(FlutterMap));
