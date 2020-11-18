@@ -52,7 +52,6 @@ void main() {
     await tester.pumpWidget(widget);
 
     await tester.enterText(find.byKey(ValueKey("nombreUsuarioCampo")), "pruebaTest");
-    print(find.byKey(ValueKey("nombreUsuarioCampo")));
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
 
