@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geo_stories/models/user_dto.dart';
 import 'package:geo_stories/screens/edit_password_page.dart';
 import 'package:geo_stories/screens/edit_user_page.dart';
+import 'package:geo_stories/screens/login_page.dart';
 import 'package:geo_stories/services/user_service.dart';
 import '../constants.dart';
 import '../screens/signup_page.dart';
@@ -92,9 +93,28 @@ class _MainDrawerState extends State<MainDrawer> {
           decoration: BoxDecoration( color: kColorLightOrange),
         );
   }
+  ListTile _buildLogOut(BuildContext context, bool _enableEdit) {
+    return ListTile(
+      key: ValueKey("logOut"),
+      enabled: _enableEdit,
+      leading: Icon(Icons.vpn_key_outlined,),
+      title: Transform(
+        transform: Matrix4.translationValues(-20, 0.0, 0.0),
+        child: Text("Log Out",
+            style: TextStyle(fontSize: 18)),
+      ),
+      trailing: Icon(Icons.keyboard_arrow_right),
+      onTap: () => {
+        UserService.GetUsername(),
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return LoginPage();
+        }))},
+    );
+  }
 
   ListTile _buildConfig(BuildContext context, bool _enableEdit) {
     return ListTile(
+      key: ValueKey("editNick"),
       enabled: _enableEdit,
       leading: Icon(Icons.settings_rounded,),
       title: Transform(

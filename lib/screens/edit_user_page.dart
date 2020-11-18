@@ -25,6 +25,7 @@ class FormEditUserScreenState extends State<FormEditUserScreen> {
   String _avatar;
   bool _avatarTypeAsset;
   bool isLoading;
+  TextEditingController userName;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -60,6 +61,7 @@ class FormEditUserScreenState extends State<FormEditUserScreen> {
                                       Text("Aplicando cambios")],
                   ) :
                 RoundedButton(
+                  key: ValueKey("Guardar Nuevo Nick"),
                   text: "Guardar",
                   width: 0.4,
                   press: () async {
@@ -73,6 +75,7 @@ class FormEditUserScreenState extends State<FormEditUserScreen> {
                     await UserService.updateCurrentUserProfile(new UserDTO(username: _username, avatarUrl: _avatar));
                     Navigator.pop(context);
                     Navigator.pop(context);
+
                   },
                 ),
                 ),
@@ -119,6 +122,7 @@ class FormEditUserScreenState extends State<FormEditUserScreen> {
 
   Widget _buildName() {
     return TextFormField(
+      key: ValueKey("nombreUsuarioCampo"),
       decoration: InputDecoration(labelText: 'Nombre de Usuario'),
       initialValue: _username,
       maxLength: 20,
@@ -134,6 +138,8 @@ class FormEditUserScreenState extends State<FormEditUserScreen> {
     );
   }
 }
+
+
 
 
 

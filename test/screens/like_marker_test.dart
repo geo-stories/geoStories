@@ -53,7 +53,6 @@ void main() {
     await tester.tap(find.byType(MarkerIcon));
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
-
     await tester.tap(find.byType(LikeButton));
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
