@@ -6,8 +6,9 @@ class MarkerDTO {
   final String id;
   final List<dynamic> likes;
   final String owner;
+  final List<Object> comments;
 
-  MarkerDTO({this.title, this.description, this.latitude, this.longitude, this.id, this.likes, this.owner});
+  MarkerDTO({this.title, this.description, this.latitude, this.longitude, this.id, this.likes, this.owner, this.comments});
 
   factory MarkerDTO.fromJSON(Map<String,dynamic> json, String id) {
     return MarkerDTO(
@@ -17,6 +18,7 @@ class MarkerDTO {
       longitude: json['longitude'],
       likes: json['likes'],
       owner: json['owner'],
+      comments: json['comments'],
       id: id
     );
   }

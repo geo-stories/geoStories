@@ -36,6 +36,7 @@ dependencies:
   flutter_svg: 0.19.1
   like_button: 1.0.4
   location: ^3.0.0
+  randombytes: ^0.1.1
 
 dev_dependencies:
   flutter_test:
