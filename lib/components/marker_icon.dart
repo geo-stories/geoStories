@@ -13,19 +13,15 @@ import '../constants.dart';
 
 class MarkerIcon extends StatefulWidget  {
   final MarkerDTO markerDTO;
-  const MarkerIcon({
-    Key key, this.markerDTO
-  }) : super(key: key);
+
+  MarkerIcon({this.markerDTO});
+
   @override
-  MarkerIconState createState() => MarkerIconState(markerDTO);
-  }
-class MarkerIconState extends State<MarkerIcon>{
-  MarkerDTO markerDTO;
+  _MarkerIconState createState() => _MarkerIconState();
+}
+
+class _MarkerIconState extends State<MarkerIcon>{
   int counterComents;
-  MarkerIconState(MarkerDTO markerDTO){
-    this.markerDTO=markerDTO;
-    this.counterComents= this.markerDTO.comments?.length;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,23 +30,22 @@ class MarkerIconState extends State<MarkerIcon>{
       iconSize: 50.0,
       color: Colors.red,
       onPressed: () {
-        _MarkerModalInfo(context);
+        _showMarkerModalInfo(context);
       },
     );
   }
 
-  void _MarkerModalInfo(BuildContext context) {
+  void _showMarkerModalInfo(BuildContext context) {
     showDialog(
-
         context: context,
         child: new AlertDialog(
           backgroundColor: Colors.white70,
-          title: Text(markerDTO.title, textAlign: TextAlign.center,),
+          title: Text(widget.markerDTO.title, textAlign: TextAlign.center,),
           content: RichText(
             text: TextSpan(
                 children: <TextSpan>[
-                  TextSpan(text: ' •' + markerDTO.owner + '• ', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                  TextSpan(text: markerDTO.description, style: TextStyle(color: Colors.grey[900])),
+                  TextSpan(text: ' •' + widget.markerDTO.owner + '• ', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                  TextSpan(text: widget.markerDTO.description, style: TextStyle(color: Colors.grey[900])),
                 ],
               ),
             ),
@@ -68,7 +63,7 @@ class MarkerIconState extends State<MarkerIcon>{
                   color: isLiked ? Colors.red[800] : Colors.grey,
                 );
               },
-              likeCount: markerDTO.likes?.length,
+              likeCount: widget.markerDTO.likes?.length,
               isLiked: _userLikedIt(),
               onTap: onLikeButtonTapped,
             ),
@@ -85,7 +80,7 @@ class MarkerIconState extends State<MarkerIcon>{
               color: Colors.black,
               onPressed: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return EditMarker(markerDTO);
+                  return EditMarker(widget.markerDTO);
                 }));
               },
             ),
@@ -97,7 +92,7 @@ class MarkerIconState extends State<MarkerIcon>{
                       icon: Icon(Icons.chat_bubble_outline_rounded),
                       padding: EdgeInsets.all(0.0),
                       onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return CommentsPage(markerDTO);}));}),
+                        return CommentsPage(widget.markerDTO);}));}),
                   Text(this.counterComents.toString(),)
                 ],
               ),
@@ -109,7 +104,7 @@ class MarkerIconState extends State<MarkerIcon>{
   bool _userLikedIt() {
     final bool isUserAnon = UserService.isAnonymousUser();
     final user = UserService.getCurrentUser();
-    return !isUserAnon && markerDTO.likes.contains(user.uid);
+    return !isUserAnon && widget.markerDTO.likes.contains(user.uid);
   }
 
   Future<bool> onLikeButtonTapped(bool isLiked) async{
@@ -118,7 +113,7 @@ class MarkerIconState extends State<MarkerIcon>{
       String uid = UserService
           .getCurrentUser()
           .uid;
-      MarkerService.refreshLikes(markerDTO.id, uid, isLiked);
+      MarkerService.refreshLikes(widget.markerDTO.id, uid, isLiked);
       return !isLiked;
     }
     else{
