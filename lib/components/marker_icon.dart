@@ -61,13 +61,6 @@ class MarkerIcon extends StatelessWidget {
               onTap: onLikeButtonTapped,
             ),
             IconButton(
-                key: ValueKey("DeleteButton"),
-                icon: Icon(Icons.delete),
-                color: Colors.red,
-                onPressed: () {
-                  //TODO BORRAR EL MARCADOR
-                }),
-            IconButton(
               key: ValueKey("EditButton"),
               icon : Icon(Icons.edit_outlined),
               color: Colors.black,
