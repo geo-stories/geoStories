@@ -84,7 +84,7 @@ class _MapPageState extends State<MapPage> {
     return Scaffold(
       drawer: MainDrawer(),
       extendBodyBehindAppBar: true,
-      appBar: AppBar(title: Text(_modoHeaderTitle), backgroundColor: kColorLightOrange),
+      appBar: AppBar(title: Text(_modoHeaderTitle), backgroundColor: kColorLightblue),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [

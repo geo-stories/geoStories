@@ -35,8 +35,8 @@ class EditMarkerPage extends State<EditMarker> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
-          title: Text("Editar un nuevo marker "),
-          backgroundColor: kColorLightOrange,
+          title: Text("Editar marcador"),
+          backgroundColor: kColorLightblue,
         ),
         body:Padding(
           padding: const EdgeInsets.all(16.0),
