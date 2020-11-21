@@ -23,6 +23,21 @@ class MarkerIcon extends StatefulWidget  {
 class _MarkerIconState extends State<MarkerIcon>{
   int counterComents;
 
+  Widget editButton(){
+    if(!UserService.isAnonymousUser()){
+      return IconButton(
+        key: ValueKey("EditButton"),
+        icon : Icon(Icons.edit_outlined),
+        color: Colors.black,
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context){
+            return EditMarker(widget.markerDTO);
+          }));
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return IconButton(
@@ -74,16 +89,7 @@ class _MarkerIconState extends State<MarkerIcon>{
                 onPressed: () {
                   //TODO BORRAR EL MARCADOR
                 }),
-            IconButton(
-              key: ValueKey("EditButton"),
-              icon : Icon(Icons.edit_outlined),
-              color: Colors.black,
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return EditMarker(widget.markerDTO);
-                }));
-              },
-            ),
+            editButton(),
             Container(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
