@@ -24,7 +24,7 @@ class _MarkerIconState extends State<MarkerIcon>{
   int counterComents;
 
   Widget editButton(){
-    if(!UserService.isAnonymousUser()){
+    if(UserService.isMarkerOwner(widget.markerDTO.owner)){
       return IconButton(
         key: ValueKey("EditButton"),
         icon : Icon(Icons.edit_outlined),
