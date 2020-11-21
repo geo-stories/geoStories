@@ -100,9 +100,7 @@ class UserService {
     if(!isAnonymousUser()){
       return getCurrentUser().uid == markerOwner;
     }
-    else {
-      return false;
-    }
+    return false;
   }
 
 }

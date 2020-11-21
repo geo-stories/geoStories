@@ -59,7 +59,7 @@ class _MarkerIconState extends State<MarkerIcon>{
           content: RichText(
             text: TextSpan(
                 children: <TextSpan>[
-                  TextSpan(text: ' •' + widget.markerDTO.owner + '• ', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                  TextSpan(text: ' •' + MarkerService.GetOwnerUsername(widget.markerDTO.owner).toString() + '• ', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
                   TextSpan(text: widget.markerDTO.description, style: TextStyle(color: Colors.grey[900])),
                 ],
               ),
@@ -82,16 +82,7 @@ class _MarkerIconState extends State<MarkerIcon>{
               isLiked: _userLikedIt(),
               onTap: onLikeButtonTapped,
             ),
-            IconButton(
-              key: ValueKey("EditButton"),
-              icon : Icon(Icons.edit_outlined),
-              color: Colors.black,
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return EditMarker(markerDTO);
-                }));
-              },
-            ),
+            editButton(),
           ],
         )
     );

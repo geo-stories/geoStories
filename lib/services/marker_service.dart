@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geo_stories/models/marker_dto.dart';
+import 'package:geo_stories/models/user_dto.dart';
 import 'package:geo_stories/services/utils_service.dart';
 import 'package:latlong/latlong.dart';
 
@@ -30,8 +31,6 @@ class MarkerService {
        });
   }
 
-  
-  
   static Stream<QuerySnapshot> getMarkerSnapshots() {
     return database.collection("markers").snapshots();
   }
@@ -66,4 +65,28 @@ class MarkerService {
       }]),
     });
   }
+
+  static Stream<UserDTO> GetOwnerUsername(String markerOwner) {
+    var result = database.collection("users").doc(markerOwner).get();
+    final userDTO = result.asStream().map((document) => UserDTO.fromJSON(document.data()));
+    return userDTO;
+  }
+/*
+  List<Marker> _markers(List<QueryDocumentSnapshot> documents) {
+    final markerDtos = documents.map((document) => MarkerDTO.fromJSON(document.data(), document.id)).toList();
+    final markers = markerDtos.map((markerDto) {
+      return Marker(
+        anchorPos: AnchorPos.align(AnchorAlign.top),
+        width: 50.0,
+        height: 50.0,
+        point: LatLng(markerDto.latitude , markerDto.longitude),
+        builder: (ctx) => MarkerIcon(markerDTO: markerDto,),
+      );
+    }).toList();
+    if (_markerUsuario != null) {
+      markers.add(_markerUsuario);
+    }
+    return markers;
+  }
+  */
 }
