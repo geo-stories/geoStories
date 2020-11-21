@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -33,40 +35,60 @@ class CommentsPageState extends State<CommentsPage> {
   }
 
   Widget getCommentListFromMarker(DocumentSnapshot markerDoc) {
-
     var markerData = markerDoc.data();
     MarkerDTO _markerDTO = MarkerDTO.fromJSON(markerData, markerDTO.id);
-    List<CommentDTO> _comments = _markerDTO.comments.map((comment) => CommentDTO.fromJSON(comment)).toList();
-    return new Column(children: <Widget>[
+    List<CommentDTO> _comments = _markerDTO.comments.map((comment) =>
+        CommentDTO.fromJSON(comment)).toList();
+    return new Row(children: <Widget>[
       for(var comment in _comments ) Text(comment.text)
     ],);
   }
 
+  Widget _buildCommentsList(DocumentSnapshot markerDoc) {
+    var markerData = markerDoc.data();
+    MarkerDTO _markerDTO = MarkerDTO.fromJSON(markerData, markerDTO.id);
+    List<CommentDTO> _comments = _markerDTO.comments.map((comment) => CommentDTO.fromJSON(comment)).toList();
 
-    Widget _buildCommentsList(DocumentSnapshot markerDoc){
-    return ListView.builder(
-
-      itemBuilder: (context,index){
-        var markerData = markerDoc.data();
-        MarkerDTO _markerDTO = MarkerDTO.fromJSON(markerData, markerDTO.id);
-        List<CommentDTO> _comments = _markerDTO.comments.map((comment) => CommentDTO.fromJSON(comment)).toList();
-        if(index < _comments.length){
-          return Card(
-            child: _buildCommentItem(_comments[index]),
-          );
-        }
-      },
+    return SingleChildScrollView(
+      physics: ScrollPhysics(),
+      child: Column(children: <Widget>[
+        ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: _comments.length,
+        // ignore: missing_return
+        itemBuilder: (context,index) {
+          if (index < _comments.length) {
+            return Card(
+              child: FutureBuilder(
+                  future: UserService.getUserByID(_comments[index].userId),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      return Container(
+                          height: 30.0,
+                          child: _buildCommentItem(_comments[index], snapshot.data)
+                      );
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  }
+              ));
+              }
+            },
+          )
+        ],
+      ),
     );
   }
-  Widget _buildCommentItem (CommentDTO comment) async  {
-    var userData =  await UserService.getUserByID(comment.userId);
+
+  Widget _buildCommentItem (CommentDTO comment, DocumentSnapshot userData)  {
     var user = UserDTO.fromJSON(userData.data());
+    String avatarUrl = user.avatarUrl ?? kAvatarNotUser;
     return ListTile(
         leading: UserCircleAvatar(
-          radius: 50,
-          avatarURL: user.avatarUrl,
-        ) ,
-        //UserService.getCurrentUser().photoURL,
+          radius: 42,
+          avatarURL: avatarUrl
+        ),
     title: Text(user.username),
     subtitle: Text(
     comment.text
