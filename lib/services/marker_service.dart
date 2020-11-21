@@ -24,6 +24,7 @@ class MarkerService {
         print(e);
       }
   }
+
   static updateMarker(String title, String description,MarkerDTO dto){
        database.collection("markers").doc(dto.id).update({
          'title' : title,
@@ -33,6 +34,10 @@ class MarkerService {
 
   static Stream<QuerySnapshot> getMarkerSnapshots() {
     return database.collection("markers").snapshots();
+  }
+
+  static Stream<DocumentSnapshot> getSingleMarkerSnapshots(String markerId) {
+    return database.collection("markers").doc(markerId).snapshots();
   }
 
   static Future<void> refreshLikes(String markerId, String uid, bool isLiked) async {
