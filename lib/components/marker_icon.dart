@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:geo_stories/models/marker_dto.dart';
 import 'package:geo_stories/screens/comments_page.dart';
@@ -8,13 +8,17 @@ import 'package:geo_stories/services/marker_service.dart';
 import 'package:geo_stories/services/user_service.dart';
 import 'package:like_button/like_button.dart';
 
-import '../constants.dart';
-
-class MarkerIcon extends StatelessWidget {
+class MarkerIcon extends StatefulWidget  {
   final MarkerDTO markerDTO;
-  const MarkerIcon({
-    Key key, this.markerDTO
-  }) : super(key: key);
+
+  MarkerIcon({this.markerDTO});
+
+  @override
+  _MarkerIconState createState() => _MarkerIconState();
+}
+
+class _MarkerIconState extends State<MarkerIcon>{
+  int counterComents;
 
   @override
   Widget build(BuildContext context) {
@@ -23,25 +27,26 @@ class MarkerIcon extends StatelessWidget {
       iconSize: 50.0,
       color: Colors.red,
       onPressed: () {
-        _MarkerModalInfo(context);
+        _showMarkerModalInfo(context);
       },
     );
   }
 
-  void _MarkerModalInfo(BuildContext context) {
+  void _showMarkerModalInfo(BuildContext context) {
+    counterComents = widget.markerDTO.comments.length;
     showDialog(
         context: context,
         child: new AlertDialog(
           backgroundColor: Colors.white70,
-          title: Text(markerDTO.title, textAlign: TextAlign.center,),
+          title: Text(widget.markerDTO.title, textAlign: TextAlign.center,),
           content: RichText(
             text: TextSpan(
-                children: <TextSpan>[
-                  TextSpan(text: ' •' + markerDTO.owner + '• ', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                  TextSpan(text: markerDTO.description, style: TextStyle(color: Colors.grey[900])),
-                ],
-              ),
+              children: <TextSpan>[
+                TextSpan(text: ' •' + widget.markerDTO.owner + '• ', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                TextSpan(text: widget.markerDTO.description, style: TextStyle(color: Colors.grey[900])),
+              ],
             ),
+          ),
           actions: [
             LikeButton(
               circleColor:
@@ -56,7 +61,7 @@ class MarkerIcon extends StatelessWidget {
                   color: isLiked ? Colors.red[800] : Colors.grey,
                 );
               },
-              likeCount: markerDTO.likes?.length,
+              likeCount: widget.markerDTO.likes?.length,
               isLiked: _userLikedIt(),
               onTap: onLikeButtonTapped,
             ),
@@ -66,20 +71,23 @@ class MarkerIcon extends StatelessWidget {
               color: Colors.black,
               onPressed: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return EditMarker(markerDTO);
+                  return EditMarker(widget.markerDTO);
                 }));
               },
             ),
-            IconButton(
-              key: ValueKey("CommentsButton"),
-              icon : Icon(Icons.chat_bubble_outline_rounded),
-              color: Colors.black,
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return CommentsPage(markerDTO);
-                }));
-              },
-            )
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                      icon: Icon(Icons.chat_bubble_outline_rounded),
+                      padding: EdgeInsets.all(0.0),
+                      onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context){
+                        return CommentsPage(widget.markerDTO);}));}),
+                  Text(this.counterComents.toString(),)
+                ],
+              ),
+            ),
           ],
         )
     );
@@ -87,7 +95,7 @@ class MarkerIcon extends StatelessWidget {
   bool _userLikedIt() {
     final bool isUserAnon = UserService.isAnonymousUser();
     final user = UserService.getCurrentUser();
-    return !isUserAnon && markerDTO.likes.contains(user.uid);
+    return !isUserAnon && widget.markerDTO.likes.contains(user.uid);
   }
 
   Future<bool> onLikeButtonTapped(bool isLiked) async{
@@ -96,11 +104,13 @@ class MarkerIcon extends StatelessWidget {
       String uid = UserService
           .getCurrentUser()
           .uid;
-      MarkerService.refreshLikes(markerDTO.id, uid, isLiked);
+      MarkerService.refreshLikes(widget.markerDTO.id, uid, isLiked);
       return !isLiked;
     }
     else{
       return isLiked;
     }
   }
+
+
 }
