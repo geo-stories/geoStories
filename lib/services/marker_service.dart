@@ -37,6 +37,10 @@ class MarkerService {
     return database.collection("markers").snapshots();
   }
 
+  static Stream<DocumentSnapshot> getSingleMarkerSnapshots(String markerId) {
+    return database.collection("markers").doc(markerId).snapshots();
+  }
+
   static Future<void> refreshLikes(String markerId, String uid, bool isLiked) async {
     if(isLiked){
       removeLike(markerId, uid);
