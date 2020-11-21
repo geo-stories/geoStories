@@ -95,4 +95,9 @@ class UserService {
   static String GetUsername(){
     return getCurrentUser().displayName;
   }
+  static Future<DocumentSnapshot> getUserByID(String uid) {
+    Future<DocumentSnapshot> ref = database.collection("users").doc(uid).get();
+    return  ref;
+  }
+  print()
 }
