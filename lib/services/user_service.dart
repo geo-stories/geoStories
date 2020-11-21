@@ -138,4 +138,9 @@ class UserService {
     return false;
   }
 
+  static Future<DocumentSnapshot> getUserByID(String uid) {
+    Future<DocumentSnapshot> ref = database.collection("users").doc(uid).get();
+    return  ref;
+  }
+  print()
 }
