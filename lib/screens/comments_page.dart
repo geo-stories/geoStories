@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geo_stories/components/Ui/action_icon_button.dart';
 import 'package:geo_stories/components/Ui/rounded_textbox_field.dart';
+import 'package:geo_stories/components/Ui/user_circle_avatar.dart';
 import 'package:geo_stories/models/comment_dto.dart';
 import 'package:geo_stories/models/marker_dto.dart';
+import 'package:geo_stories/models/user_dto.dart';
 import 'package:geo_stories/services/marker_service.dart';
 import 'package:geo_stories/services/user_service.dart';
 import '../constants.dart';
@@ -30,12 +33,44 @@ class CommentsPageState extends State<CommentsPage> {
   }
 
   Widget getCommentListFromMarker(DocumentSnapshot markerDoc) {
+
     var markerData = markerDoc.data();
     MarkerDTO _markerDTO = MarkerDTO.fromJSON(markerData, markerDTO.id);
     List<CommentDTO> _comments = _markerDTO.comments.map((comment) => CommentDTO.fromJSON(comment)).toList();
     return new Column(children: <Widget>[
       for(var comment in _comments ) Text(comment.text)
     ],);
+  }
+
+
+    Widget _buildCommentsList(DocumentSnapshot markerDoc){
+    return ListView.builder(
+
+      itemBuilder: (context,index){
+        var markerData = markerDoc.data();
+        MarkerDTO _markerDTO = MarkerDTO.fromJSON(markerData, markerDTO.id);
+        List<CommentDTO> _comments = _markerDTO.comments.map((comment) => CommentDTO.fromJSON(comment)).toList();
+        if(index < _comments.length){
+          return Card(
+            child: _buildCommentItem(_comments[index]),
+          );
+        }
+      },
+    );
+  }
+  Widget _buildCommentItem (CommentDTO comment) async  {
+    var userData =  await UserService.getUserByID(comment.userId);
+    var user = UserDTO.fromJSON(userData.data());
+    return ListTile(
+        leading: UserCircleAvatar(
+          radius: 50,
+          avatarURL: user.avatarUrl,
+        ) ,
+        //UserService.getCurrentUser().photoURL,
+    title: Text(user.username),
+    subtitle: Text(
+    comment.text
+    ));
   }
 
   Future<AlertDialog> _alertDialog(String alertText) {
@@ -111,7 +146,7 @@ class CommentsPageState extends State<CommentsPage> {
         builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasData) {
             var marker = snapshot.data;
-            return getCommentListFromMarker(marker);
+            return _buildCommentsList(marker);
           }
           return Container();
         },
