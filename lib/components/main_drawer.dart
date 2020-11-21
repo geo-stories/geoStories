@@ -90,7 +90,7 @@ class _MainDrawerState extends State<MainDrawer> {
                   )
                 ],
               ),
-          decoration: BoxDecoration( color: kColorLightOrange),
+          decoration: BoxDecoration( color: kColorLightblue),
         );
   }
   ListTile _buildLogOut(BuildContext context, bool _enableEdit) {

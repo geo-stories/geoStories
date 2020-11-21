@@ -83,25 +83,14 @@ class _MarkerIconState extends State<MarkerIcon>{
               onTap: onLikeButtonTapped,
             ),
             IconButton(
-                key: ValueKey("DeleteButton"),
-                icon: Icon(Icons.delete),
-                color: Colors.red,
-                onPressed: () {
-                  //TODO BORRAR EL MARCADOR
-                }),
-            editButton(),
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                      icon: Icon(Icons.chat_bubble_outline_rounded),
-                      padding: EdgeInsets.all(0.0),
-                      onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return CommentsPage(widget.markerDTO);}));}),
-                  Text(this.counterComents.toString(),)
-                ],
-              ),
+              key: ValueKey("EditButton"),
+              icon : Icon(Icons.edit_outlined),
+              color: Colors.black,
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return EditMarker(markerDTO);
+                }));
+              },
             ),
           ],
         )
