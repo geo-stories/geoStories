@@ -142,5 +142,5 @@ class UserService {
     Future<DocumentSnapshot> ref = database.collection("users").doc(uid).get();
     return  ref;
   }
-  print()
+
 }
