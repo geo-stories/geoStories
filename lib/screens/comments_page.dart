@@ -170,6 +170,16 @@ class CommentsPageState extends State<CommentsPage> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: kColorBgLightgrey,
+      body: StreamBuilder<DocumentSnapshot>(
+        stream: MarkerService.getSingleMarkerSnapshots(markerDTO.id),
+        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.hasData) {
+            var marker = snapshot.data;
+            return getCommentListFromMarker(marker);
+          }
+          return Container();
+        },
+      ),
       appBar: AppBar(
         title: Text(markerDTO.title),
       ),
