@@ -36,7 +36,6 @@ class CommentsPageState extends State<CommentsPage> {
   }
 
   Widget getCommentListFromMarker(DocumentSnapshot markerDoc) {
-
     var markerData = markerDoc.data();
     MarkerDTO _markerDTO = MarkerDTO.fromJSON(markerData, markerDTO.id);
     List<CommentDTO> _comments = _markerDTO.comments.map((comment) =>
