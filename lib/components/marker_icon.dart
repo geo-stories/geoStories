@@ -18,7 +18,7 @@ class MarkerIcon extends StatefulWidget  {
 }
 
 class _MarkerIconState extends State<MarkerIcon>{
-  int counterComents;
+  int commentsCounter;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class _MarkerIconState extends State<MarkerIcon>{
   }
 
   void _showMarkerModalInfo(BuildContext context) {
-    counterComents = widget.markerDTO.comments.length;
+    commentsCounter = widget.markerDTO.comments.length;
     showDialog(
         context: context,
         child: new AlertDialog(
@@ -47,7 +47,18 @@ class _MarkerIconState extends State<MarkerIcon>{
               ],
             ),
           ),
+          actionsPadding: EdgeInsets.symmetric(horizontal: 20.0),
           actions: [
+            IconButton(
+              key: ValueKey("EditButton"),
+              icon : Icon(Icons.edit_outlined),
+              color: Colors.black,
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return EditMarker(widget.markerDTO);
+                }));
+              },
+            ),
             LikeButton(
               circleColor:
               CircleColor(start: Color(0xffffeb3b), end: Color(0xffb71c1c)),
@@ -65,26 +76,19 @@ class _MarkerIconState extends State<MarkerIcon>{
               isLiked: _userLikedIt(),
               onTap: onLikeButtonTapped,
             ),
-            IconButton(
-              key: ValueKey("EditButton"),
-              icon : Icon(Icons.edit_outlined),
-              color: Colors.black,
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return EditMarker(widget.markerDTO);
-                }));
-              },
-            ),
+
             Container(
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
                       icon: Icon(Icons.chat_bubble_outline_rounded),
-                      padding: EdgeInsets.all(0.0),
-                      onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return CommentsPage(widget.markerDTO);}));}),
-                  Text(this.counterComents.toString(),)
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) {
+                          return CommentsPage(widget.markerDTO);
+                        }));
+                      }
+                  ),
+                  Text(this.commentsCounter.toString())
                 ],
               ),
             ),
