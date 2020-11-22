@@ -63,7 +63,7 @@ class _MapPageState extends State<MapPage> {
   }
 
   List<Marker> _markers(List<QueryDocumentSnapshot> documents) {
-    final markerDtos = documents.map((document) => MarkerDTO.fromJSON(document.data(), document.id)).toList();
+    final markerDtos = documents.map((document) => MarkerDTO.fromJSONWithId(document.data(), document.id)).toList();
     final markers = markerDtos.map((markerDto) {
       return Marker(
         anchorPos: AnchorPos.align(AnchorAlign.top),
@@ -82,7 +82,7 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MainDrawer(),
+      drawer: MainDrawer(mapController: _mapController),
       extendBodyBehindAppBar: true,
       appBar: AppBar(title: Text(_modoHeaderTitle), backgroundColor: kColorLightblue),
       floatingActionButton: Column(

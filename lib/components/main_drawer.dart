@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:geo_stories/models/user_dto.dart';
 import 'package:geo_stories/screens/edit_password_page.dart';
 import 'package:geo_stories/screens/edit_user_page.dart';
 import 'package:geo_stories/screens/login_page.dart';
+import 'package:geo_stories/screens/my_markers_page.dart';
 import 'package:geo_stories/services/user_service.dart';
 import '../constants.dart';
 import '../screens/signup_page.dart';
@@ -11,6 +13,10 @@ import '../screens/welcome_page.dart';
 import 'Ui/user_circle_avatar.dart';
 
 class MainDrawer extends StatefulWidget {
+  final MapController mapController;
+
+  const MainDrawer({Key key, this.mapController}) : super(key: key);
+
   _MainDrawerState createState() => _MainDrawerState();
 }
 
@@ -52,6 +58,7 @@ class _MainDrawerState extends State<MainDrawer> {
                 _buildAvatar(userName, avatarURL),
                 _buildConfig(context, userIsAuthenticated),
                 _changePassword(context, userIsAuthenticated),
+                _misMarcadores(context, userIsAuthenticated),
               ],
             ),
           ),
@@ -149,7 +156,7 @@ class _MainDrawerState extends State<MainDrawer> {
     );
   }
 
-    ListTile _register(BuildContext context) {
+  ListTile _register(BuildContext context) {
     return ListTile(
       leading: Icon(Icons.how_to_reg),key: ValueKey("Register"),
       title: Transform(
@@ -181,4 +188,24 @@ class _MainDrawerState extends State<MainDrawer> {
         }))},
     );
   }
+
+  ListTile _misMarcadores(BuildContext context, bool _enableEdit) {
+    return ListTile(
+      enabled: _enableEdit,
+      leading: Icon(Icons.map),key: ValueKey("MisMarcadores"),
+      title: Transform(
+        transform: Matrix4.translationValues(-20, 0.0, 0.0),
+        child: Text("Mis Marcadores",
+            style: TextStyle(fontSize: 18)),
+      ),
+      trailing: Icon(Icons.keyboard_arrow_right),
+      onTap: () => {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) {
+          return MyMarkersPage(mapController: widget.mapController);
+        })
+      )},
+    );
+  }
+
 }

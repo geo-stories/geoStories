@@ -10,7 +10,7 @@ class MarkerDTO {
 
   MarkerDTO({this.title, this.description, this.latitude, this.longitude, this.id, this.likes, this.owner, this.comments});
 
-  factory MarkerDTO.fromJSON(Map<String,dynamic> json, String id) {
+  factory MarkerDTO.fromJSONWithId(Map<String,dynamic> json, String id) {
     return MarkerDTO(
       title: json['title'],
       description: json['description'],
@@ -22,4 +22,17 @@ class MarkerDTO {
       id: id
     );
   }
+
+  factory MarkerDTO.fromJSON(Map<String,dynamic> json) {
+    return MarkerDTO(
+        title: json['title'],
+        description: json['description'],
+        latitude: json['latitude'],
+        longitude: json['longitude'],
+        likes: json['likes'],
+        owner: json['owner'],
+        comments: json['comments'],
+    );
+  }
+
 }
