@@ -29,6 +29,7 @@ class CommentsPageState extends State<CommentsPage> {
   Color _sendCommentButtonColor = Colors.grey;
   bool _isAnonymousUser = UserService.isAnonymousUser();
   String _userId = UserService.getCurrentUser()?.uid;
+  TextEditingController msgController = TextEditingController();
 
   CommentsPageState(MarkerDTO markerDTO) {
     this.markerDTO = markerDTO;
@@ -121,6 +122,7 @@ class CommentsPageState extends State<CommentsPage> {
   void _resetCommentTextbox() {
     setState(() {
       this.commentText = "";
+      msgController.clear();
     });
     FocusScope.of(context).unfocus();
   }
@@ -128,7 +130,6 @@ class CommentsPageState extends State<CommentsPage> {
   void _publishComment() {
     if(!this._isAnonymousUser && !_commentTextIsEmpty()) {
       MarkerService.addComment(markerDTO.id, _userId, this.commentText)
-          .then((_) => _alertDialog("Comentario publicado con éxito!"))
           .then((_) => _resetCommentTextbox())
           .catchError((_) => _alertDialog("Ha ocurrido un error. Por favor, intente de nuevo más tarde."));
     } else if (this._isAnonymousUser) {
@@ -145,6 +146,7 @@ class CommentsPageState extends State<CommentsPage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           RoundedTextboxField(
+              controller: msgController,
               hintText: _isAnonymousUser ? "Por favor, inicie sesión para comentar." : "Escribe una respuesta...",
               maxLength: 140,
               onChanged: (value) {
