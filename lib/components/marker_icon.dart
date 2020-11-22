@@ -49,83 +49,48 @@ class _MarkerIconState extends State<MarkerIcon>{
           ),
           actionsPadding: EdgeInsets.symmetric(horizontal: 20.0),
           actions: [
-            IconButton(
-              key: ValueKey("EditButton"),
-              icon : Icon(Icons.edit_outlined),
-              color: Colors.black,
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return EditMarker(widget.markerDTO);
-                }));
-              },
-            ),
-            LikeButton(
-              circleColor:
-              CircleColor(start: Color(0xffffeb3b), end: Color(0xffb71c1c)),
-              bubblesColor: BubblesColor(
-                dotPrimaryColor: Color(0xffffeb3b),
-                dotSecondaryColor: Color(0xffb71c1c),
-              ),
-              likeBuilder: (bool isLiked) {
-                return Icon(
-                  Icons.favorite_rounded,
-                  color: isLiked ? Colors.red[800] : Colors.grey,
-                );
-              },
-              likeCount: widget.markerDTO.likes?.length,
-              isLiked: _userLikedIt(),
-              onTap: onLikeButtonTapped,
-            ),
-
-            Container(
-              child: Row(
-                children: [
-                  IconButton(
-                      icon: Icon(Icons.chat_bubble_outline_rounded),
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) {
-                          return CommentsPage(widget.markerDTO);
-                        }));
-                      }
-                  ),
-                  Text(this.commentsCounter.toString())
-                ],
-              ),
-            ),
+            _editButton(context),
+            _likeButton(),
+            _commentButton(context)
           ],
         )
     );
   }
 
-  IconButton _commentButton(BuildContext context) {
-    return IconButton(
-            key: ValueKey("CommentsButton"),
-            icon : Icon(Icons.chat_bubble_outline_rounded),
-            color: Colors.black,
-            onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context){
-                return CommentsPage(markerDTO);
-              }));
-            },
-          );
+  Widget _commentButton(BuildContext context) {
+    return Container(
+      child: Row(
+        children: [
+          IconButton(
+              icon: Icon(Icons.chat_bubble_outline_rounded),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return CommentsPage(widget.markerDTO);
+                }));
+              }
+          ),
+          Text(this.commentsCounter.toString())
+        ],
+      ),
+    );
   }
 
   IconButton _editButton(BuildContext context) {
-    if(UserService.isMarkerOwner(markerDTO.owner)) {
+    if(UserService.isMarkerOwner(widget.markerDTO.owner)) {
       return IconButton(
         key: ValueKey("EditButton"),
         icon: Icon(Icons.edit_outlined),
         color: Colors.black,
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return EditMarker(markerDTO);
+            return EditMarker(widget.markerDTO);
           }));
         },
       );
     }
   }
 
-  LikeButton _likeButton() {
+  _likeButton()  {
     return LikeButton(
             circleColor:
             CircleColor(start: Color(0xffffeb3b), end: Color(0xffb71c1c)),
@@ -139,7 +104,7 @@ class _MarkerIconState extends State<MarkerIcon>{
                 color: isLiked ? Colors.red[800] : Colors.grey,
               );
             },
-            likeCount: markerDTO.likes?.length,
+            likeCount: widget.markerDTO.likes?.length,
             isLiked: _userLikedIt(),
             onTap: onLikeButtonTapped,
           );
