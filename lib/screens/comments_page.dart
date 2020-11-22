@@ -51,31 +51,34 @@ class CommentsPageState extends State<CommentsPage> {
 
     return SingleChildScrollView(
       physics: ScrollPhysics(),
-      child: Column(children: <Widget>[
-        ListView.builder(
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: _comments.length,
-        // ignore: missing_return
-        itemBuilder: (context,index) {
-          if (index < _comments.length) {
-            return Card(
-              child: FutureBuilder(
-                  future: UserService.getUserByID(_comments[index].userId),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      return Container(
-                          child: _buildCommentItem(_comments[index], snapshot.data)
-                      );
-                    } else {
-                      return CircularProgressIndicator();
-                    }
-                  }
-              ));
+      child: Column(
+        mainAxisAlignment:MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: _comments.length,
+            // ignore: missing_return
+            itemBuilder: (context,index) {
+              if (index < _comments.length) {
+                return Card(
+                    child: FutureBuilder(
+                        future: UserService.getUserByID(_comments[index].userId),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.done) {
+                            return Container(
+                                child: _buildCommentItem(_comments[index], snapshot.data)
+                            );
+                          } else {
+                            return CircularProgressIndicator();
+                          }
+                        }
+                    ));
               }
             },
           ),
-        //Spacer(flex: 8,)
+          //Spacer(flex: 8,)
         ],
       ),
     );
@@ -137,6 +140,9 @@ class CommentsPageState extends State<CommentsPage> {
 
   Widget makeComment() {
     return Container(
+      alignment: Alignment.bottomCenter,
+
+
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -162,6 +168,7 @@ class CommentsPageState extends State<CommentsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: kColorBgLightgrey,
       body: StreamBuilder<DocumentSnapshot>(
         stream: MarkerService.getSingleMarkerSnapshots(markerDTO.id),
@@ -176,8 +183,12 @@ class CommentsPageState extends State<CommentsPage> {
       appBar: AppBar(
         title: Text(markerDTO.title),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterFloat,
       floatingActionButton: makeComment(),
+      persistentFooterButtons: [SizedBox(width: 20.0,)],
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+
+
+
     );
   }
 }
