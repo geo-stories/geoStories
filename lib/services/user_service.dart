@@ -96,6 +96,10 @@ class UserService {
     return getCurrentUser().displayName;
   }
 
+  static String GetUserId(){
+    return getCurrentUser().uid;
+  }
+
   static bool isMarkerOwner(String markerOwner){
     if(!isAnonymousUser()){
       return getCurrentUser().uid == markerOwner;

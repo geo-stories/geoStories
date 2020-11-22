@@ -22,7 +22,7 @@ class MarkerPage extends State<CreateMarkerPage> {
   LatLng point;
   TextEditingController titleTextController;
   TextEditingController descriptTextController;
-  String _userName = UserService.GetUsername();
+  String _userId = UserService.GetUserId();
 
   MarkerPage(LatLng point){
     this.point = point;
@@ -87,7 +87,7 @@ class MarkerPage extends State<CreateMarkerPage> {
     );
   }
   void _crearMarker(BuildContext context){
-    MarkerService.createMarker(titleTextController.text,descriptTextController.text,point, _userName);
+    MarkerService.createMarker(titleTextController.text,descriptTextController.text,point, _userId);
     titleTextController.clear();
     descriptTextController.clear();
     Navigator.push(

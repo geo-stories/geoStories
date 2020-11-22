@@ -66,27 +66,12 @@ class MarkerService {
     });
   }
 
-  static Stream<UserDTO> GetOwnerUsername(String markerOwner) {
-    var result = database.collection("users").doc(markerOwner).get();
-    final userDTO = result.asStream().map((document) => UserDTO.fromJSON(document.data()));
-    return userDTO;
+  static Future<String> GetOwnerUsername(String markerOwner) async {
+    String username = "";
+    await database.collection("users").doc(markerOwner).get().then((DocumentSnapshot documentSnapshot) {
+      username = documentSnapshot.data()['username'];
+    });
+    return username;
   }
-/*
-  List<Marker> _markers(List<QueryDocumentSnapshot> documents) {
-    final markerDtos = documents.map((document) => MarkerDTO.fromJSON(document.data(), document.id)).toList();
-    final markers = markerDtos.map((markerDto) {
-      return Marker(
-        anchorPos: AnchorPos.align(AnchorAlign.top),
-        width: 50.0,
-        height: 50.0,
-        point: LatLng(markerDto.latitude , markerDto.longitude),
-        builder: (ctx) => MarkerIcon(markerDTO: markerDto,),
-      );
-    }).toList();
-    if (_markerUsuario != null) {
-      markers.add(_markerUsuario);
-    }
-    return markers;
-  }
-  */
+
 }

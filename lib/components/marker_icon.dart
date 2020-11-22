@@ -50,7 +50,7 @@ class _MarkerIconState extends State<MarkerIcon>{
     );
   }
 
-  void _showMarkerModalInfo(BuildContext context) {
+  Future<void> _showMarkerModalInfo(BuildContext context) async {
     showDialog(
         context: context,
         child: new AlertDialog(
@@ -59,7 +59,7 @@ class _MarkerIconState extends State<MarkerIcon>{
           content: RichText(
             text: TextSpan(
                 children: <TextSpan>[
-                  TextSpan(text: ' •' + MarkerService.GetOwnerUsername(widget.markerDTO.owner).toString() + '• ', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                  TextSpan(text: ' •' + await MarkerService.GetOwnerUsername(widget.markerDTO.owner) + '• ', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
                   TextSpan(text: widget.markerDTO.description, style: TextStyle(color: Colors.grey[900])),
                 ],
               ),
