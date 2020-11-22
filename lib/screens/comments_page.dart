@@ -52,34 +52,31 @@ class CommentsPageState extends State<CommentsPage> {
 
     return SingleChildScrollView(
       physics: ScrollPhysics(),
-      child: Column(
-        mainAxisAlignment:MainAxisAlignment.spaceBetween,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: _comments.length,
-            // ignore: missing_return
-            itemBuilder: (context,index) {
-              if (index < _comments.length) {
-                return Card(
-                    child: FutureBuilder(
-                        future: UserService.getUserByID(_comments[index].userId),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.done) {
-                            return Container(
-                                child: _buildCommentItem(_comments[index], snapshot.data)
-                            );
-                          } else {
-                            return CircularProgressIndicator();
-                          }
-                        }
-                    ));
+      child: Column(children: <Widget>[
+        ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: _comments.length,
+        // ignore: missing_return
+        itemBuilder: (context,index) {
+          if (index < _comments.length) {
+            return Card(
+              child: FutureBuilder(
+                  future: UserService.getUserByID(_comments[index].userId),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      return Container(
+                          child: _buildCommentItem(_comments[index], snapshot.data)
+                      );
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  }
+              ));
               }
             },
           ),
-          //Spacer(flex: 8,)
+        //Spacer(flex: 8,)
         ],
       ),
     );
