@@ -89,6 +89,11 @@ class LoginWidget extends State<LoginBody> {
                     }
                     else {
                       Navigator.push(context, MaterialPageRoute(builder: (context) {return MapPage();}))
+                      .then((value) {
+                        setState(() {
+                          isLoading = false;
+                        });
+                      })
                     }
                   });
                 }

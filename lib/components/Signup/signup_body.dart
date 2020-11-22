@@ -8,36 +8,53 @@ import 'package:geo_stories/screens/login_page.dart';
 import 'package:geo_stories/screens/map_page.dart';
 import 'package:geo_stories/services/user_service.dart';
 
+import '../../constants.dart';
 import 'signup_background.dart';
 
-class SignupBody extends StatelessWidget {
-  String username = '';
-  String email = '';
-  String password = '';
-  String repeatPassword = '';
+class SignupBody extends StatefulWidget {
 
+  _SignupBodyState createState() => _SignupBodyState();
+}
+
+class _SignupBodyState extends State<SignupBody> {
+  bool _isLoading = false;
+  String _username = '';
+  String _email = '';
+  String _password = '';
+  String _repeatPassword = '';
 
   Future<void> _onSubmit(BuildContext context) async {
-    if (username.isEmpty || email.isEmpty || password.isEmpty || repeatPassword.isEmpty) {
+    if (_username.isEmpty || _email.isEmpty || _password.isEmpty || _repeatPassword.isEmpty) {
       Scaffold.of(context).showSnackBar(SnackBar(content: Text('Dejaste campos sin completar')));
       return;
     }
-    if (username.length > 20) {
+    if (_username.length > 20) {
       Scaffold.of(context).showSnackBar(SnackBar(content: Text('El nombre de usuario no puede exceder los 20 caracteres')));
       return;
     }
-    if (password.length <= 5) {
+    if (_password.length <= 5) {
       Scaffold.of(context).showSnackBar(SnackBar(content: Text('La contraseña debe tener al menos 6 caracteres')));
       return;
     }
-    if (password != repeatPassword) {
+    if (_password != _repeatPassword) {
       Scaffold.of(context).showSnackBar(SnackBar(content: Text('Las contraseñas no coinciden')));
       return;
     }
     try {
-      await UserService.register(email, password, username);
-      Navigator.push(context, MaterialPageRoute(builder: (context) {return MapPage();}));
+      setState(() {
+        _isLoading = true;
+      });
+      await UserService.register(_email, _password, _username);
+      Navigator.push(context, MaterialPageRoute(builder: (context) {return MapPage();}))
+        .then((value) {
+          setState(() {
+            _isLoading = false;
+          });
+        });
     } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
       Scaffold.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
     }
   }
@@ -58,31 +75,40 @@ class SignupBody extends StatelessWidget {
             RoundedInputField(
               hintText: "Tu nombre de usuario",
               onChanged: (value) {
-                username = value;
+                _username = value;
               },
             ),
             RoundedInputField(
               hintText: "Tu E-mail",
               onChanged: (value) {
-                email = value;
+                _email = value;
               },
             ),
             RoundedPasswordField(
               hintText: "Tu contraseña",
               onChanged: (value) {
-                password = value;
+                _password = value;
               },
             ),
             RoundedPasswordField(
               hintText: "Repetir contraseña",
               onChanged: (value) {
-                repeatPassword = value;
+                _repeatPassword = value;
               },
             ),
-            RoundedButton(
-              text: "Regístrate",
-              press: () => _onSubmit(context),
-            ),
+            _isLoading
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(kColorOrange)),
+                    Text("Procesando")
+                  ],
+                )
+              : RoundedButton(
+                  text: "Regístrate",
+                  press: () => _onSubmit(context),
+                ),
             SizedBox(height: size.height * 0.03),
             AlreadyHaveAnAccountCheck(
               login: false,
