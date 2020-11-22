@@ -65,7 +65,6 @@ class CommentsPageState extends State<CommentsPage> {
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
                       return Container(
-                          height: 30.0,
                           child: _buildCommentItem(_comments[index], snapshot.data)
                       );
                     } else {
@@ -75,7 +74,8 @@ class CommentsPageState extends State<CommentsPage> {
               ));
               }
             },
-          )
+          ),
+        //Spacer(flex: 8,)
         ],
       ),
     );
