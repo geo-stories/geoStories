@@ -35,16 +35,6 @@ class CommentsPageState extends State<CommentsPage> {
     this.markerDTO = markerDTO;
   }
 
-  Widget getCommentListFromMarker(DocumentSnapshot markerDoc) {
-    var markerData = markerDoc.data();
-    MarkerDTO _markerDTO = MarkerDTO.fromJSON(markerData, markerDTO.id);
-    List<CommentDTO> _comments = _markerDTO.comments.map((comment) =>
-        CommentDTO.fromJSON(comment)).toList();
-    return new Row(children: <Widget>[
-      for(var comment in _comments ) Text(comment.text)
-    ],);
-  }
-
   Widget _buildCommentsList(DocumentSnapshot markerDoc) {
     var markerData = markerDoc.data();
     MarkerDTO _markerDTO = MarkerDTO.fromJSON(markerData, markerDTO.id);
