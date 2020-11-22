@@ -22,19 +22,22 @@ void main() {
   setUp(() async {
     instance = MockFirestoreInstance();
     MarkerService.database = instance;
-    auth = MockFirebaseAuth();
+    auth = MockFirebaseAuth(signedIn: true);
     UserService.auth = auth;
   });
 
   testWidgets('Cuando un usuario que inicio sesion da like, se logra persistir en la base de datos', (WidgetTester tester) async {
+    await instance.collection('users').doc(auth.currentUser.uid).set({
+      'username' : "sarasa"
+    });
     await instance.collection('markers')
         .add({
       'latitude': -34.6001014,
       'longitude': -58.3824443,
       'title' : "prueba",
       'description' : "description",
-      'likes' : [],
-      'owner' : 'Sarasa',
+      'likes': [],
+      'owner': auth.currentUser.uid
     });
 
     await tester.pumpWidget(widget);
@@ -62,16 +65,18 @@ void main() {
   });
 
   testWidgets('Usuario Anon da like y no pasa nada', (WidgetTester tester) async {
+    await instance.collection('users').doc(auth.currentUser.uid).set({
+      'username' : "sarasa"
+    });
     await instance.collection('markers')
         .add({
       'latitude': -34.6001014,
       'longitude': -58.3824443,
       'title' : "prueba",
       'description' : "description",
-      'likes' : [],
-      'owner' : 'Sarasa',
+      'likes': [],
+      'owner': auth.currentUser.uid
     });
-
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
 
@@ -93,14 +98,17 @@ void main() {
 
 
   testWidgets('Usuario registrado da like y lo saca y y modifica firebase', (WidgetTester tester) async {
+    await instance.collection('users').doc(auth.currentUser.uid).set({
+      'username' : "sarasa"
+    });
     await instance.collection('markers')
         .add({
       'latitude': -34.6001014,
       'longitude': -58.3824443,
       'title' : "prueba",
       'description' : "description",
-      'likes' : [],
-      'owner' : 'Sarasa',
+      'likes': [],
+      'owner': auth.currentUser.uid
     });
 
     await tester.pumpWidget(widget);

@@ -13,7 +13,6 @@ import 'package:geo_stories/screens/map_page.dart';
 import 'package:geo_stories/services/marker_service.dart';
 import 'package:geo_stories/services/user_service.dart';
 
-
 void main() {
   Widget widget = MaterialApp(
     home: MapPage(),
@@ -30,6 +29,9 @@ void main() {
   });
 
   testWidgets('cuando intento publicar con un anonimo tira un AlertDialog', (WidgetTester tester) async {
+    await instance.collection('users').doc(auth.currentUser.uid).set({
+      'username' : "sarasa"
+    });
     await instance.collection('markers')
         .add({
       'latitude': -34.6001014,
@@ -37,7 +39,7 @@ void main() {
       'title' : "prueba",
       'description' : "description",
       'likes': [],
-      'owner': 'Sarasa',
+      'owner': auth.currentUser.uid,
       'comments' : []
     });
     auth.signOut();
@@ -66,6 +68,9 @@ void main() {
 
 
   testWidgets('cuando intento publicar algo vacio tira un AlertDialog', (WidgetTester tester) async {
+    await instance.collection('users').doc(auth.currentUser.uid).set({
+      'username' : "sarasa"
+    });
     await instance.collection('markers')
         .add({
       'latitude': -34.6001014,
@@ -73,7 +78,7 @@ void main() {
       'title' : "prueba",
       'description' : "description",
       'likes': [],
-      'owner': 'Sarasa',
+      'owner': auth.currentUser.uid,
       'comments' : []
     });
 
@@ -102,6 +107,9 @@ void main() {
 
 
   testWidgets('cuando envio un comntario se publica', (WidgetTester tester) async {
+    await instance.collection('users').doc(auth.currentUser.uid).set({
+      'username' : "sarasa"
+    });
     await instance.collection('markers')
         .add({
       'latitude': -34.6001014,
@@ -109,7 +117,7 @@ void main() {
       'title' : "prueba",
       'description' : "description",
       'likes': [],
-      'owner': 'Sarasa',
+      'owner': auth.currentUser.uid,
       'comments' : []
     });
 
@@ -140,6 +148,9 @@ void main() {
 
 
   testWidgets('cuando intento pasarme de caracteres y publicar se publica un comentario recortado', (WidgetTester tester) async {
+    await instance.collection('users').doc(auth.currentUser.uid).set({
+      'username' : "sarasa"
+    });
     await instance.collection('markers')
         .add({
       'latitude': -34.6001014,
@@ -147,7 +158,7 @@ void main() {
       'title' : "prueba",
       'description' : "description",
       'likes': [],
-      'owner': 'Sarasa',
+      'owner': auth.currentUser.uid,
       'comments' : []
     });
 
