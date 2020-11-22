@@ -102,10 +102,25 @@ class UserService {
     auth.signOut();
   }
 
-  static Future<void> updatePassword(String newPassword) async {
-    final User user = auth.currentUser;
-    await user.updatePassword(newPassword);
-    await user.reload();
+  static Future<String> updatePassword(String newPassword) async {
+    String errorMessage;
+
+    try{
+      final User user = auth.currentUser;
+      await user.updatePassword(newPassword);
+      await user.reload();
+    } on FirebaseAuthException catch  (e) {
+      switch (e.code){
+        case "weak-password":
+          errorMessage = "Tu nueva contraseña es demasiado corta. 😥";
+          break;
+        default:
+          errorMessage = "Hubo un error inesperado: + ${e.code}";
+          print('Failed with error code: ${e.code}');
+          print(e.message);
+      }
+    }
+    return errorMessage;
   }
 
   static String GetUsername(){

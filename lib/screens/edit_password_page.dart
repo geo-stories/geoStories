@@ -16,6 +16,7 @@ class PasswordEditPage extends StatefulWidget {
 class PasswordEditPageState extends State<PasswordEditPage> {
   var passwordText1="";
   var passwordText2="";
+  bool isLoading = false;
   var services = new UserService();
 
   Widget _buildChangePassword() {
@@ -55,43 +56,75 @@ class PasswordEditPageState extends State<PasswordEditPage> {
             _buildChangePassword(),
             SizedBox(height: MediaQuery.of(context).size.height * 0.35),
             Row(
-                verticalDirection: VerticalDirection.down,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  RoundedButton(
-                    key: ValueKey("Guardar PW"),
-                    text: "Guardar Cambios",
-                    press: () {
-                      if (this.passwordText1 == this.passwordText2 && this.passwordText1 != '') {
-                        UserService.updatePassword(this.passwordText1);
-                        Navigator.push(context, MaterialPageRoute(builder: (context) {
-                          return MapPage();
-                        }));
-                      } else {
-                        showDialog(
-                            context: context,
-                            child: new AlertDialog(
-                                key: ValueKey("PasswordFailAlert"),
-                                title: new Text("Las contraseñas no son iguales o dejo campos vacios"),
-                                actions: [
-                                  FlatButton(
-                                    child: Text('Ok'),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  )
-                                ]
-                            )
-                        );
-                      }
-                    },
-                  )
-                ]
+              verticalDirection: VerticalDirection.down,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                isLoading ? _changePasswordLoader() :
+                RoundedButton(
+                  key: ValueKey("Guardar PW"),
+                  text: "Guardar Cambios",
+                  press: () async {
+                    setState(() { isLoading = true; });
+                    if (this.passwordText1 == this.passwordText2 && this.passwordText1 != '') {
+                      await UserService.updatePassword(this.passwordText1).then((value) => {
+                        if(value != null) {
+                          setState(() { isLoading = false; }),
+                          _throwExceptionFireBase(context, value)
+                        }
+                        else {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) {return MapPage();}))
+                        }
+                      });
+                    }
+                    else {
+                      _throwExceptionEditPassword(context);
+                    }
+                  },
+                )
+              ]
             )
           ],
         ),
       ),
     );
   }
+
+  Future _throwExceptionEditPassword(BuildContext context) {
+    return showDialog(
+      context: context,
+      child: new AlertDialog(
+        key: ValueKey("PasswordFailAlert"),
+        title: new Text("Las contraseñas no son iguales o dejo campos vacios"),
+        actions: [
+          FlatButton(
+            child: Text('Ok'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          )
+        ]
+      )
+    );
+  }
+
+  Future _throwExceptionFireBase(BuildContext context, String value) {
+    return showDialog(
+      context: context,
+      child: new AlertDialog(
+        title: Text("Hubo un error!"),
+        content: Text(value),
+      )
+    );
+  }
+
+  Column _changePasswordLoader() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(kColorOrange)),
+        Text("Cambiando contraseña")],
+    );
+  }
+
 }
