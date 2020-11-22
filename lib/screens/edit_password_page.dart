@@ -66,7 +66,7 @@ class PasswordEditPageState extends State<PasswordEditPage> {
                   text: "Guardar Cambios",
                   press: () async {
                     setState(() { isLoading = true; });
-                    if (this.passwordText1 == this.passwordText2 && this.passwordText1 != '') {
+                    if (validatePasswordFields(context)) {
                       await UserService.updatePassword(this.passwordText1).then((value) => {
                         if(value != null) {
                           setState(() { isLoading = false; }),
@@ -77,8 +77,8 @@ class PasswordEditPageState extends State<PasswordEditPage> {
                         }
                       });
                     }
-                    else {
-                      _throwExceptionEditPassword(context);
+                    else{
+                      setState(() { isLoading = false; });
                     }
                   },
                 )
@@ -90,12 +90,41 @@ class PasswordEditPageState extends State<PasswordEditPage> {
     );
   }
 
-  Future _throwExceptionEditPassword(BuildContext context) {
+  bool validatePasswordFields(BuildContext context) {
+    String errorText;
+    if(this.passwordText1 != this.passwordText2){
+      errorText = "Las contraseñas no son iguales";
+      _throwExceptionEditPassword(context, errorText);
+      return false;
+    }
+    else if(this.passwordText1 == '' || this.passwordText2 == ''){
+      errorText = "La contraseña no puede estar vacia";
+      _throwExceptionEditPassword(context, errorText);
+      return false;
+    }
+    else if(!validateStructure(this.passwordText1)){
+      errorText = "La contraseña no puede tener espacios en blanco";
+      _throwExceptionEditPassword(context, errorText);
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+
+  bool validateStructure(String value){
+    ///Se valida que no tenga espacios en blanco.
+    String  pattern = r'^(?!.*[\s])';
+    RegExp regExp = new RegExp(pattern);
+    return regExp.hasMatch(value);
+  }
+
+  Future _throwExceptionEditPassword(BuildContext context, String errorText) {
     return showDialog(
       context: context,
       child: new AlertDialog(
         key: ValueKey("PasswordFailAlert"),
-        title: new Text("Las contraseñas no son iguales o dejo campos vacios"),
+        title: new Text(errorText),
         actions: [
           FlatButton(
             child: Text('Ok'),
