@@ -115,7 +115,7 @@ class CommentsPageState extends State<CommentsPage> {
   }
 
   bool _commentTextIsEmpty() {
-    return commentText.trim().isEmpty;
+    return  commentText.trim().isEmpty;
   }
 
   void _resetCommentTextbox() {
@@ -141,8 +141,6 @@ class CommentsPageState extends State<CommentsPage> {
   Widget makeComment() {
     return Container(
       alignment: Alignment.bottomCenter,
-
-
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -170,25 +168,33 @@ class CommentsPageState extends State<CommentsPage> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: kColorBgLightgrey,
-      body: StreamBuilder<DocumentSnapshot>(
-        stream: MarkerService.getSingleMarkerSnapshots(markerDTO.id),
-        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-          if (snapshot.hasData) {
-            var marker = snapshot.data;
-            return _buildCommentsList(marker);
-          }
-          return Container();
-        },
-      ),
       appBar: AppBar(
         title: Text(markerDTO.title),
       ),
-      floatingActionButton: makeComment(),
-      persistentFooterButtons: [SizedBox(width: 20.0,)],
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-
-
-
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: 1,
+              itemBuilder: (context, index) {
+                return new GestureDetector(
+                  child: StreamBuilder<DocumentSnapshot>(
+                    stream: MarkerService.getSingleMarkerSnapshots(markerDTO.id),
+                    builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                      if (snapshot.hasData) {
+                        var marker = snapshot.data;
+                        return _buildCommentsList(marker);
+                      }
+                      return Container();
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+          makeComment(),
+        ],
+      ),
     );
   }
 
