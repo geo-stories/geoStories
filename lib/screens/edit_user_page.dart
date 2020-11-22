@@ -40,7 +40,7 @@ class FormEditUserScreenState extends State<FormEditUserScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Configuración de Usuario"), backgroundColor: kColorLightOrange,),
+      appBar: AppBar(title: Text("Configuración de Usuario"), backgroundColor: kColorLightblue,),
       body: Container(
         margin: EdgeInsets.all(24),
         child: SingleChildScrollView(
@@ -75,7 +75,6 @@ class FormEditUserScreenState extends State<FormEditUserScreen> {
                     await UserService.updateCurrentUserProfile(new UserDTO(username: _username, avatarUrl: _avatar));
                     Navigator.pop(context);
                     Navigator.pop(context);
-
                   },
                 ),
                 ),
