@@ -39,6 +39,7 @@ void main() {
     expect(find.byType(MarkerIcon), findsNothing);
   });
 
+
   testWidgets('se muestra un Marker por cada marcador de MapPage', (WidgetTester tester) async {
     instance.collection("markers").add({'title': 'nombre', 'description': 'descripcion', 'latitude': -34.6001014, 'longitude': -58.3824443, 'likes' : [], 'owner' : 'Sarasa'});
 

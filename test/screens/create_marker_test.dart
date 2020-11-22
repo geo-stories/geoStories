@@ -15,8 +15,6 @@ void main() {
     home: MapPage(),
   );
 
-
-
   FirebaseFirestore instance;
   FirebaseAuth auth;
 
@@ -47,6 +45,7 @@ void main() {
     expect(alertFinder, findsOneWidget);
   });
 
+
   testWidgets('Al crear un marcador con éxito, vuelvo al MapPage', (WidgetTester tester) async {
 
     await tester.pumpWidget(widget);
@@ -65,7 +64,6 @@ void main() {
     await tester.tap(find.byType(RaisedButton));
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
-
 
     expect(find.byType(MapPage),findsOneWidget);
   });

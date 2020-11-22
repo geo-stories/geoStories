@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geo_stories/models/marker_dto.dart';
+import 'package:geo_stories/models/user_dto.dart';
 import 'package:geo_stories/services/utils_service.dart';
 import 'package:latlong/latlong.dart';
 
@@ -30,8 +31,6 @@ class MarkerService {
        });
   }
 
-  
-  
   static Stream<QuerySnapshot> getMarkerSnapshots() {
     return database.collection("markers").snapshots();
   }
@@ -66,4 +65,13 @@ class MarkerService {
       }]),
     });
   }
+
+  static Future<String> GetOwnerUsername(String markerOwner) async {
+    String username = "";
+    await database.collection("users").doc(markerOwner).get().then((DocumentSnapshot documentSnapshot) {
+      username = documentSnapshot.data()['username'];
+    });
+    return username;
+  }
+
 }

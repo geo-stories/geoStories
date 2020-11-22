@@ -24,6 +24,7 @@ void main() {
     UserService.auth = auth;
   });
 
+
   testWidgets('Dado un usuario anonimo, al abrir el drawer acciona sobre registrarse'
       ' y se dirige a la pagina registrarse', (WidgetTester tester) async {
 
@@ -47,6 +48,7 @@ void main() {
     final signUpPage = find.byType(SignUpPage);
     expect(signUpPage, findsOneWidget);
   });
+
 
   testWidgets('Dado un usuario anonimo, al abrir el drawer acciona sobre Cerrar sesion, '
       'se desconecta de su sesion y se redirige a la welcomePage', (WidgetTester tester) async {

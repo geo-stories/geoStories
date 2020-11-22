@@ -51,28 +51,43 @@ class UserService {
   }
 
   static Future<void> updateCurrentUserProfile(UserDTO userUpdate) async {
-    final User user = auth.currentUser;
-    String updateAvatarUrl;
-    String updateUsername;
+    try{
+      updateUsernameAndAvatar(userUpdate);
 
-    if (userUpdate.username != null) {
-      updateUsername = userUpdate.username;
-    } else {
-      updateUsername = user.displayName;
+      final User user = auth.currentUser;
+      String updateAvatarUrl;
+      String updateUsername;
+
+      if (userUpdate.username != null) {
+        updateUsername = userUpdate.username;
+      } else {
+        updateUsername = user.displayName;
+      }
+
+      if (userUpdate.avatarUrl != null) {
+        updateAvatarUrl = userUpdate.avatarUrl;
+      } else {
+        updateAvatarUrl = user.photoURL;
+      }
+
+      await user.updateProfile(
+          displayName: updateUsername,
+          photoURL: updateAvatarUrl
+      );
+
+      await user.reload();
+    }
+    catch(e){
+      print(e);
     }
 
-    if (userUpdate.avatarUrl != null) {
-      updateAvatarUrl = userUpdate.avatarUrl;
-    } else {
-      updateAvatarUrl = user.photoURL;
-    }
+  }
 
-    await user.updateProfile(
-      displayName: updateUsername,
-      photoURL: updateAvatarUrl
-    );
-
-    await user.reload();
+  static updateUsernameAndAvatar(UserDTO userUpdate){
+    database.collection("users").doc(GetUserId()).update({
+      'username' : userUpdate.username,
+      'avatarUrl' : userUpdate.avatarUrl,
+    });
   }
 
   static User getCurrentUser() {
@@ -86,6 +101,7 @@ class UserService {
   static void disconnect(){
     auth.signOut();
   }
+
   static Future<void> updatePassword(String newPassword) async {
     final User user = auth.currentUser;
     await user.updatePassword(newPassword);
@@ -95,4 +111,16 @@ class UserService {
   static String GetUsername(){
     return getCurrentUser().displayName;
   }
+
+  static String GetUserId(){
+    return getCurrentUser().uid;
+  }
+
+  static bool isMarkerOwner(String markerOwner){
+    if(!isAnonymousUser()){
+      return getCurrentUser().uid == markerOwner;
+    }
+    return false;
+  }
+
 }

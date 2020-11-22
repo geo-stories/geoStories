@@ -4,11 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:geo_stories/components/Ui/rounded_button.dart';
-import 'package:geo_stories/components/main_drawer.dart';
 import 'package:geo_stories/screens/map_page.dart';
-import 'package:geo_stories/screens/edit_password_page.dart';
-import 'package:geo_stories/screens/signup_page.dart';
 import 'package:geo_stories/screens/welcome_page.dart';
 import 'package:geo_stories/services/marker_service.dart';
 import 'package:geo_stories/services/user_service.dart';
@@ -27,6 +23,7 @@ void main() {
     auth = MockFirebaseAuth();
     UserService.auth = auth;
   });
+
 
   testWidgets('Dado un usuario que inicia sesión, al cambiar su contraseña completando '
       'todos los campos, logra cambiarla y vuelve a la pagina ppal', (WidgetTester tester) async {
