@@ -5,6 +5,8 @@ import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geo_stories/components/marker_icon.dart';
+import 'package:geo_stories/dataHelper/MarkerDataHelper.dart';
+import 'package:geo_stories/dataHelper/UserDataHelper.dart';
 import 'package:geo_stories/screens/map_page.dart';
 import 'package:geo_stories/services/marker_service.dart';
 import 'package:geo_stories/services/user_service.dart';
@@ -14,8 +16,6 @@ void main() {
   Widget widget = MaterialApp(
     home: MapPage(),
   );
-
-
 
   FirebaseFirestore instance;
   FirebaseAuth auth;
@@ -29,19 +29,8 @@ void main() {
 
 
   testWidgets('Intentar editar un marcador un campo vacío muestra un AlertDialog', (WidgetTester tester) async {
-
-    await instance.collection('users').doc(auth.currentUser.uid).set({
-      'username' : "sarasa"
-    });
-    await instance.collection('markers')
-        .add({
-      'latitude': -34.6001014,
-      'longitude': -58.3824443,
-      'title' : "prueba",
-      'description' : "description",
-      'likes': [],
-      'owner': auth.currentUser.uid
-    });
+    await UsuariosMockerDataHelper(instance, auth);
+    await MarkersMockerDataHelper(instance, auth);
 
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
@@ -53,7 +42,6 @@ void main() {
     await tester.tap(find.byKey(ValueKey("EditButton")));
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
-
 
     await tester.enterText(find.byKey(ValueKey("field2")), "");
 
@@ -68,18 +56,9 @@ void main() {
 
 
   testWidgets('Al editar un marcador con con todos los campos completos, vuelvo al MapPage', (WidgetTester tester) async {
-    await instance.collection('users').doc(auth.currentUser.uid).set({
-      'username' : "sarasa"
-    });
-    await instance.collection('markers')
-        .add({
-      'latitude': -34.6001014,
-      'longitude': -58.3824443,
-      'title' : "prueba",
-      'description' : "description",
-      'likes': [],
-      'owner': auth.currentUser.uid
-    });
+    await UsuariosMockerDataHelper(instance, auth);
+    await MarkersMockerDataHelper(instance, auth);
+
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
 
@@ -97,24 +76,14 @@ void main() {
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
 
-
     expect(find.byType(MapPage), findsOneWidget);
   });
 
 
   testWidgets('Cambio el markador en la base de datos', (WidgetTester tester) async {
-    await instance.collection('users').doc(auth.currentUser.uid).set({
-      'username' : "sarasa"
-    });
-    await instance.collection('markers')
-        .add({
-      'latitude': -34.6001014,
-      'longitude': -58.3824443,
-      'title' : "prueba",
-      'description' : "description",
-      'likes': [],
-      'owner': auth.currentUser.uid
-    });
+    await UsuariosMockerDataHelper(instance, auth);
+    await MarkersMockerDataHelper(instance, auth);
+
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
 
@@ -141,18 +110,9 @@ void main() {
 
   testWidgets('cancelo el cambio de la descripcion del marcador y no se me guarda la nueva descripcion', (WidgetTester tester) async {
     final oldDescription = "description";
-    await instance.collection('users').doc(auth.currentUser.uid).set({
-      'username' : "sarasa"
-    });
-    await instance.collection('markers')
-        .add({
-      'latitude': -34.6001014,
-      'longitude': -58.3824443,
-      'title' : "prueba",
-      'description' : oldDescription,
-      'likes': [],
-      'owner': auth.currentUser.uid
-    });
+    await UsuariosMockerDataHelper(instance, auth);
+    await MarkersMockerDataHelperWithDescription(instance, oldDescription, auth);
+
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
 

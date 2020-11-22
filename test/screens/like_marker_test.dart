@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geo_stories/components/Ui/rounded_button.dart';
 import 'package:geo_stories/components/marker_icon.dart';
+import 'package:geo_stories/dataHelper/MarkerDataHelper.dart';
+import 'package:geo_stories/dataHelper/UserDataHelper.dart';
 import 'package:geo_stories/screens/welcome_page.dart';
 import 'package:geo_stories/services/marker_service.dart';
 import 'package:geo_stories/services/user_service.dart';
@@ -26,19 +28,10 @@ void main() {
     UserService.auth = auth;
   });
 
+
   testWidgets('Cuando un usuario que inicio sesion da like, se logra persistir en la base de datos', (WidgetTester tester) async {
-    await instance.collection('users').doc(auth.currentUser.uid).set({
-      'username' : "sarasa"
-    });
-    await instance.collection('markers')
-        .add({
-      'latitude': -34.6001014,
-      'longitude': -58.3824443,
-      'title' : "prueba",
-      'description' : "description",
-      'likes': [],
-      'owner': auth.currentUser.uid
-    });
+    await UsuariosMockerDataHelper(instance, auth);
+    await MarkersMockerDataHelper(instance, auth);
 
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
@@ -64,19 +57,11 @@ void main() {
     expect(snapshot.docs.first.data()['likes'].toString() != "[]",true);
   });
 
+
   testWidgets('Usuario Anon da like y no pasa nada', (WidgetTester tester) async {
-    await instance.collection('users').doc(auth.currentUser.uid).set({
-      'username' : "sarasa"
-    });
-    await instance.collection('markers')
-        .add({
-      'latitude': -34.6001014,
-      'longitude': -58.3824443,
-      'title' : "prueba",
-      'description' : "description",
-      'likes': [],
-      'owner': auth.currentUser.uid
-    });
+    await UsuariosMockerDataHelper(instance, auth);
+    await MarkersMockerDataHelper(instance, auth);
+
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
 
@@ -98,18 +83,8 @@ void main() {
 
 
   testWidgets('Usuario registrado da like y lo saca y y modifica firebase', (WidgetTester tester) async {
-    await instance.collection('users').doc(auth.currentUser.uid).set({
-      'username' : "sarasa"
-    });
-    await instance.collection('markers')
-        .add({
-      'latitude': -34.6001014,
-      'longitude': -58.3824443,
-      'title' : "prueba",
-      'description' : "description",
-      'likes': [],
-      'owner': auth.currentUser.uid
-    });
+    await UsuariosMockerDataHelper(instance, auth);
+    await MarkersMockerDataHelper(instance, auth);
 
     await tester.pumpWidget(widget);
     await tester.pumpAndSettle();
