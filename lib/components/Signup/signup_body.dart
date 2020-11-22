@@ -38,7 +38,7 @@ class SignupBody extends StatelessWidget {
       await UserService.register(email, password, username);
       Navigator.push(context, MaterialPageRoute(builder: (context) {return MapPage();}));
     } catch (e) {
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text(e)));
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
     }
   }
 

@@ -38,9 +38,9 @@ class UserService {
           email: email,
           password: password
       );
+      await userCredential.user.updateProfile(displayName: userName);
 
       String userID = userCredential.user.uid;
-
       await database.collection("users")
           .doc(userID)
           .set({
