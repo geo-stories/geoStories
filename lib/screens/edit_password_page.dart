@@ -65,21 +65,7 @@ class PasswordEditPageState extends State<PasswordEditPage> {
                   key: ValueKey("Guardar PW"),
                   text: "Guardar Cambios",
                   press: () async {
-                    setState(() { isLoading = true; });
-                    if (validatePasswordFields(context)) {
-                      await UserService.updatePassword(this.passwordText1).then((value) => {
-                        if(value != null) {
-                          setState(() { isLoading = false; }),
-                          _throwExceptionFireBase(context, value)
-                        }
-                        else {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) {return MapPage();}))
-                        }
-                      });
-                    }
-                    else{
-                      setState(() { isLoading = false; });
-                    }
+                    await _press(context);
                   },
                 )
               ]
@@ -88,6 +74,24 @@ class PasswordEditPageState extends State<PasswordEditPage> {
         ),
       ),
     );
+  }
+
+  Future _press(BuildContext context) async {
+    setState(() { isLoading = true; });
+    if (validatePasswordFields(context)) {
+      await UserService.updatePassword(this.passwordText1).then((value) => {
+        if(value != null) {
+          setState(() { isLoading = false; }),
+          _throwExceptionFireBase(context, value)
+        }
+        else {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {return MapPage();}))
+        }
+      });
+    }
+    else{
+      setState(() { isLoading = false; });
+    }
   }
 
   bool validatePasswordFields(BuildContext context) {
