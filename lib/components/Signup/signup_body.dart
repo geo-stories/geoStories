@@ -25,19 +25,19 @@ class _SignupBodyState extends State<SignupBody> {
 
   Future<void> _onSubmit(BuildContext context) async {
     if (_username.isEmpty || _email.isEmpty || _password.isEmpty || _repeatPassword.isEmpty) {
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Dejaste campos sin completar')));
+      Scaffold.of(context).showSnackBar(SnackBar(key: Key('snackbar-campos-sin-completar'), content: Text('Dejaste campos sin completar')));
       return;
     }
     if (_username.length > 20) {
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text('El nombre de usuario no puede exceder los 20 caracteres')));
+      Scaffold.of(context).showSnackBar(SnackBar(key: Key('snackbar-nombre-usuario-muy-largo'), content: Text('El nombre de usuario no puede exceder los 20 caracteres')));
       return;
     }
     if (_password.length <= 5) {
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text('La contraseña debe tener al menos 6 caracteres')));
+      Scaffold.of(context).showSnackBar(SnackBar(key: Key('snackbar-contraseña-muy-corta'), content: Text('La contraseña debe tener al menos 6 caracteres')));
       return;
     }
     if (_password != _repeatPassword) {
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text('Las contraseñas no coinciden')));
+      Scaffold.of(context).showSnackBar(SnackBar(key: Key('snackbar-contraseñas-no-coinciden'), content: Text('Las contraseñas no coinciden')));
       return;
     }
     try {
@@ -55,7 +55,7 @@ class _SignupBodyState extends State<SignupBody> {
       setState(() {
         _isLoading = false;
       });
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+      Scaffold.of(context).showSnackBar(SnackBar(key: Key('snackbar-error-firebase'), content: Text(e.toString())));
     }
   }
 
@@ -73,24 +73,28 @@ class _SignupBodyState extends State<SignupBody> {
               height: size.height * 0.25,
             ),
             RoundedInputField(
+              key: Key('input-registro-nombre-usuario'),
               hintText: "Tu nombre de usuario",
               onChanged: (value) {
                 _username = value;
               },
             ),
             RoundedInputField(
+              key: Key('input-registro-email'),
               hintText: "Tu E-mail",
               onChanged: (value) {
                 _email = value;
               },
             ),
             RoundedPasswordField(
+              key: Key('input-registro-contraseña'),
               hintText: "Tu contraseña",
               onChanged: (value) {
                 _password = value;
               },
             ),
             RoundedPasswordField(
+              key: Key('input-registro-repetir-contraseña'),
               hintText: "Repetir contraseña",
               onChanged: (value) {
                 _repeatPassword = value;
@@ -106,6 +110,7 @@ class _SignupBodyState extends State<SignupBody> {
                   ],
                 )
               : RoundedButton(
+                  key: Key('boton-registrarse'),
                   text: "Regístrate",
                   press: () => _onSubmit(context),
                 ),
