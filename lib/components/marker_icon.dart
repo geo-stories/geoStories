@@ -33,7 +33,10 @@ class _MarkerIconState extends State<MarkerIcon>{
   }
 
   void _showMarkerModalInfo(BuildContext context) {
-    commentsCounter = widget.markerDTO.comments.length;
+    commentsCounter = 0;
+    if(widget.markerDTO.comments != null) {
+      commentsCounter = widget.markerDTO.comments.length;
+    }
     showDialog(
         context: context,
         child: new AlertDialog(
@@ -59,6 +62,7 @@ class _MarkerIconState extends State<MarkerIcon>{
 
   Widget _commentButton(BuildContext context) {
     return Container(
+      key: ValueKey("CommentsButton"),
       child: Row(
         children: [
           IconButton(

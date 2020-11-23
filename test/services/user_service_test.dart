@@ -27,12 +27,12 @@ void main() {
     */
   });
 
-
+/*
   test('un usuario puede loguearse', () async {
-  /*
+
     final auth = MockFirebaseAuth();
     final result = UserService.login("test@geostories.com", "UNQpassword");
-    final user = await result.user;
+    final user = await UserService.getCurrentUser();
     print(user.displayName);
 
 
@@ -45,6 +45,8 @@ void main() {
     });
 
     assert(localUser != null);
-    */
+
   });
+
+ */
 }

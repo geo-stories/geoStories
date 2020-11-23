@@ -38,9 +38,13 @@ class CommentsPageState extends State<CommentsPage> {
   Widget _buildCommentsList(DocumentSnapshot markerDoc) {
     var markerData = markerDoc.data();
     MarkerDTO _markerDTO = MarkerDTO.fromJSON(markerData, markerDTO.id);
-    List<CommentDTO> _comments = _markerDTO.comments.map((comment) => CommentDTO.fromJSON(comment)).toList();
+    List<CommentDTO> _comments = List<CommentDTO>();
+    if(_markerDTO.comments != null) {
+      _comments = _markerDTO.comments.map((comment) => CommentDTO.fromJSON(comment)).toList();
+    }
 
     return SingleChildScrollView(
+
       physics: ScrollPhysics(),
       child: Column(
         mainAxisAlignment:MainAxisAlignment.spaceBetween,
