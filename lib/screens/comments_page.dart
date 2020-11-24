@@ -35,6 +35,12 @@ class CommentsPageState extends State<CommentsPage> {
     this.markerDTO = markerDTO;
   }
 
+  @override
+  void initState() {
+    super.initState();
+    this._sendCommentButtonColor = (!_isAnonymousUser) ? kColorOrange : Colors.grey;
+  }
+
   Widget _buildCommentsList(DocumentSnapshot markerDoc) {
     var markerData = markerDoc.data();
     MarkerDTO _markerDTO = MarkerDTO.fromJSON(markerData, markerDTO.id);
@@ -145,9 +151,6 @@ class CommentsPageState extends State<CommentsPage> {
               maxLength: 140,
               onChanged: (value) {
                 this.commentText = value;
-                setState(() {
-                  this._sendCommentButtonColor = (!_commentTextIsEmpty()) ? kColorOrange : Colors.grey;
-                });
               }),
           ActionIconButton(
               icon: Icon(Icons.send_rounded , color: _sendCommentButtonColor, size: 35),
