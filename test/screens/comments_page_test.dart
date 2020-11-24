@@ -142,5 +142,50 @@ void main() {
     final comentarioEsperado = "Esto es un comentario con mas de ciento cuarenta caracteres para los tests de firestore. Si este test tiene exito, este comentario se recort";
     expect(commentDTO.text, comentarioEsperado);
   });
+  testWidgets('Los comentarios se persisten de forma correcta', (WidgetTester tester) async {
+
+    await UsuariosMockerDataHelper(instance, auth);
+    await MarkersMockerDataHelper(instance, auth);
+
+    await tester.pumpWidget(widget);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byType(MarkerIcon));
+    await tester.pumpWidget(widget);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(ValueKey("CommentsButton")));
+    await tester.pumpWidget(widget);
+    await tester.pumpAndSettle();
+
+    final comment = "Esto es un comentario con mas de ciento cuarenta caracteres para los tests de firestore. Si este test tiene exito, este comentario se recorta";
+    await tester.enterText(find.byType(RoundedTextboxField), comment);
+    await tester.pumpWidget(widget);
+
+    final query1 = await instance.collection('markers').get();
+    var initalState = query1.docs.first.data()['comments'];
+    List<CommentDTO> comments;
+    if(initalState != null) {
+      comments = initalState.map((comment) => CommentDTO.fromJSON(comment)).toList();
+    } else {
+      comments = [];
+    }
+
+    await tester.tap(find.byKey(ValueKey("SendComment")));
+    await tester.pumpWidget(widget);
+
+    final query = await instance.collection('markers').get();
+    var queryMapResult = query.docs.first.data()['comments'];
+    List<dynamic> commentDTOs;
+    if(queryMapResult != null) {
+      commentDTOs = queryMapResult.map((comment) => CommentDTO.fromJSON(comment)).toList();
+    } else {
+      commentDTOs = [];
+    }
+    expect(commentDTOs.length, comments.length + 1);
+
+
+
+  });
 
 }
