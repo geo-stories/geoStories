@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geo_stories/models/marker_dto.dart';
 import 'package:geo_stories/models/user_dto.dart';
+import 'package:geo_stories/services/user_service.dart';
 import 'package:geo_stories/services/utils_service.dart';
 import 'package:latlong/latlong.dart';
 
@@ -24,6 +25,7 @@ class MarkerService {
         print(e);
       }
   }
+
   static updateMarker(String title, String description,MarkerDTO dto){
        database.collection("markers").doc(dto.id).update({
          'title' : title,
@@ -72,6 +74,15 @@ class MarkerService {
       username = documentSnapshot.data()['username'];
     });
     return username;
+  }
+
+  static Future<List<dynamic>> GetMarkersDTOByOwner(String owner) async {
+    List<dynamic> list;
+    QuerySnapshot markers = await database.collection("markers").where("owner", isEqualTo: owner).get();
+    list = markers.docs.map((DocumentSnapshot docSnapshot){
+      return MarkerDTO.fromJSON(docSnapshot.data());
+    }).toList();
+    return list;
   }
 
 }

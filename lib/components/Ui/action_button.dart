@@ -23,7 +23,7 @@ class ActionButton extends StatelessWidget {
       return FloatingActionButton(
         child: icon,
         backgroundColor: Colors.grey,
-        heroTag: 'action-button',
+        heroTag: 'action-button-disabled',
       );
     }
 
