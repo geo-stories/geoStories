@@ -16,5 +16,12 @@
 * **Sprint 4**: https://docs.google.com/document/d/1lU1vQhjjncChcaY5TNmdx6ZIuyLxa-v-tYTzm_Rm2mc/edit
 * **Sprint 5**: https://docs.google.com/document/d/1krLs0S0bMWJSrccDGklf847dmhpfAtQIzgTbixYsTXU/edit
 
+### Retrospectivas
+* **Sprint 1**: https://trello.com/b/ySxe8j2W/retro-28-10
+* **Sprint 2**: https://miro.com/app/board/o9J_kgPXAnE=/
+* **Sprint 3**: https://miro.com/app/board/o9J_lfDB_D8=/
+* **Sprint 4**: https://miro.com/app/board/o9J_leDjpzw=/
+* **Sprint 5**: https://miro.com/app/board/o9J_ldkDgPo=/
+
 ### Codecov (Test Coverage)
 * https://codecov.io/gh/geo-stories/geoStories/branch/master
