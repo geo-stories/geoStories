@@ -5,8 +5,6 @@ import 'package:geo_stories/models/marker_dto.dart';
 import 'package:geo_stories/screens/map_page.dart';
 import 'package:geo_stories/services/marker_service.dart';
 
-import '../main.dart';
-
 class EditMarker extends StatefulWidget{
   MarkerDTO dto;
 

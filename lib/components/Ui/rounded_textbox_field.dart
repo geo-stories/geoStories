@@ -6,9 +6,11 @@ class RoundedTextboxField extends StatelessWidget {
   final String hintText;
   final ValueChanged<String> onChanged;
   final maxLength;
+  final controller;
 
   const RoundedTextboxField({
     Key key,
+    this.controller,
     this.hintText,
     this.onChanged,
     this.maxLength,
@@ -18,6 +20,7 @@ class RoundedTextboxField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFieldContainer(
           child: TextField(
+            controller: controller,
             maxLines: null,
             maxLength: maxLength,
             onChanged: onChanged,
