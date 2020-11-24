@@ -30,7 +30,6 @@ void main() {
 
   testWidgets('una persona no puede registrarse si los cuatro campos están vacios', (WidgetTester tester) async {
     await tester.pumpWidget(widget);
-
     await tester.tap(find.byKey(Key('boton-registrarse')));
     await tester.pumpAndSettle();
 
@@ -123,7 +122,6 @@ void main() {
         .thenThrow(FirebaseAuthException(code: 'invalid-email', message: 'Email Inválido'));
 
     await tester.pumpWidget(widget);
-
     await tester.enterText(find.byKey(Key('input-registro-nombre-usuario')), 'holi');
     await tester.pumpAndSettle();
 
@@ -147,7 +145,6 @@ void main() {
         .thenThrow(FirebaseAuthException(code: 'error-inesperado', message: 'Error Inesperado'));
 
     await tester.pumpWidget(widget);
-
     await tester.enterText(find.byKey(Key('input-registro-nombre-usuario')), 'holi');
     await tester.pumpAndSettle();
 
@@ -168,7 +165,6 @@ void main() {
 
   testWidgets('una persona puede registrarse y es redirigida a MapPage', (WidgetTester tester) async {
     await tester.pumpWidget(widget);
-
     await tester.enterText(find.byKey(Key('input-registro-nombre-usuario')), 'holi');
     await tester.pumpAndSettle();
 

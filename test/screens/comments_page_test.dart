@@ -135,7 +135,6 @@ void main() {
     await tester.tap(find.byKey(ValueKey("SendComment")));
     await tester.pumpWidget(widget);
 
-
     final query = await instance.collection('markers').get();
     var queryMapResult = query.docs.first.data()['comments'].first;
     CommentDTO commentDTO = CommentDTO.fromJSON(queryMapResult);
