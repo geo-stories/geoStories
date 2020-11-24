@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 import 'package:cloud_firestore/cloud_firestore.dart';
+=======
+import 'dart:collection';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+>>>>>>> 67724819f7f088db6289e4ba741aee90f9c66492
 import 'package:flutter/material.dart';
 import 'package:geo_stories/components/Ui/action_icon_button.dart';
 import 'package:geo_stories/components/Ui/rounded_textbox_field.dart';
