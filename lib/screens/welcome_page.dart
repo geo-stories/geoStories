@@ -53,23 +53,6 @@ class WelcomePage extends StatelessWidget {
                 );
               },
             ),
-            /*
-              RoundedButton(
-                text: "Regístrate",
-                color: kPrimaryLightColor,
-                textColor: Colors.black,
-                press: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return SignUpScreen();
-                      },
-                    ),
-                  );
-                },
-              ),
-              */
           ],
         ),
       ),

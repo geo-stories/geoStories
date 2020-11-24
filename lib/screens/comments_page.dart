@@ -1,7 +1,4 @@
-import 'dart:collection';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geo_stories/components/Ui/action_icon_button.dart';
 import 'package:geo_stories/components/Ui/rounded_textbox_field.dart';
@@ -43,7 +40,7 @@ class CommentsPageState extends State<CommentsPage> {
 
   Widget _buildCommentsList(DocumentSnapshot markerDoc) {
     var markerData = markerDoc.data();
-    MarkerDTO _markerDTO = MarkerDTO.fromJSON(markerData, markerDTO.id);
+    MarkerDTO _markerDTO = MarkerDTO.fromJSONWithId(markerData, markerDTO.id);
     List<CommentDTO> _comments = List<CommentDTO>();
     if(_markerDTO.comments != null) {
       _comments = _markerDTO.comments.map((comment) => CommentDTO.fromJSON(comment)).toList();

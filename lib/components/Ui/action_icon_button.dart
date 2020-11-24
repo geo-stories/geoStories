@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:geo_stories/constants.dart';
 
 class ActionIconButton extends StatelessWidget {
   final Icon icon;

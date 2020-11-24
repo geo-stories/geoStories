@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:geo_stories/models/marker_dto.dart';
 import 'package:geo_stories/screens/comments_page.dart';

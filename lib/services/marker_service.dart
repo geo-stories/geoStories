@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geo_stories/models/marker_dto.dart';
-import 'package:geo_stories/models/user_dto.dart';
-import 'package:geo_stories/services/user_service.dart';
 import 'package:geo_stories/services/utils_service.dart';
 import 'package:latlong/latlong.dart';
 
