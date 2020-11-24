@@ -32,22 +32,31 @@ class UserService {
     return errorMessage;
   }
 
-  static Future<void> register(String email, String password, String userName) async{
-    UserCredential userCredential = await auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password
-    );
+  static Future<void> register(String email, String password, String userName) async {
+    try {
+      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
+          email: email,
+          password: password
+      );
+      await userCredential.user.updateProfile(displayName: userName);
 
-    String userID = userCredential.user.uid;
+      String userID = userCredential.user.uid;
+      await database.collection("users")
+          .doc(userID)
+          .set({
+        'username': userName,
+        'avatarUrl': ''
+      });
+    } on FirebaseAuthException catch (e) {
+      switch(e.code) {
+        case 'invalid-email':
+          throw 'No introdujiste un mail válido';
+          break;
+        default:
+          throw e.message;
+      }
+    }
 
-    await database.collection("users")
-        .doc(userID)
-        .set({
-          'username': userName,
-          'avatarUrl': ''
-        });
-
-    return userID;
   }
 
   static Future<void> updateCurrentUserProfile(UserDTO userUpdate) async {
