@@ -30,7 +30,7 @@ class _MarkerIconState extends State<MarkerIcon>{
     );
   }
 
-  void _showMarkerModalInfo(BuildContext context) {
+  void _showMarkerModalInfo(BuildContext context) async {
     commentsCounter = 0;
     if(widget.markerDTO.comments != null) {
       commentsCounter = widget.markerDTO.comments.length;
@@ -43,7 +43,7 @@ class _MarkerIconState extends State<MarkerIcon>{
           content: RichText(
             text: TextSpan(
               children: <TextSpan>[
-                TextSpan(text: ' •' + widget.markerDTO.owner + '• ', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                TextSpan(text: ' •' + await MarkerService.GetOwnerUsername(widget.markerDTO.owner) + '• ', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
                 TextSpan(text: widget.markerDTO.description, style: TextStyle(color: Colors.grey[900])),
               ],
             ),
